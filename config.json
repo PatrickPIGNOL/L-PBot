@@ -1,4 +1,9 @@
-{
-	"prefix": "+",
-	"token": "Njk1MDg3NTQ2Nzc0MDYxMDk4.XpDClg.HwN9q1K8-64-8mHXj-Rwc3UpeAQ"
+{	
+	"Prefix": "+",
+  "Good": "#00FF00",
+  "Warn": "#FFFF00",
+  "Bad": "#FF0000",
+  "Log": "#0000FF",
+  "URL": "https://mercurial-ripe-rook.glitch.me",
+  "Points": "https://mercurial-ripe-rook.glitch.me/points"
 }
