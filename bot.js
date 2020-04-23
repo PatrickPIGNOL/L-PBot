@@ -1,7 +1,18 @@
 class DiscordBot {
   constructor() {
+    this.aFS = require("fs");
     this.aDiscord = require("discord.js");
     this.aClient = new this.aDiscord.Client();
+    this.aClient.commands = new this.aDiscord.Collection();
+    const vCommandFiles = this.aFS
+      .readdirSync("./commands")
+      .filter(vFileFound => vFileFound.endsWith(".js"));
+    for (const vFile of vCommandFiles) {
+      const vCommand = require(`./commands/${vFile}`);
+      // set a new item in the Collection
+      // with the key as the command name and the value as the exported module
+      this.aClient.commands.set(vCommand.mName(), vCommand);
+    }
     this.aConfig = require("./config.json");
     this.aConfig.token = process.env.SECRET;
     this.aSQLite = require("better-sqlite3");
@@ -14,6 +25,17 @@ class DiscordBot {
     this.aClient.clearImmediate();
     this.aClient.removeAllListeners();
 
+    const vEventsFiles = this.aFS
+      .readdirSync("./events")
+      .filter(vFileFound => vFileFound.endsWith(".js"));
+    for (const vFile of vEventsFiles) {
+      const vEvent = require(`./events/${vFile}`);
+      // set a new item in the Collection
+      // with the key as the command name and the value as the exported module
+      //this.aClient.commands.set(vEvent.mName(), vEvent);
+      this.aClient.on(vEvent.mEventName(), (...args)=>{vEvent.mExecute(this, ...args);});
+    }
+    /*
     this.aClient.on("ready", () => {
       this.mOnReady();
     });
@@ -187,6 +209,7 @@ class DiscordBot {
     this.aClient.on("warn", info => {
       this.mOnWarn(info);
     });
+    */
   }
   mDiscord() {
     return this.aDiscord();
@@ -200,6 +223,7 @@ class DiscordBot {
   mSQL() {
     return this.aSQL;
   }
+  /*
   mOnReady() {
     this.aClient.user.setStatus("online");
     this.aClient.user.setActivity("écrire son code source...", { type: 1 });
@@ -240,7 +264,8 @@ class DiscordBot {
     this.aSQLite.pragma("journal_mode = persist");
     //this.aSQL.getScore().
   }
-
+  */
+  
   mRemerciements(message) {
     const vArgs = message.content.slice().split(/ +/);
     vArgs.forEach(vArg => {
@@ -302,6 +327,7 @@ class DiscordBot {
 
   mWhois(message) {
     const vMember = message.mentions.members.first();
+    const vUser = vMember.user;
     if (!vMember) {
       const vEmbed = new this.aDiscord.MessageEmbed()
         .setAuthor(
@@ -316,7 +342,6 @@ class DiscordBot {
       message.delete();
       return;
     }
-    const vUser = vMember.user;
     const vEmbed = new this.aDiscord.MessageEmbed()
       .setAuthor(
         this.aClient.user.username,
@@ -578,54 +603,62 @@ class DiscordBot {
       message.delete();
       return;
     }
-    
+
     await message.mentions.members.forEach(async vMember => {
-      await message.guild.channels.cache.forEach(async (channel, id) => {        
-        if(!await channel.permissionOverwrites.get(vMember.user.id))
-        {
-          await channel.createOverwrite(vMember.user, {
-            SEND_MESSAGES: false,
-            SEND_TTS_MESSAGES: false,
-            ATTACH_FILES: false,
-            MENTION_EVERYONE: false,
-            USE_EXTERNAL_EMOJIS: false,
-            //CONNECT: false,
-            SPEAK: false,
-            USE_VAD: false
-          })
-          .then(async channel => await console.log(channel.name + " : " + await channel.permissionOverwrites.get(vMember.user.id)))
-          .catch(async e => {
-            await console.error(e.stack);
-            return;
-          });
-        }        
+      await message.guild.channels.cache.forEach(async (channel, id) => {
+        if (!(await channel.permissionOverwrites.get(vMember.user.id))) {
+          await channel
+            .createOverwrite(vMember.user, {
+              SEND_MESSAGES: false,
+              SEND_TTS_MESSAGES: false,
+              ATTACH_FILES: false,
+              MENTION_EVERYONE: false,
+              USE_EXTERNAL_EMOJIS: false,
+              //CONNECT: false,
+              SPEAK: false,
+              USE_VAD: false
+            })
+            .then(
+              async channel =>
+                await console.log(
+                  channel.name +
+                    " : " +
+                    (await channel.permissionOverwrites.get(vMember.user.id))
+                )
+            )
+            .catch(async e => {
+              await console.error(e.stack);
+              return;
+            });
+        }
       });
       var vArgs = message.content.split(" ");
       vArgs.shift();
       const vEmbed = new this.aDiscord.MessageEmbed()
-          .setColor(this.aConfig.Bad)
-          .setTitle("**⚡🔨SILENCE🔨⚡**")
-          .setAuthor(
-            vAuthor.username,
-            vAuthor.displayAvatarURL()
-          )
-          .setImage("https://cdn.discordapp.com/attachments/690978875446132796/702004987269480588/tumblr_p5sgzzfA881sc0ffqo3_540.gif")
-          .setThumbnail(vMember.user.displayAvatarURL())
-          .setDescription(`${vAuthor}` +
-              " à rendu muet " + `${vMember.user}` + " pour la raison \"" + vArgs.join(" ") + "\"."
+        .setColor(this.aConfig.Bad)
+        .setTitle("**⚡🔨SILENCE🔨⚡**")
+        .setAuthor(vAuthor.username, vAuthor.displayAvatarURL())
+        .setImage(
+          "https://cdn.discordapp.com/attachments/690978875446132796/702004987269480588/tumblr_p5sgzzfA881sc0ffqo3_540.gif"
+        )
+        .setThumbnail(vMember.user.displayAvatarURL())
+        .setDescription(
+          `${vAuthor}` +
+            " à rendu muet " +
+            `${vMember.user}` +
+            ' pour la raison "' +
+            vArgs.join(" ") +
+            '".'
         );
       vMember.send(vEmbed);
       message.channel.send(vEmbed);
     });
     message.delete();
   }
-  
-  mAllMute(message) {
-    
-  }
-  
-  async mUnMute(message)
-  {
+
+  mAllMute(message) {}
+
+  async mUnMute(message) {
     const vAuthor = message.author;
     const vLogsEmbed = new this.aDiscord.MessageEmbed()
       .setColor(this.aConfig.Bad)
@@ -657,12 +690,13 @@ class DiscordBot {
       message.reply("Vous n'avez pas la permission d'executer cette commande");
       message.delete();
       return;
-    }    
+    }
     await message.mentions.members.forEach(async vMember => {
-      await message.guild.channels.cache.forEach(async (channel, id) => {        
-        var vPermission = await channel.permissionOverwrites.get(vMember.user.id)
-        if(vPermission)
-        {
+      await message.guild.channels.cache.forEach(async (channel, id) => {
+        var vPermission = await channel.permissionOverwrites.get(
+          vMember.user.id
+        );
+        if (vPermission) {
           await vPermission.delete().catch(e => {
             console.error(e.stack);
             return;
@@ -672,36 +706,36 @@ class DiscordBot {
       var vArgs = message.content.split(" ");
       vArgs.shift();
       const vEmbed = new this.aDiscord.MessageEmbed()
-          .setColor(this.aConfig.Good)
-          .setTitle("**🕊️🤝PARLONS EN PAIX🤝🕊️**")
-          .setAuthor(
-            vAuthor.username,
-            vAuthor.displayAvatarURL()
-          )
-          .setImage("https://cdn.discordapp.com/attachments/690978875446132796/702185805418070118/tumblr_n0dvc88MiT1rv1d8ho3_500.gif")
-          .setThumbnail(vMember.user.displayAvatarURL())
-          .setDescription(`${vAuthor}` +
-              " à rendu la parole à " + `${vMember.user}` + " pour la raison \"" + vArgs.join(" ") + "\"."
+        .setColor(this.aConfig.Good)
+        .setTitle("**🕊️🤝PARLONS EN PAIX🤝🕊️**")
+        .setAuthor(vAuthor.username, vAuthor.displayAvatarURL())
+        .setImage(
+          "https://cdn.discordapp.com/attachments/690978875446132796/702185805418070118/tumblr_n0dvc88MiT1rv1d8ho3_500.gif"
+        )
+        .setThumbnail(vMember.user.displayAvatarURL())
+        .setDescription(
+          `${vAuthor}` +
+            " à rendu la parole à " +
+            `${vMember.user}` +
+            ' pour la raison "' +
+            vArgs.join(" ") +
+            '".'
         );
       vMember.send(vEmbed);
       message.channel.send(vEmbed);
     });
-    message.guild.channels.cache.forEach(async (channel, id) => {        
-        var vPermission = channel.permissionOverwrites.get()
-        if(vPermission)
-        {
-          await vPermission.delete();
-        }
+    message.guild.channels.cache.forEach(async (channel, id) => {
+      var vPermission = channel.permissionOverwrites.get();
+      if (vPermission) {
+        await vPermission.delete();
+      }
     });
     message.delete();
   }
-  
-  mAllUnMute(message)
-  {
-    
-  }
-  
-  mKick(message){
+
+  mAllUnMute(message) {}
+
+  mKick(message) {
     const vAuthor = message.author;
     const vLogsEmbed = new this.aDiscord.MessageEmbed()
       .setColor(this.aConfig.Bad)
@@ -734,43 +768,44 @@ class DiscordBot {
       message.delete();
       return;
     }
-    if(!message.mentions.members.first())
-    {
+    if (!message.mentions.members.first()) {
       message.reply("Vous devez mentionner un membre.");
       message.delete();
       return;
     }
     console.log(message.content);
     message.mentions.members.forEach(vMember => {
-      if(vMember !== message.guild.owner){
+      if (vMember !== message.guild.owner) {
         var vArgs = message.content.split(" ");
         vArgs.shift();
         const vEmbed = new this.aDiscord.MessageEmbed()
           .setColor(this.aConfig.Bad)
           .setTitle("**⚡🔨EXCLUSION🔨⚡**")
-          .setAuthor(
-            vAuthor.username,
-            vAuthor.displayAvatarURL()
+          .setAuthor(vAuthor.username, vAuthor.displayAvatarURL())
+          .setImage(
+            "https://cdn.discordapp.com/attachments/690978875446132796/701620863383896104/5161568c3139718e683d5a2f553b2033.gif"
           )
-          .setImage("https://cdn.discordapp.com/attachments/690978875446132796/701620863383896104/5161568c3139718e683d5a2f553b2033.gif")
           .setThumbnail(vMember.user.displayAvatarURL())
-          .setDescription(`${vAuthor}` +
-              " à exclu " + `${vMember.user}` + " pour la raison \"" + vArgs.join(" ") + "\"."
-        ); 
-        message.channel.send(vEmbed);      
-        vMember.user.send(vEmbed).then(()=>{
+          .setDescription(
+            `${vAuthor}` +
+              " à exclu " +
+              `${vMember.user}` +
+              ' pour la raison "' +
+              vArgs.join(" ") +
+              '".'
+          );
+        message.channel.send(vEmbed);
+        vMember.user.send(vEmbed).then(() => {
           vMember.kick(vArgs.join(" "));
         });
       }
     });
     message.delete();
   }
-  
-  mAllKick(message){
-    
-  }
-  
-  mBan(message){
+
+  mAllKick(message) {}
+
+  mBan(message) {
     const vAuthor = message.author;
     const vLogsEmbed = new this.aDiscord.MessageEmbed()
       .setColor(this.aConfig.Bad)
@@ -803,42 +838,43 @@ class DiscordBot {
       message.delete();
       return;
     }
-    if(!message.mentions.members.first())
-    {
+    if (!message.mentions.members.first()) {
       message.reply("Vous devez mentionner un membre.");
       message.delete();
       return;
     }
     console.log(message.content);
     message.mentions.members.forEach(vMember => {
-      if(vMember !== message.guild.owner){
+      if (vMember !== message.guild.owner) {
         var vArgs = message.content.split(" ");
         vArgs.shift();
         const vEmbed = new this.aDiscord.MessageEmbed()
           .setColor(this.aConfig.Bad)
           .setTitle("**⚡🔨BANNISSEMENT🔨⚡**")
-          .setAuthor(
-            vAuthor.username,
-            vAuthor.displayAvatarURL()
+          .setAuthor(vAuthor.username, vAuthor.displayAvatarURL())
+          .setImage(
+            "https://cdn.discordapp.com/attachments/690978875446132796/701791329855996024/tenor.gif"
           )
-          .setImage("https://cdn.discordapp.com/attachments/690978875446132796/701791329855996024/tenor.gif")
           .setThumbnail(vMember.user.displayAvatarURL())
-          .setDescription(`${vAuthor}` +
-              " à banni " + `${vMember.user}` + " pour la raison \"" + vArgs.join(" ") + "\"."
-        ); 
-        message.channel.send(vEmbed);      
-        vMember.user.send(vEmbed).then(()=>{
-          vMember.ban({ days: 0, reason: message.content});
+          .setDescription(
+            `${vAuthor}` +
+              " à banni " +
+              `${vMember.user}` +
+              ' pour la raison "' +
+              vArgs.join(" ") +
+              '".'
+          );
+        message.channel.send(vEmbed);
+        vMember.user.send(vEmbed).then(() => {
+          vMember.ban({ days: 0, reason: message.content });
         });
       }
     });
-    message.delete();    
+    message.delete();
   }
-  
-  mAllBan(message){
-    
-  }
-  
+
+  mAllBan(message) {}
+
   mClear(message) {
     const vAuthor = message.author;
     const vLogsEmbed = new this.aDiscord.MessageEmbed()
@@ -992,12 +1028,12 @@ class DiscordBot {
 
     const member = message.mentions.members.forEach(member => {
       const vUser = member.user;
-      this.mOnGuildMemberAdd(member);      
+      this.mOnGuildMemberAdd(member);
     });
     message.delete();
   }
-  
-  mBye(message){
+
+  mBye(message) {
     if (message.author !== message.guild.owner.user) {
       message.reply("Vous n'avez pas la permission d'executer cette commande");
       message.delete();
@@ -1011,7 +1047,7 @@ class DiscordBot {
 
     const member = message.mentions.members.forEach(member => {
       const vUser = member.user;
-      this.mOnGuildMemberRemove(member);      
+      this.mOnGuildMemberRemove(member);
     });
     message.delete();
   }
@@ -1129,7 +1165,24 @@ class DiscordBot {
       console.log("message is not a command. Returning.");
       return;
     }
+    const vArgs = message.content.slice(this.aConfig.Prefix.length).split(/ +/);
+    //const command = args.shift().toLowerCase();
+    const vCommandName = vArgs.shift().toLowerCase();
 
+    const vCommand =
+      this.aClient.commands.get(vCommandName) ||
+      this.aClient.commands.find(
+        vCommandFound =>
+          vCommandFound.mAliases() &&
+          vCommandFound.mAliases().includes(vCommandName)
+      );
+
+    if (!vCommand) {
+      return;
+    }
+    vCommand.mExecute(this, message, vArgs);
+
+    /*
     if (message.content.startsWith(this.aConfig.Prefix + "bienvenue")) {
       this.mBienvenue(message);
     } else if (message.content.startsWith(this.aConfig.Prefix + "bye")) {
@@ -1162,6 +1215,7 @@ class DiscordBot {
       this.mClean(message);
     } else if (message.content.startsWith(this.aConfig.Prefix + "ping")) {
       this.mPing(message);
+      this.aClient.commands.get("ping").execute(message, args);
     } else if (message.content.startsWith(this.aConfig.Prefix + "poll")) {
       this.mPoll(message);
     } else if (message.content.startsWith(this.aConfig.Prefix + "whois")) {
@@ -1169,6 +1223,7 @@ class DiscordBot {
     } else {
       message.delete();
     }
+*/
   }
 
   mOnGuildMemberUpdate(oldMember, newMember) {
@@ -1372,26 +1427,19 @@ class DiscordBot {
     console.log(`channelPinsUpdate: ${channel}:${time}`);
   }
   mOnChannelUpdate(oldChannel, newChannel) {
-    if(oldChannel && newChannel)
-    {
+    if (oldChannel && newChannel) {
       console.log(
         `channelUpdate -> a channel is updated from ${oldChannel.name} to ${newChannel.name}`
-      );  
-    }
-    else if (oldChannel)
-    {
+      );
+    } else if (oldChannel) {
       console.log(
         `channelUpdate -> a channel is updated from ${oldChannel.name}`
       );
-    }
-    else if (newChannel)
-    {
+    } else if (newChannel) {
       console.log(
         `channelUpdate -> a channel is updated to ${newChannel.name}`
-      );  
-    }
-    else
-    {
+      );
+    } else {
       console.log(
         `channelUpdate -> a channel is updated - e.g. name change, topic change`
       );
