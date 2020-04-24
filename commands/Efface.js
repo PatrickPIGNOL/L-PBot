@@ -1,8 +1,8 @@
-class Ping {
+class Efface {
   constructor() 
   {
-    this.aName = "ping";
-    this.aAliases = ['pong'];
+    this.aName = "efface";
+    this.aAliases = ['clean', 'bulkdelete'];
     this.aArgs = false;
     this.aMentions = false;
     this.aUsage = "";
@@ -65,19 +65,9 @@ class Ping {
     if (this.aGuildOnly && message.channel.type !== "text") {
       return message.reply("I can't execute that command inside DMs!");
     }
-    const vPong = new pDiscordBot.aDiscord.MessageEmbed()
-      .setAuthor(
-        pDiscordBot.aClient.user.username,
-        pDiscordBot.aClient.user.displayAvatarURL,
-        pDiscordBot.aConfig.URL
-      )
-      .setColor(pDiscordBot.aConfig.Good)
-      .setDescription(`Pong !`)
-      .setThumbnail(message.author.displayAvatarURL());
-    message.reply(vPong);
-    message.delete();
+    
   }
 }
 
-module.exports = new Ping();
+module.exports = new Efface();
 

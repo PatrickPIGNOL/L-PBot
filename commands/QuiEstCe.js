@@ -1,9 +1,9 @@
-class Whois {
+class QuiEstCe {
   constructor() 
   {
     this.aDiscord = require("discord.js");
-    this.aName = "whois";
-    this.aAliases = ['whos'];
+    this.aName = "quiestce";
+    this.aAliases = ['quic','cqui','whois','whos', 'who'];
     this.aArgs = false;
     this.aMentions = true;
     this.aUsage = "";
@@ -84,4 +84,4 @@ class Whois {
   }
 }
 
-module.exports = new Whois();
+module.exports = new QuiEstCe();
