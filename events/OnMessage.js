@@ -29,7 +29,7 @@ class OnMessage
       return;
     }
 
-    pDiscordBot.mRemerciements(message);
+    this.mRemerciements(pDiscordBot, message);
 
     if (!message.content.startsWith(pDiscordBot.aConfig.Prefix)) {
       console.log("message is not a command. Returning.");
@@ -51,50 +51,64 @@ class OnMessage
       return;
     }
     vCommand.mExecute(pDiscordBot, message, vArgs);
-
-    /*
-    if (message.content.startsWith(this.aConfig.Prefix + "bienvenue")) {
-      this.mBienvenue(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "bye")) {
-      this.mBye(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "help")) {
-      this.mHelp(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "points")) {
-      this.mPoints(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "give")) {
-      this.mGive(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "top")) {
-      this.mTop(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "mute")) {
-      this.mMute(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "allmute")) {
-      this.mAllMute(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "unmute")) {
-      this.mUnMute(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "kick")) {
-      this.mKick(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "allkick")) {
-      this.mAllKick(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "ban")) {
-      this.mBan(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "allban")) {
-      this.mAllBan(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "clear")) {
-      this.mClear(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "clean")) {
-      this.mClean(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "ping")) {
-      this.mPing(message);
-      this.aClient.commands.get("ping").execute(message, args);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "poll")) {
-      this.mPoll(message);
-    } else if (message.content.startsWith(this.aConfig.Prefix + "whois")) {
-      this.mWhois(message);
-    } else {
-      message.delete();
-    }
-*/
-    
+  }
+  mRemerciements(pDiscordBot, message) {
+    const vArgs = message.content.slice().split(/ +/);
+    vArgs.forEach(vArg => {
+      if (
+        vArg.toLowerCase().startsWith("merci") ||
+        vArg.toLowerCase().startsWith("remerci") ||
+        vArg.toLowerCase().startsWith("remercie") ||
+        vArg.toLowerCase() === "thanks" ||
+        vArg.toLowerCase() === "thank" ||
+        vArg.toLowerCase() === "thx" ||
+        vArg.toLowerCase() === "thank's"
+      ) {
+        console.log("remerciements détectés");
+        message.mentions.members.forEach(vMember => {
+          console.log(vMember);
+          const vUser = vMember.user;
+          console.log(`utilisateur @${vUser.tag} (${vUser.id}) détecté.`);
+          if (!vUser.bot) {
+            if (message.author !== vUser) {
+              var vScore;
+              if (message.guild) {
+                vScore = pDiscordBot.aSQL.getScore.get(message.guild.id, vUser.id);
+                if (!vScore) {
+                  vScore = {
+                    guild: message.guild.id,
+                    user: vUser.id,
+                    usertag: vUser.tag,
+                    points: 0,
+                    level: 0
+                  };
+                }
+                vScore.points++;
+                console.log(vScore);
+                var vMessage = `${message.author} a donné à ${vUser} +1 point de Reconnaissance soit un total de ${vScore.points}.\n`;
+                const vLevel = Math.floor(Math.sqrt(vScore.points));
+                if (vScore.level < vLevel) {
+                  vScore.level = vLevel;
+                  vMessage += `${vUser} est passé au niveau supérieur soit le niveau ${vScore.level}.\n:tada::confetti_ball: Félicitations ! :confetti_ball::tada:\n`;
+                }
+                console.log(vScore);
+                const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+                  .setColor(pDiscordBot.aConfig.Good)
+                  .setTitle("**Reconnaissance**")
+                  .setAuthor(
+                    message.author.username,
+                    message.author.displayAvatarURL()
+                  )
+                  .setDescription(vMessage)
+                  .setThumbnail(vUser.displayAvatarURL());
+                message.channel.send(vEmbed);
+                pDiscordBot.aSQL.setScore.run(vScore);
+              }
+            }
+          }
+        });
+      }
+    });
   }
 }
 
