@@ -103,9 +103,6 @@ class Top {
     var vRank = 1;
     top10.forEach(vData => {
       const vUserID = vData.user;
-      console.log(vUserID);
-      console.log(vData);
-      console.log("Rank #" + vRank);
       const vMember = message.guild.members.cache.find(
         vSearchMember => vSearchMember.user.id == vUserID
       );

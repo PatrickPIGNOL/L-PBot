@@ -1,12 +1,12 @@
-class Ping {
+class Sondage {
   constructor() 
   {
-    this.aName = "ping";
-    this.aAliases = ['pong'];
-    this.aArgs = false;
+    this.aName = "sondage";
+    this.aAliases = ['poll'];
+    this.aArgs = true;
     this.aMentions = false;
-    this.aUsage = "";
-    this.aDescription = "Ping!";
+    this.aUsage = "+sondage";
+    this.aDescription = "Crée un sondage.";
     this.aGuildOnly = true;
     this.aCooldown = 5;
   }
@@ -65,18 +65,34 @@ class Ping {
     if (this.aGuildOnly && message.channel.type !== "text") {
       return message.reply("I can't execute that command inside DMs!");
     }
-    const vPong = new pDiscordBot.aDiscord.MessageEmbed()
-      .setAuthor(
-        pDiscordBot.aClient.user.username,
-        pDiscordBot.aClient.user.displayAvatarURL,
-        pDiscordBot.aConfig.URL
-      )
-      .setColor(pDiscordBot.aConfig.Good)
-      .setDescription(`Pong !`)
-      .setThumbnail(message.author.displayAvatarURL());
-    message.reply(vPong);
-    message.delete();
+        //
+    //        const args = message.content.slice(config.Prefix.length).split(/"+/);
+    //        var vIndexPoll = 0;
+    //        var vPollArgs = new Array();
+    //        var vPollTitle = "";
+    //        for (var vIndex = 0; vIndex < args.length; vIndex++) {
+    //          if (args[vIndex].trim() === "" || args[vIndex].trim() === "poll") {
+    //          } else {
+    //            if (vPollTitle === "") {
+    //              vPollTitle = args[vIndex];
+    //            } else {
+    //              vPollArgs.push(args[vIndex]);
+    //            }
+    //          }
+    //        }
+    //
+    //        for (var vIndex = 0; vIndex < vPollArgs.length; vIndex++) {
+    //          console.log(vIndex + "=>" + vPollArgs[vIndex]);
+    //        }
+    //
+    //        try {
+    //          PollEmbed(message, vPollTitle, vPollArgs, 0);
+    //        } catch (error) {
+    //          console.log(error.message);
+    //        }
+    //
   }
 }
 
-module.exports = new Ping();
+module.exports = new Sondage();
+

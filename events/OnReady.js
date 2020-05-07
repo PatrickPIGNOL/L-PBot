@@ -1,22 +1,28 @@
-class OnReady
-{
-  constructor()
-  {
+class OnReady {
+  constructor() {
     this.aEventName = "ready";
   }
-  mEventName()
-  {
+  
+  mEventName() {
     return this.aEventName;
   }
-  async mExecute(pDiscordBot, ...args)
-  {
+  
+  async mExecute(pDiscordBot, ...args) {
+    await this.mOnReady(pDiscordBot);
+  }
+  
+  async mOnReady(pDiscordBot) {
     pDiscordBot.aClient.user.setStatus("online");
-    pDiscordBot.aClient.user.setActivity("écrire son code source...", { type: 1 });
+    pDiscordBot.aClient.user.setActivity("écrire son code source...", {
+      type: 1
+    });
 
-    console.log(`${pDiscordBot.aClient.user.tag} - Je suis en ligne monsieur `);
+    console.log(`${pDiscordBot.aClient.user.tag} - Je suis en ligne ...`);
 
     console.log(
-      `${pDiscordBot.aClient.guilds.cache.first().members.cache.size} users, in ${
+      `${
+        pDiscordBot.aClient.guilds.cache.first().members.cache.size
+      } users, in ${
         pDiscordBot.aClient.guilds.cache.first().channels.cache.size
       } channels of ${pDiscordBot.aClient.guilds.cache.size} guilds.`
     );

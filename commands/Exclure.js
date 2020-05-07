@@ -112,7 +112,7 @@ class Exclure {
           .setTitle("**⚡🔨EXCLUSION🔨⚡**")
           .setAuthor(vAuthor.username, vAuthor.displayAvatarURL())
           .setImage(
-            "https://cdn.discordapp.com/attachments/690978875446132796/701620863383896104/5161568c3139718e683d5a2f553b2033.gif"
+            "https://cdn.discordapp.com/attachments/690978875446132796/706174228587741194/5161568c3139718e683d5a2f553b2033.gif"
           )
           .setThumbnail(vMember.user.displayAvatarURL())
           .setDescription(

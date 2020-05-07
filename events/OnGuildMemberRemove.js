@@ -1,22 +1,22 @@
-class OnGuildMemberRemove
-{
-  constructor()
-  {
-    this.aEventName = "";
+class OnGuildMemberRemove {
+  constructor() {
+    this.aEventName = "guildMemberRemove";
   }
-  mEventName()
-  {
+  
+  mEventName() {
     return this.aEventName;
   }
-  async mExecute(pDiscordBot, ...args)
-  {
+  
+  async mExecute(pDiscordBot, ...args) {
     const member = args[0];
-    console.log(member);
-    console.log(args);
+    await this.mOnGuildMemberRemove(pDiscordBot, member);
+  }
+  
+  mOnGuildMemberRemove(pDiscordBot, member) {
     const vUser = member.user;
     const vGuild = member.guild;
     const vCache = vGuild.channels.cache;
-    const vAccueil = vGuild.channels.cache.find(
+    const vAccueil = vCache.find(
       vChannelFound => vChannelFound.name === "accueil-et-départs"
     );
     const vLogs = vCache.find(vChannelFound => vChannelFound.name === "logs");
