@@ -1,16 +1,18 @@
-class OnMessage
-{
-  constructor()
-  {
+class OnMessage {
+  constructor() {
     this.aEventName = "message";
   }
-  mEventName()
-  {
+
+  mEventName() {
     return this.aEventName;
   }
-  async mExecute(pDiscordBot, ...args)
-  {
+
+  async mExecute(pDiscordBot, ...args) {
     const message = args[0];
+    await this.mOnMessage(pDiscordBot, message);
+  }
+
+  async mOnMessage(pDiscordBot, message) {
     console.log(
       "Nouveau message <" +
         message +
@@ -35,8 +37,10 @@ class OnMessage
       console.log("message is not a command. Returning.");
       return;
     }
-    const vArgs = message.content.slice(pDiscordBot.aConfig.Prefix.length).split(/ +/);
-    //const command = args.shift().toLowerCase();
+    const vArgs = message.content
+      .slice(pDiscordBot.aConfig.Prefix.length)
+      .split(/ +/);
+    
     const vCommandName = vArgs.shift().toLowerCase();
 
     const vCommand =
@@ -47,11 +51,11 @@ class OnMessage
           vCommandFound.mAliases().includes(vCommandName)
       );
 
-    if (!vCommand) {
-      return;
+    if (vCommand) {
+      vCommand.mExecute(pDiscordBot, message, vArgs);
     }
-    vCommand.mExecute(pDiscordBot, message, vArgs);
   }
+
   mRemerciements(pDiscordBot, message) {
     const vArgs = message.content.slice().split(/ +/);
     vArgs.forEach(vArg => {
@@ -73,7 +77,10 @@ class OnMessage
             if (message.author !== vUser) {
               var vScore;
               if (message.guild) {
-                vScore = pDiscordBot.aSQL.getScore.get(message.guild.id, vUser.id);
+                vScore = pDiscordBot.aSQL.getScore.get(
+                  message.guild.id,
+                  vUser.id
+                );
                 if (!vScore) {
                   vScore = {
                     guild: message.guild.id,

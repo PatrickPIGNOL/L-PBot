@@ -1,17 +1,18 @@
-
-class OnGuildMemberAdd
-{
-  constructor()
-  {
+class OnGuildMemberAdd {
+  constructor() {
     this.aEventName = "guildMemberAdd";
   }
-  mEventName()
-  {
+
+  mEventName() {
     return this.aEventName;
   }
-  async mExecute(pDiscordBot, ...args)
-  {
+
+  async mExecute(pDiscordBot, ...args) {
     const member = args[0];
+    await this.mOnGuildMemberAdd(pDiscordBot, member);
+  }
+
+  async mOnGuildMemberAdd(pDiscordBot, member) {
     const vUser = member.user;
     const vGuild = member.guild;
     const vCache = vGuild.channels.cache;

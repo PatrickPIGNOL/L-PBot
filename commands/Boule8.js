@@ -1,12 +1,12 @@
-class Ping {
+class Boule8 {
   constructor() 
   {
-    this.aName = "ping";
-    this.aAliases = ['pong'];
-    this.aArgs = false;
+    this.aName = "boule8";
+    this.aAliases = ['8ball'];
+    this.aArgs = true;
     this.aMentions = false;
-    this.aUsage = "";
-    this.aDescription = "Ping!";
+    this.aUsage = "boule8 <Question ?>";
+    this.aDescription = "Donne une réponse aléatoire ?";
     this.aGuildOnly = true;
     this.aCooldown = 5;
   }
@@ -65,18 +65,48 @@ class Ping {
     if (this.aGuildOnly && message.channel.type !== "text") {
       return message.reply("I can't execute that command inside DMs!");
     }
-    const vPong = new pDiscordBot.aDiscord.MessageEmbed()
+
+    const vRandom = Math.floor(Math.random() * 20);
+    
+    let vTextes = [
+    "Essaye plus tard",
+    "D'après moi oui",
+    "C'est non",
+    "Essaye encore",
+    "C'est certain",
+    "Peu probable",
+    "Pas d'avis",
+    "Oui absolument",
+    "Faut pas rêver",
+    "C'est ton destin",      
+    "Tu peux compter dessus",
+    "N'y compte pas",
+    "Le sort en est jeté",
+    "Oui",
+    "Impossible",
+    "Une chance sur deux",
+    "Sans aucun doute",
+    "Ça sent mauvais",
+    "Repose ta question",
+    "Très probable",
+    "Très improbable",
+    "Il manque un paramètre",
+    "C'est bien parti",
+    "Mieux vaut oublier"
+    ];
+    
+    const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
       .setAuthor(
-        pDiscordBot.aClient.user.username,
-        pDiscordBot.aClient.user.displayAvatarURL,
-        pDiscordBot.aConfig.URL
+        message.author.username,
+        message.author.displayAvatarURL()
       )
       .setColor(pDiscordBot.aConfig.Good)
-      .setDescription(`Pong !`)
-      .setThumbnail(message.author.displayAvatarURL());
-    message.reply(vPong);
+      .setTitle("** La boule 🎱 **")
+      .setDescription("A la question : ***« " + args.join(" ") + " »***\nLa boule 🎱 à répondu : ***« " + vTextes[vRandom] + " »***");
+    message.guild.channels.cache.find(vChannelFound => vChannelFound.name === "boule🎱").send(vEmbed);
     message.delete();
   }
 }
 
-module.exports = new Ping();
+module.exports = new Boule8();
+
