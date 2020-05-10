@@ -2,7 +2,9 @@ dependencies:
   better-sqlite3: 7.0.1
   discord.js: 12.2.0
   express: 4.17.1
+  fs: 0.0.2
   utils-merge: 1.0.1
+  utils-merge2: 2.0.0
 packages:
   /@discordjs/collection/0.1.5:
     dev: false
@@ -28,7 +30,7 @@ packages:
       integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==
   /accepts/1.3.7:
     dependencies:
-      mime-types: 2.1.25
+      mime-types: 2.1.27
       negotiator: 0.6.2
     dev: false
     engines:
@@ -145,6 +147,14 @@ packages:
     dev: false
     resolution:
       integrity: sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=
+  /const-max-uint32/1.0.2:
+    dev: false
+    resolution:
+      integrity: sha1-8Am7YjDmeO2HTdLWqc2ePL+rtnY=
+  /const-pinf-float64/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha1-9u+w15+cCYbT558pI6v5twtj1yY=
   /content-disposition/0.5.3:
     dependencies:
       safe-buffer: 5.1.2
@@ -301,7 +311,7 @@ packages:
       on-finished: 2.3.0
       parseurl: 1.3.3
       path-to-regexp: 0.1.7
-      proxy-addr: 2.0.5
+      proxy-addr: 2.0.6
       qs: 6.7.0
       range-parser: 1.2.1
       safe-buffer: 5.1.2
@@ -357,6 +367,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-GWSSJGFy4e9GUeCcbIkED+bgAoFyj7XF1mV8rma3QW4NIqX9Kyx79N/PF61H5udOV3aY1IaMLs6pGbH71nlCTA==
+  /fs/0.0.2:
+    dev: false
+    resolution:
+      integrity: sha1-4fJE7zkzwbKmS9R5kTYGDQ9ZFPg=
   /gauge/2.7.4:
     dependencies:
       aproba: 1.2.0
@@ -426,12 +440,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
-  /ipaddr.js/1.9.0:
+  /ipaddr.js/1.9.1:
     dev: false
     engines:
       node: '>= 0.10'
     resolution:
-      integrity: sha512-M4Sjn6N/+O6/IXSJseKqHoFc+5FdGJ22sXqnjTpdZweHK64MzEPAyQZyEU3R/KRv2GLoa7nNtg/C2Ev6m7z+eA==
+      integrity: sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==
   /is-fullwidth-code-point/1.0.0:
     dependencies:
       number-is-nan: 1.0.1
@@ -466,26 +480,12 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=
-  /mime-db/1.42.0:
-    dev: false
-    engines:
-      node: '>= 0.6'
-    resolution:
-      integrity: sha512-UbfJCR4UAVRNgMpfImz05smAXK7+c+ZntjaA26ANtkXLlOe947Aag5zdIcKQULAiF9Cq4WxBi9jUs5zkA84bYQ==
   /mime-db/1.44.0:
     dev: false
     engines:
       node: '>= 0.6'
     resolution:
       integrity: sha512-/NOTfLrsPBVeH7YtFPgsVWveuL+4SjjYxaQ1xtM1KMFj7HdxlBlxeyNLzhyJVx7r4rZGJAZ/6lkKCitSc/Nmpg==
-  /mime-types/2.1.25:
-    dependencies:
-      mime-db: 1.42.0
-    dev: false
-    engines:
-      node: '>= 0.6'
-    resolution:
-      integrity: sha512-5KhStqB5xpTAeGqKBAMgwaYMnQik7teQN4IAzC7npDv6kzeU6prfkR67bc87J1kWMPGkoaZSq1npmexMgkmEVg==
   /mime-types/2.1.27:
     dependencies:
       mime-db: 1.44.0
@@ -590,6 +590,12 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
+  /object-keys/1.1.1:
+    dev: false
+    engines:
+      node: '>= 0.4'
+    resolution:
+      integrity: sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==
   /on-finished/2.3.0:
     dependencies:
       ee-first: 1.1.1
@@ -650,15 +656,15 @@ packages:
     dev: false
     resolution:
       integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
-  /proxy-addr/2.0.5:
+  /proxy-addr/2.0.6:
     dependencies:
       forwarded: 0.1.2
-      ipaddr.js: 1.9.0
+      ipaddr.js: 1.9.1
     dev: false
     engines:
       node: '>= 0.10'
     resolution:
-      integrity: sha512-t/7RxHXPH6cJtP0pRG6smSr9QJidhB+3kXu0KgXnbGYMgzEnUxRQ4/LDdfOwZEMyIh3/xHb8PX3t+lfL9z+YVQ==
+      integrity: sha512-dh/frvCBVmSsDYzw6n926jv974gddhkFPfiN8hPOi30Wax25QZyZEGveluCgliBnqmuM+UJmBErbAUFIoDbjOw==
   /pump/3.0.0:
     dependencies:
       end-of-stream: 1.4.4
@@ -721,6 +727,10 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA==
+  /regex-regex/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha1-kEih6uuHD01IDavHb8Qs3MC8OnI=
   /safe-buffer/5.1.2:
     dev: false
     resolution:
@@ -908,12 +918,16 @@ packages:
   /type-is/1.6.18:
     dependencies:
       media-typer: 0.3.0
-      mime-types: 2.1.25
+      mime-types: 2.1.27
     dev: false
     engines:
       node: '>= 0.6'
     resolution:
       integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==
+  /type-name/2.0.2:
+    dev: false
+    resolution:
+      integrity: sha1-7+fUEj2KxSr/9/QMfk3sUmYAj7Q=
   /unpipe/1.0.0:
     dev: false
     engines:
@@ -924,12 +938,126 @@ packages:
     dev: false
     resolution:
       integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
+  /utils-copy-error/1.0.1:
+    dependencies:
+      object-keys: 1.1.1
+      utils-copy: 1.1.1
+    dev: false
+    resolution:
+      integrity: sha1-eR3jk8DwmJCv1Z88vqY18HmpT6U=
+  /utils-copy/1.1.1:
+    dependencies:
+      const-pinf-float64: 1.0.0
+      object-keys: 1.1.1
+      type-name: 2.0.2
+      utils-copy-error: 1.0.1
+      utils-indexof: 1.0.0
+      utils-regex-from-string: 1.0.0
+      validate.io-array: 1.0.6
+      validate.io-buffer: 1.0.2
+      validate.io-nonnegative-integer: 1.0.0
+    dev: false
+    resolution:
+      integrity: sha1-biuXmCqozXPhGCo+b4vsPA9AWKc=
+  /utils-indexof/1.0.0:
+    dependencies:
+      validate.io-array-like: 1.0.2
+      validate.io-integer-primitive: 1.0.0
+    dev: false
+    resolution:
+      integrity: sha1-IP6r8J7xAYtSNkPoOA57yD7GG1w=
   /utils-merge/1.0.1:
     dev: false
     engines:
       node: '>= 0.4.0'
     resolution:
       integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
+  /utils-merge2/2.0.0:
+    dependencies:
+      const-pinf-float64: 1.0.0
+      object-keys: 1.1.1
+      type-name: 2.0.2
+      utils-copy: 1.1.1
+      validate.io-boolean-primitive: 1.0.0
+      validate.io-buffer: 1.0.2
+      validate.io-function: 1.0.2
+      validate.io-object: 1.0.4
+      validate.io-positive-integer: 1.0.0
+    dev: false
+    resolution:
+      integrity: sha1-ttvEVs4Uh/WWQTRKG+kOikhPGWM=
+  /utils-regex-from-string/1.0.0:
+    dependencies:
+      regex-regex: 1.0.0
+      validate.io-string-primitive: 1.0.1
+    dev: false
+    resolution:
+      integrity: sha1-/hopCfjeD/DVGCyA+8ZU1qaH0Yk=
+  /validate.io-array-like/1.0.2:
+    dependencies:
+      const-max-uint32: 1.0.2
+      validate.io-integer-primitive: 1.0.0
+    dev: false
+    resolution:
+      integrity: sha1-evn363tRcVvrIhVmjsXM5U+t21o=
+  /validate.io-array/1.0.6:
+    dev: false
+    resolution:
+      integrity: sha1-W1osr9j4uFq7L4hroVPy2Tond00=
+  /validate.io-boolean-primitive/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha1-uxTJy4aDw8nz0TKalad2jj7inrU=
+  /validate.io-buffer/1.0.2:
+    dev: false
+    resolution:
+      integrity: sha1-hS1nNAIZFNXROvwyUxdh43IO1E4=
+  /validate.io-function/1.0.2:
+    dev: false
+    resolution:
+      integrity: sha1-NDoZgC7TsZaCaceA5VjpNBHAutc=
+  /validate.io-integer-primitive/1.0.0:
+    dependencies:
+      validate.io-number-primitive: 1.0.0
+    dev: false
+    resolution:
+      integrity: sha1-qaoBA1X+hoHA/qbBp0rSQZyt3cY=
+  /validate.io-integer/1.0.5:
+    dependencies:
+      validate.io-number: 1.0.3
+    dev: false
+    resolution:
+      integrity: sha1-FoSWSAuVviJH7EQ/IjPeT4mHgGg=
+  /validate.io-nonnegative-integer/1.0.0:
+    dependencies:
+      validate.io-integer: 1.0.5
+    dev: false
+    resolution:
+      integrity: sha1-gGkkOgjF+Y6VQTySnf17GPP28p8=
+  /validate.io-number-primitive/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha1-0uAfICmJNp3PEVVElWQgOv5YTlU=
+  /validate.io-number/1.0.3:
+    dev: false
+    resolution:
+      integrity: sha1-9j/+2iSL8opnqNSODjtGGhZluvg=
+  /validate.io-object/1.0.4:
+    dependencies:
+      validate.io-array: 1.0.6
+    dev: false
+    resolution:
+      integrity: sha1-3KAezu45DhENvCr4Q8gfe/M6Qas=
+  /validate.io-positive-integer/1.0.0:
+    dependencies:
+      validate.io-integer: 1.0.5
+    dev: false
+    resolution:
+      integrity: sha1-ftLQO0wnVYzGagCqsPDpIYFKZYI=
+  /validate.io-string-primitive/1.0.1:
+    dev: false
+    resolution:
+      integrity: sha1-uBNbn7E3K94C/dU60dDM1t55j+4=
   /vary/1.1.2:
     dev: false
     engines:
@@ -970,4 +1098,6 @@ specifiers:
   better-sqlite3: ^7.0.1
   discord.js: ^12.2.0
   express: ^4.17.1
+  fs: ^0.0.2
   utils-merge: ^1.0.1
+  utils-merge2: ^2.0.0

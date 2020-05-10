@@ -5,6 +5,10 @@ const express = require("express");
 const app = express();
 app.use(express.static("public"));
 
+const listener = app.listen(process.env.PORT, () => {
+  console.log("Your app is listening on port " + listener.address().port);
+});
+
 function mHTMLHeader() {
   var vHTML =
     "<!-- This is a static file -->" +
@@ -46,10 +50,7 @@ function mHTMLFooter() {
 }
 
 app.get("/", (request, response) => {
-  while(! LPBot.status === 4)
-  {
-  
-  }
+  while (!LPBot.status === 4) {}
   var vHTML = mHTMLHeader();
   if (LPBot && LPBot.mClient() && LPBot.mClient().user) {
     vHTML += `</H1><img src='${LPBot.mClient().user.displayAvatarURL()}' width='50'>${
@@ -63,10 +64,7 @@ app.get("/", (request, response) => {
 });
 
 app.get("/points", (request, response) => {
-  while(! LPBot.status === 4)
-  {
-  
-  }
+  while (!LPBot.status === 4) {}
   var vHTML = mHTMLHeader();
   vHTML +=
     "<H1><table width='100%'><tr><td><img src='" +
@@ -124,8 +122,4 @@ app.get("/points", (request, response) => {
 
   vHTML += mHTMLFooter();
   response.send(vHTML);
-});
-
-const listener = app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
 });
