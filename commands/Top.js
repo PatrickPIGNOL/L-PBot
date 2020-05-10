@@ -96,7 +96,7 @@ class Top {
         pDiscordBot.aConfig.URL
       )
       .setDescription(
-        "Retrouvez [le classement complet de tous nos membres](https://mercurial-ripe-rook.glitch.me/points) via internet."
+        `Retrouvez [le classement complet de tous nos membres](${pDiscordBot.aConfig.Points}) via internet.`
       );
 
     console.log("message embed created");
