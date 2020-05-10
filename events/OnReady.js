@@ -12,6 +12,7 @@ class OnReady {
   }
   
   async mOnReady(pDiscordBot) {
+    
     pDiscordBot.aClient.user.setStatus("online");
     pDiscordBot.aClient.user.setActivity("écrire son code source...", {
       type: 1

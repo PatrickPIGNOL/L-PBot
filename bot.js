@@ -20,6 +20,7 @@ class DiscordBot {
   }
   mLogin() {
     this.aClient.login(this.aConfig.token);
+    
     this.aClient.clearImmediate();
     this.aClient.removeAllListeners();
 
