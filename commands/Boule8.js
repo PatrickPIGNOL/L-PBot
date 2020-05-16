@@ -1,48 +1,22 @@
-class Boule8 {
+const Command = require("../Command.js");
+class Boule8 extends Command {
   constructor() 
   {
-    this.aName = "boule8";
-    this.aAliases = ['8ball'];
-    this.aArgs = true;
-    this.aMentions = false;
-    this.aUsage = "boule8 <Question ?>";
-    this.aDescription = "Donne une réponse aléatoire ?";
-    this.aGuildOnly = true;
-    this.aCooldown = 5;
-  }
-  mName() {
-    return this.aName;
-  }
-  mAliases()
-  {
-    return this.aAliases;
-  }
-  mArgs()
-  {
-    return this.aArgs;
-  }
-  mMentions()
-  {
-    return this.aMentions;
-  }
-  mUsage()
-  {
-    return this.aUsage;
-  }  
-  mDescription()
-  {
-    return this.aDescription;
-  }
-  mGuildOnly()
-  {
-    return this.aGuildOnly();
-  }
-  mCooldown()
-  {
-    return this.aCooldown();
+    super(
+      "boule8",
+      ["8ball"],
+      [],
+      1,
+      0,
+      "boule8 <Question fermée ?>",
+      "La boule 🎱 donne à ta question une réponse aléatoire ?",
+      true,
+      0
+    );
   }
   async mExecute(pDiscordBot, message, args) 
   {
+    super.mExecute(pDiscordBot, message, args);
     const vMember = message.mentions.members.first();
     if (this.aMentions && !vMember) {
       const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
@@ -66,7 +40,7 @@ class Boule8 {
       return message.reply("I can't execute that command inside DMs!");
     }
 
-    const vRandom = Math.floor(Math.random() * 20);
+    const vRandom = Math.floor(Math.random() * 24);
     
     let vTextes = [
     "Essaye plus tard",

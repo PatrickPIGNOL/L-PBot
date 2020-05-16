@@ -1,10 +1,7 @@
-class OnDisconnect {
+const OnEvent = require("../OnEvent.js");
+class OnDisconnect extends OnEvent {
   constructor() {
-    this.aEventName = "disconnect";
-  }
-  
-  mEventName() {
-    return this.aEventName;
+    super("disconnect");
   }
   
   async mExecute(pDiscordBot, ...args) {

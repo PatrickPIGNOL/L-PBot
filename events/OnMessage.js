@@ -83,20 +83,21 @@ class OnMessage {
                 );
                 if (!vScore) {
                   vScore = {
-                    guild: message.guild.id,
-                    user: vUser.id,
-                    usertag: vUser.tag,
-                    points: 0,
-                    level: 0
+                    GuildID: message.guild.id,
+                    GuildName: message.guild.name,
+                    MemberID: vUser.id,
+                    MemberTag: vUser.tag,
+                    Points: 0,
+                    Level: 0
                   };
                 }
-                vScore.points++;
+                vScore.Points++;
                 console.log(vScore);
-                var vMessage = `${message.author} a donné à ${vUser} +1 point de Reconnaissance soit un total de ${vScore.points}.\n`;
-                const vLevel = Math.floor(Math.sqrt(vScore.points));
-                if (vScore.level < vLevel) {
-                  vScore.level = vLevel;
-                  vMessage += `${vUser} est passé au niveau supérieur soit le niveau ${vScore.level}.\n:tada::confetti_ball: Félicitations ! :confetti_ball::tada:\n`;
+                var vMessage = `${message.author} a donné à ${vUser} +1 point de Reconnaissance soit un total de ${vScore.Points}.\n`;
+                const vLevel = Math.floor(Math.sqrt(vScore.Points));
+                if (vScore.Level < vLevel) {
+                  vScore.Level = vLevel;
+                  vMessage += `${vUser} est passé au niveau supérieur soit le niveau ${vScore.Level}.\n:tada::confetti_ball: Félicitations ! :confetti_ball::tada:\n`;
                 }
                 console.log(vScore);
                 const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()

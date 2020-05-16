@@ -1,4 +1,4 @@
-const LPBot = require("./bot.js");
+const LPBot = require("./discordbot.js");
 LPBot.mLogin();
 
 const express = require("express");
@@ -57,7 +57,7 @@ app.get("/", (request, response) => {
       LPBot.mClient().user.username
     } en ligne ...</H1>`;
   } else {
-    vHTML += `</H1><img src='https://cdn.discordapp.com/avatars/699652839361872002/ffa4f7a78064cf9047c709e48357e495.webp' width='50'>L&PBot : En maintenance ...</H1>`;
+    vHTML += `</H1><img src='https://cdn.discordapp.com/avatars/699652839361872002/ffa4f7a78064cf9047c709e48357e495.webp' width='50'>L&PBot : Hors service ...</H1>`;
   }
   vHTML += mHTMLFooter();
   response.send(vHTML);
@@ -79,11 +79,11 @@ app.get("/points", (request, response) => {
   );
   const vTop = LPBot.mSQL()
     .prepare(
-      "SELECT * FROM scores WHERE guild = ? ORDER BY points DESC, usertag ASC;"
+      "SELECT * FROM scores WHERE GuildID = ? ORDER BY Points DESC, MemberTag ASC;"
     )
     .all(vGuild.id);
   vTop.forEach(vData => {
-    const vUserID = vData.user;
+    const vUserID = vData.MemberID;
     const vMember = vGuild.members.cache.find(
       vSearchMember => vSearchMember.user.id == vUserID
     );
@@ -102,19 +102,19 @@ app.get("/points", (request, response) => {
         vUser.tag +
         ")" +
         "</BR>" +
-        vData.points +
+        vData.Points +
         " points : Niveau " +
-        vData.level +
+        vData.Level +
         ". </BR> Prochain niveau (" +
-        (vData.level + 1) +
+        (vData.Level + 1) +
         ") : " +
-        (vData.level + 1) * (vData.level + 1) +
+        (vData.Level + 1) * (vData.Level + 1) +
         " points." +
         "</td></tr><tr><td></td><td></td><td colspan='3'>" +
         "<table width='100%' height='4px' border='0' cellpading='0' cellspacing='0'><tr><td class='barleft' bgcolor='" +
         LPBot.mConfig().Good +
         "' width='" +
-        (vData.points / ((vData.level + 1) * (vData.level + 1))) * 100 +
+        (vData.Points / ((vData.Level + 1) * (vData.Level + 1))) * 100 +
         "%'></td><td class='barright' bgcolor='#005500'></td></tr></table></td></tr><tr><td colspan='5' height='8px'></td></tr>";
       vRank++;
     }

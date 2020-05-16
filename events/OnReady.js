@@ -2,17 +2,16 @@ class OnReady {
   constructor() {
     this.aEventName = "ready";
   }
-  
+
   mEventName() {
     return this.aEventName;
   }
-  
+
   async mExecute(pDiscordBot, ...args) {
     await this.mOnReady(pDiscordBot);
   }
-  
+
   async mOnReady(pDiscordBot) {
-    
     pDiscordBot.aClient.user.setStatus("online");
     pDiscordBot.aClient.user.setActivity("écrire son code source...", {
       type: 1
@@ -27,34 +26,22 @@ class OnReady {
         pDiscordBot.aClient.guilds.cache.first().channels.cache.size
       } channels of ${pDiscordBot.aClient.guilds.cache.size} guilds.`
     );
-    pDiscordBot.aSQLite
-      .prepare(
-        "CREATE TABLE IF NOT EXISTS scores (guild TEXT, user TEXT, usertag TEXT, points INTEGER, level INTEGER, PRIMARY KEY (guild, user));"
+    pDiscordBot.aSQL.prepare(
+        "CREATE TABLE IF NOT EXISTS scores (GuildID TEXT, GuildName TEXT, MemberID TEXT, MemberTag TEXT, Points INTEGER, Level INTEGER, PRIMARY KEY (GuildID, MemberID));"
       )
       .run();
-    pDiscordBot.aSQL
-      .prepare(
-        "CREATE TABLE IF NOT EXISTS scores (guild TEXT, user TEXT, usertag TEXT, points INTEGER, level INTEGER, PRIMARY KEY (guild, user));"
+    pDiscordBot.aSQL.prepare(
+        "CREATE TABLE IF NOT EXISTS members (GuildID TEXT, GuildName TEXT, MemberID TEXT, MemberTag TEXT, JoinDate TEXT, LeftDate TEXT, PRIMARY KEY (GuildID, MemberID));"
       )
       .run();
-
     pDiscordBot.aSQL.getScore = pDiscordBot.aSQL.prepare(
-      "SELECT * FROM scores WHERE guild = ? AND user = ? ORDER BY points ASC"
+      "SELECT * FROM scores WHERE GuildID = ? AND MemberID = ? ORDER BY Points DESC"
     );
     pDiscordBot.aSQL.setScore = pDiscordBot.aSQL.prepare(
-      "INSERT OR REPLACE INTO scores (guild , user, usertag, points, level) VALUES (@guild, @user, @usertag, @points, @level);"
-    );
-    pDiscordBot.aSQLite.getScore = pDiscordBot.aSQLite.prepare(
-      "SELECT * FROM scores WHERE guild = ? AND user = ? ORDER BY points ASC"
-    );
-    pDiscordBot.aSQLite.setScore = pDiscordBot.aSQLite.prepare(
-      "INSERT OR REPLACE INTO scores (guild , user, usertag, points, level) VALUES (@guild, @user, @usertag, @points, @level);"
+      "INSERT OR REPLACE INTO scores (GuildID, GuildName, MemberID, MemberTag, Points, Level) VALUES (@GuildID, @GuildName, @MemberID, @MemberTag, @Points, @Level);"
     );
     pDiscordBot.aSQL.pragma("synchronous = 1");
     pDiscordBot.aSQL.pragma("journal_mode = persist");
-    pDiscordBot.aSQLite.pragma("synchronous = 1");
-    pDiscordBot.aSQLite.pragma("journal_mode = persist");
-    //this.aSQL.getScore().
   }
 }
 

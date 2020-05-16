@@ -1,10 +1,7 @@
-class OnReconnecting {
+const OnEvent = require("../OnEvent.js");
+class OnReconnecting extends OnEvent {
   constructor() {
-    this.aEventName = "clientUserSettingsUpdate";
-  }
-  
-  mEventName() {
-    return this.aEventName;
+    super("clientUserSettingsUpdate");
   }
   
   async mExecute(pDiscordBot, ...args) {

@@ -1,10 +1,7 @@
-class OnEmojiDelete {
+const OnEvent = require("../OnEvent.js");
+class OnEmojiDelete extends OnEvent {
   constructor() {
-    this.aEventName = "emojiDelete";
-  }
-
-  mEventName() {
-    return this.aEventName;
+    super("emojiDelete");
   }
 
   async mExecute(pDiscordBot, ...args) {

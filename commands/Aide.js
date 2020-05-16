@@ -1,49 +1,20 @@
-class Aide {
+const Command = require("../Command.js");
+class Aide extends Command {
   constructor() {
-    this.aName = "aide";
-    this.aAliases = ["help"];
-    this.aArgs = false;
-    this.aMentions = true;
-    this.aUsage = "+aide";
-    this.aDescription = "Affiche l'aide du bot et toutes ses commandes.";
-    this.aGuildOnly = true;
-    this.aCooldown = 5;
-  }
-  mName() {
-    return this.aName;
-  }
-  mAliases()
-  {
-    return this.aAliases;
-  }
-  mArgs()
-  {
-    return this.aArgs;
-  }
-  mUsage()
-  {
-    return this.aUsage;
-  }  
-  mMentions()
-  {
-    return this.aMentions;
-  }
-  mDescription()
-  {
-    return this.aDescription;
-  }
-  mGuildOnly()
-  {
-    return this.aGuildOnly();
-  }
-  mCooldown()
-  {
-    return this.aCooldown();
+    super(
+      "aide",
+      ["help"],
+      [],
+      0,
+      0,
+      "aide",
+      "Affiche l'aide du bot et toutes ses commandes.",
+      true,
+      5
+    );
   }
   mExecute(pDiscordBot, message, args) {
-    if(this.aGuildOnly && message.channel.type !== "text") {
-      return message.reply("I can't execute that command inside DMs!");
-    }
+    super.mExecute(pDiscordBot, message, args);
     const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
       .setColor(pDiscordBot.aConfig.Good)
       .setTitle(`"**${pDiscordBot.aClient.user.username}** command panel"`)

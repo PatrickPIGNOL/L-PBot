@@ -1,18 +1,15 @@
-class OnChannelCreate {
+const OnEvent = require("../OnEvent.js");
+class OnChannelCreate extends OnEvent {
   constructor() {
-    this.aEventName = "channelCreate";
-  }
-  
-  mEventName() {
-    return this.aEventName;
+    super("channelCreate");
   }
   
   async mExecute(pDiscordBot, ...args) {
     const channel = args[0];
     await this.mOnChannelCreate(pDiscordBot, channel);
   }
-  
-  async  mOnChannelCreate(channel) {
+
+  async mOnChannelCreate(pDiscordBot, channel) {
     console.log(`channelCreate: ${channel}`);
   }
 }

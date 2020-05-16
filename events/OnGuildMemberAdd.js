@@ -83,7 +83,9 @@ class OnGuildMemberAdd {
       .setDescription(
         `Bienvenu à toi, ${vUser}.\nValide le règlement dans ${vReglement} svp.\nPuis attribue toi des rôles dans ${vRoles}.\nEnfin dis "Bonjour" dans ${vBlabla}.\nSi tu ne sais pas où aller, la ${vFaq} te guidera.`
       )
-      .setThumbnail(vUser.displayAvatarURL());
+      .setThumbnail(vUser.displayAvatarURL())
+      //.setImage(pDiscordBot.aConfig.HelloWorldGreetings)
+    ;
 
     vAccueil.send({
       content: `${vUser}`,

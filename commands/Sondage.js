@@ -8,7 +8,7 @@ class Sondage {
     this.aUsage = "+sondage";
     this.aDescription = "Crée un sondage.";
     this.aGuildOnly = true;
-    this.aCooldown = 5;
+    this.aCooldown = 10;
   }
   mName() {
     return this.aName;

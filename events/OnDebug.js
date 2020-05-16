@@ -1,10 +1,7 @@
-class OnDebug {
+const OnEvent = require("../OnEvent.js");
+class OnDebug extends OnEvent{
   constructor() {
-    this.aEventName = "debug";
-  }
-  
-  mEventName() {
-    return this.aEventName;
+    super("debug");
   }
   
   async mExecute(pDiscordBot, ...args) {

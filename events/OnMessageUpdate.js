@@ -24,7 +24,11 @@ class OnMessageUpdate {
     }
     if(newMessage)
     {
-      console.log(`${newMessage.content} : ${newMessage.embeds[0].description}`);
+      console.log(`${newMessage.contents} :`);
+      if(newMessage.embeds.size)
+      {
+        console.log(`${newMessage.embeds[0].description}`);
+      }
     }
   }
 }

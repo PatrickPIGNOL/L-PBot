@@ -66,13 +66,13 @@ class Parler {
       return message.reply("I can't execute that command inside DMs!");
     }
     const vAuthor = message.author;
-    const vLogsEmbed = new this.aDiscord.MessageEmbed()
-      .setColor(this.aConfig.Bad)
+    const vLogsEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+      .setColor(pDiscordBot.aConfig.Bad)
       .setTitle("**Commande d'administration**")
       .setAuthor(
-        this.aClient.user.username,
-        this.aClient.user.displayAvatarURL(),
-        this.aConfig.URL
+        pDiscordBot.aClient.user.username,
+        pDiscordBot.aClient.user.displayAvatarURL(),
+        pDiscordBot.aConfig.URL
       )
       .setThumbnail(message.author.displayAvatarURL())
       .setDescription(
@@ -115,9 +115,7 @@ class Parler {
         .setColor(pDiscordBot.aConfig.Good)
         .setTitle("**🕊️🤝PARLONS EN PAIX🤝🕊️**")
         .setAuthor(vAuthor.username, vAuthor.displayAvatarURL())
-        .setImage(
-          "https://cdn.discordapp.com/attachments/690978875446132796/702185805418070118/tumblr_n0dvc88MiT1rv1d8ho3_500.gif"
-        )
+        .setImage(pDiscordBot.aConfig.Talk)
         .setThumbnail(vMember.user.displayAvatarURL())
         .setDescription(
           `${vAuthor}` +
@@ -141,4 +139,3 @@ class Parler {
 }
 
 module.exports = new Parler();
-

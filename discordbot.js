@@ -14,13 +14,12 @@ class DiscordBot {
     this.aConfig = require("./config.json");
     this.aConfig.token = process.env.TOKEN;
     this.aSQLite = require("better-sqlite3");
-    this.aSQL = new this.aSQLite("./scores.sqlite");
-    this.aSQLite = new this.aSQLite("./discordbot.sqlite");
+    this.aSQL = new this.aSQLite("./discordbot.sqlite");
     this.aMS = require("ms");
   }
   mLogin() {
     this.aClient.login(this.aConfig.token);
-    
+
     this.aClient.clearImmediate();
     this.aClient.removeAllListeners();
 
@@ -29,8 +28,8 @@ class DiscordBot {
       .filter(vFileFound => vFileFound.endsWith(".js"));
     for (const vFile of vEventsFiles) {
       const vEvent = require(`./events/${vFile}`);
-      this.aClient.on(vEvent.mEventName(), (...args)=>{
-          vEvent.mExecute(this, ...args);
+      this.aClient.on(vEvent.mEventName(), (...args) => {
+        vEvent.mExecute(this, ...args);
       });
     }
   }
