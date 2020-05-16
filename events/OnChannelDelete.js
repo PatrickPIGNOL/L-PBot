@@ -1,10 +1,7 @@
-class mOnChannelDelete {
+const OnEvent = require("../OnEvent.js");
+class mOnChannelDelete extends OnEvent {
   constructor() {
-    this.aEventName = "channelDelete";
-  }
-  
-  mEventName() {
-    return this.aEventName;
+    super("channelDelete");
   }
   
   async mExecute(pDiscordBot, ...args) {
@@ -12,7 +9,7 @@ class mOnChannelDelete {
     await this.mOnChannelDelete(pDiscordBot, channel);
   }
   
-  async mOnChannelDelete(channel) {
+  async mOnChannelDelete(pDiscordBot, channel) {
     console.log(`channelDelete: ${channel}`);
   }
 }

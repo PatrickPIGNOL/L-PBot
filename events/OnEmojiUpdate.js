@@ -1,10 +1,7 @@
-class OnEmojiUpdate {
+const OnEvent = require("../OnEvent.js");
+class OnEmojiUpdate extends OnEvent {
   constructor() {
-    this.aEventName = "emojiUpdate";
-  }
-
-  mEventName() {
-    return this.aEventName;
+    super("emojiUpdate");
   }
 
   async mExecute(pDiscordBot, ...args) {

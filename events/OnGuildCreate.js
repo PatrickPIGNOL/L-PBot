@@ -1,10 +1,7 @@
-class OnGuildCreate {
+const OnEvent = require("../OnEvent.js");
+class OnGuildCreate extends OnEvent {
   constructor() {
-    this.aEventName = "guildCreate";
-  }
-
-  mEventName() {
-    return this.aEventName;
+    super("guildCreate");
   }
 
   async mExecute(pDiscordBot, ...args) {

@@ -1,10 +1,7 @@
-class OnGuildBanRemove {
+const OnEvent = require("../OnEvent.js");
+class OnGuildBanRemove extends OnEvent {
   constructor() {
-    this.aEventName = "guildBanRemove";
-  }
-  
-  mEventName() {
-    return this.aEventName;
+    super("guildBanRemove");
   }
   
   async mExecute(pDiscordBot, ...args) {

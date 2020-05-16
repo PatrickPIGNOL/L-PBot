@@ -1,10 +1,7 @@
-class OnChannelPinsUpdate {
+const OnEvent = require("../OnEvent.js");
+class OnChannelPinsUpdate extends OnEvent {
   constructor() {
-    this.aEventName = "channelPinsUpdate";
-  }
-  
-  mEventName() {
-    return this.aEventName;
+    super("channelPinsUpdate");
   }
   
   async mExecute(pDiscordBot, ...args) {

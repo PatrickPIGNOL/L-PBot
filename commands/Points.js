@@ -1,79 +1,32 @@
-class Points {
+const Command = require("../Command.js");
+class Points extends Command {
   constructor() 
   {
-    this.aName = "points";
-    this.aAliases = [''];
-    this.aArgs = false;
-    this.aMentions = false;
-    this.aUsage = "";
-    this.aDescription = "Retourne les points de reconnaissances de l'utilisateur";
-    this.aGuildOnly = true;
-    this.aCooldown = 5;
-  }
-  mName() {
-    return this.aName;
-  }
-  mAliases()
-  {
-    return this.aAliases;
-  }
-  mArgs()
-  {
-    return this.aArgs;
-  }
-  mMentions()
-  {
-    return this.aMentions;
-  }
-  mUsage()
-  {
-    return this.aUsage;
-  }  
-  mDescription()
-  {
-    return this.aDescription;
-  }
-  mGuildOnly()
-  {
-    return this.aGuildOnly();
-  }
-  mCooldown()
-  {
-    return this.aCooldown();
+    super(
+      "points",
+      [],
+      [],
+      0,
+      0,
+      "points",
+      "Retourne les points de reconnaissances de l'utilisateur",
+      true,
+      0
+    );    
   }
   mExecute(pDiscordBot, message, args) 
   {
-    const vMember = message.mentions.members.first();
-    if (this.aMentions && !vMember) {
-      const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
-        .setAuthor(
-          pDiscordBot.aClient.user.username,
-          pDiscordBot.aClient.user.displayAvatarURL(),
-          pDiscordBot.aConfig.URL
-        )
-        .setTitle("**Erreur**")
-        .setColor(pDiscordBot.aConfig.Bad)
-        .setThumbnail(vMember.user.displayAvatarURL());
-      message.reply("Vous devez mentionner un membre.");
-      message.delete();
-      return;
-    }
-    if(this.aArgs && !args.length)
-    {
-      return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
-    }
-    if (this.aGuildOnly && message.channel.type !== "text") {
-      return message.reply("I can't execute that command inside DMs!");
-    }
+    super.mExecute(pDiscordBot, message, args);
     const vUser = message.author;
     var vScore = pDiscordBot.aSQL.getScore.get(message.guild.id, vUser.id);
     if (!vScore) {
       vScore = {
-        guild: message.guild.id,
-        user: vUser.id,
-        usertag: vUser.tag,
-        points: 0,
-        level: 0
+        GuildID: message.guild.id,
+        GuildName: message.guild.name,
+        MemberID: vUser.id,
+        MemberTag: vUser.tag,
+        Points: 0,
+        Level: 0
       };
     }
     var vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
@@ -85,18 +38,18 @@ class Points {
       )
       .setTitle("Points de reconnaissances de " + message.author.username)
       .setDescription(
-        "Retrouvez [le classement complet de tous nos membres](https://mercurial-ripe-rook.glitch.me/points) via internet."
+        "Retrouvez [le classement complet de nos membres]("+pDiscordBot.mConfig().Points +") via internet."
       )
       .setThumbnail(message.author.displayAvatarURL())
       .addFields(
         {
           name: "*Points actuels :*",
-          value: vScore.points + " points (Niv. " + vScore.level + ")",
+          value: vScore.Points + " points (Niv. " + vScore.Level + ")",
           inline: true
         },
         {
-          name: "*Prochain Niveau (" + (vScore.level + 1) + ") :*",
-          value: (vScore.level + 1) * (vScore.level + 1) + " points.",
+          name: "*Prochain Niveau (" + (vScore.Level + 1) + ") :*",
+          value: (vScore.Level + 1) * (vScore.Level + 1) + " points.",
           inline: true
         },
         {

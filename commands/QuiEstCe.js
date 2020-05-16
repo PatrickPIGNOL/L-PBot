@@ -1,65 +1,24 @@
-class QuiEstCe {
-  constructor() 
+const Command = require("../Command.js");
+class QuiEstCe extends Command {
+  constructor()  
   {
-    this.aDiscord = require("discord.js");
-    this.aName = "quiestce";
-    this.aAliases = ['quic','cqui','whois','whos', 'who'];
-    this.aArgs = false;
-    this.aMentions = true;
-    this.aUsage = "";
-    this.aDescription = "Qui est cette personne ?";
-    this.aGuildOnly = true;
-    this.aCooldown = 5;
-  }
-  mName() {
-    return this.aName;
-  }
-  mAliases()
-  {
-    return this.aAliases;
-  }
-  mArgs()
-  {
-    return this.aArgs;
-  }
-  mMentions()
-  {
-    return this.aMentions;
-  }
-  mUsage()
-  {
-    return this.aUsage;
-  }  
-  mDescription()
-  {
-    return this.aDescription;
-  }
-  mGuildOnly()
-  {
-    return this.aGuildOnly();
-  }
-  mCooldown()
-  {
-    return this.aCooldown();
+    super(
+      "quiestce",
+      ["quic","cqui","whois","whos", "who"],
+      [],
+      0,
+      1,
+      "quiestce @IDUtilisateur",
+      "Qui est cette personne ?",
+      true,
+      5
+    );
   }
   mExecute(pDiscordBot, message, args) 
   {
+    super.mExecute(pDiscordBot, message, args);
     const vMember = message.mentions.members.first();
-    const vUser = vMember.user;
-    if (!vMember) {
-      const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
-        .setAuthor(
-          pDiscordBot.aClient.user.username,
-          pDiscordBot.aClient.user.displayAvatarURL(),
-          pDiscordBot.aConfig.URL
-        )
-        .setTitle("**Erreur**")
-        .setColor(pDiscordBot.aConfig.Bad)
-        .setThumbnail(vUser.displayAvatarURL());
-      message.reply("Vous devez mentionner un membre.");
-      message.delete();
-      return;
-    }
+    const vUser = vMember.user;    
     const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
       .setAuthor(
         pDiscordBot.aClient.user.username,
@@ -67,7 +26,7 @@ class QuiEstCe {
         pDiscordBot.aConfig.URL
       )
       .setTitle(vUser.username)
-      .setColor(pDiscordBot.aConfig.Good)
+      .setColor(pDiscordBot.aConfig.Log)
       .setThumbnail(vUser.displayAvatarURL())
       .addFields(
         { name: "ID :", value: `${vUser.id}`, inline: true },

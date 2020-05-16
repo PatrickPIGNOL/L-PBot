@@ -5,5 +5,13 @@
   "Bad": "#FF0000",
   "Log": "#0000FF",
   "URL": "https://l-pbot.glitch.me/",
-  "Points": "https://l-pbot.glitch.me/points"
+  "Points": "https://l-pbot.glitch.me/points",
+  "HelloWorldGreetings": "https://pignol.ovh/h/thor/hello-world.gif",
+  "BAN":"https://pignol.ovh/h/thor/ban.gif",
+  "KICK": "https://pignol.ovh/h/thor/kick.gif",
+  "ShutUp": "https://pignol.ovh/h/thor/shutup.gif",
+  "Talk":"https://pignol.ovh/h/thor/handshake.gif",
+  "One":"https://pignol.ovh/h/thor/one.gif",
+  "Two":"https://pignol.ovh/h/thor/two.gif",
+  "Blast":"https://pignol.ovh/h/thor/blast.gif"
 }

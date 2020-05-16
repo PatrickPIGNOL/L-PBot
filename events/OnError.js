@@ -1,10 +1,7 @@
-class OnError {
+const OnEvent = require("../OnEvent.js");
+class OnError extends OnEvent {
   constructor() {
-    this.aEventName = "error";
-  }
-
-  mEventName() {
-    return this.aEventName;
+    super("error");
   }
 
   async mExecute(pDiscordBot, ...args) {

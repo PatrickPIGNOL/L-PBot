@@ -1,6 +1,7 @@
-class OnGuildDelete {
+const OnEvent = require("../OnEvent.js");
+class OnGuildDelete extends OnEvent {
   constructor() {
-    this.aEventName = "guildDelete";
+    super("guildDelete");
   }
 
   mEventName() {

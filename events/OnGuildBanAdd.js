@@ -1,10 +1,7 @@
-class OnGuildBanAdd {
+const OnEvent = require("../OnEvent.js");
+class OnGuildBanAdd extends OnEvent {
   constructor() {
-    this.aEventName = "guildBanAdd";
-  }
-
-  mEventName() {
-    return this.aEventName;
+    super("guildBanAdd");
   }
 
   async mExecute(pDiscordBot, ...args) {

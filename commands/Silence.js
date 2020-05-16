@@ -66,13 +66,13 @@ class Silence {
       return message.reply("I can't execute that command inside DMs!");
     }
     const vAuthor = message.author;
-    const vLogsEmbed = new this.aDiscord.MessageEmbed()
-      .setColor(this.aConfig.Bad)
+    const vLogsEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+      .setColor(pDiscordBot.aConfig.Bad)
       .setTitle("**Commande d'administration**")
       .setAuthor(
-        this.aClient.user.username,
-        this.aClient.user.displayAvatarURL(),
-        this.aConfig.URL
+        pDiscordBot.aClient.user.username,
+        pDiscordBot.aClient.user.displayAvatarURL(),
+        pDiscordBot.aConfig.URL
       )
       .setThumbnail(message.author.displayAvatarURL())
       .setDescription(
@@ -127,13 +127,11 @@ class Silence {
       });
       var vArgs = message.content.split(" ");
       vArgs.shift();
-      const vEmbed = new this.aDiscord.MessageEmbed()
-        .setColor(this.aConfig.Bad)
+      const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+        .setColor(pDiscordBot.aConfig.Bad)
         .setTitle("**⚡🔨SILENCE🔨⚡**")
         .setAuthor(vAuthor.username, vAuthor.displayAvatarURL())
-        .setImage(
-          "https://cdn.discordapp.com/attachments/690978875446132796/702004987269480588/tumblr_p5sgzzfA881sc0ffqo3_540.gif"
-        )
+        .setImage(pDiscordBot.aConfig.ShutUp)
         .setThumbnail(vMember.user.displayAvatarURL())
         .setDescription(
           `${vAuthor}` +
