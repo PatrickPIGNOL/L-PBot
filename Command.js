@@ -62,22 +62,20 @@ class Command {
   mPermissions() {
     return this.aPermissions;
   }
-  mHavePermission(pDiscordBot, pGuild, pAuthor) {
+  mHavePermission(pDiscordBot, pMessage) {
     let vHavePermission = true;
-    if (0 < this.aPermission.length) {
+    if (this.aPermission.length > 0) {
       vHavePermission = false;
-      const vMemberAuthor = pGuild.members.cache.find(
-        member => (member.user.id = pAuthor.id)
-      );
+      const vMemberAuthor = pMessage.member;
       if (vMemberAuthor) {
-        this.aPermission.forEach(vPermission => {
-          if (vMemberAuthor.hasPermission(vPermission)) {
+        this.aPermission.forEach(vPermissionFound => {
+          if (vMemberAuthor.hasPermission(vPermissionFound)) {
             return true;
           }
         });
       } else {
         console.log("Erreur pas d'auteur pour le message");
-        return vHavePermission;
+        return false;
       }
     }
     return vHavePermission;
@@ -101,33 +99,22 @@ class Command {
     return this.aCooldown();
   }
   async mExecute(pDiscordBot, message, args) {
-    if (this.aPermissions.length > 0) {
-      const vMember = message.guild.members.cache.find(
-        vMember => vMember.user.id === message.author.id
-      );
-      let vAuthorHavePermission = false;
-      this.aPermissions.forEach(vPermission => {
-        if (vMember.hasPermission(vPermission)) {
-          vAuthorHavePermission = true;
-        }
-      });
-      if (!vAuthorHavePermission) {
-        const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
-          .setAuthor(
-            pDiscordBot.aClient.user.username,
-            pDiscordBot.aClient.user.displayAvatarURL(),
-            pDiscordBot.aConfig.URL
-          )
-          .setTitle("**Erreur**")
-          .setColor(pDiscordBot.aConfig.Bad)
-          .setThumbnail(message.author.displayAvatarURL())
-          .setDescription(
-            "Vous n'avez pas la permission d'executer cette commande."
-          );
-        message.reply(vEmbed);
-        message.delete();
-        return;
-      }
+    if (!this.mHavePermission(pDiscordBot, message)) {
+      const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+        .setAuthor(
+          pDiscordBot.aClient.user.username,
+          pDiscordBot.aClient.user.displayAvatarURL(),
+          pDiscordBot.aConfig.URL
+        )
+        .setTitle("**Erreur**")
+        .setColor(pDiscordBot.aConfig.Bad)
+        .setThumbnail(message.author.displayAvatarURL())
+        .setDescription(
+          "Vous n'avez pas la permission d'executer cette commande."
+        );
+      message.reply(vEmbed);
+      message.delete();
+      return;
     }
     if (this.aMentions > message.mentions.members.length) {
       const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
