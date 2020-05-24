@@ -1,10 +1,7 @@
-class OnRoleCreate {
+const OnEvent = require("../OnEvent.js");
+class OnRoleCreate extends OnEvent {
   constructor() {
-    this.aEventName = "roleCreate";
-  }
-
-  mEventName() {
-    return this.aEventName;
+    super("roleCreate");
   }
 
   async mExecute(pDiscordBot, ...args) {

@@ -4,10 +4,6 @@ class OnGuildDelete extends OnEvent {
     super("guildDelete");
   }
 
-  mEventName() {
-    return this.aEventName;
-  }
-
   async mExecute(pDiscordBot, ...args) {
     const guild = args[0];
     await this.mOnGuildDelete(pDiscordBot, guild);

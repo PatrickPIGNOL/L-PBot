@@ -11,8 +11,6 @@ const listener = app.listen(process.env.PORT, () => {
 
 function mHTMLHeader() {
   var vHTML =
-    "<!-- This is a static file -->" +
-    "<!-- served from your routes in server.js -->" +
     "<!DOCTYPE html>" +
     "<html lang='fr'>" +
     "<head>" +

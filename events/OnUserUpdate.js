@@ -1,10 +1,7 @@
-class OnUserUpdate {
+const OnEvent = require("../OnEvent.js");
+class OnUserUpdate extends OnEvent {
   constructor() {
-    this.aEventName = "userUpdate";
-  }
-
-  mEventName() {
-    return this.aEventName;
+    super("userUpdate");
   }
 
   async mExecute(pDiscordBot, ...args) {

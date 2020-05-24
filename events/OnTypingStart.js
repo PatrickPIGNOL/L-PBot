@@ -1,10 +1,7 @@
-class OnTypingStart {
+const OnEvent = require("../OnEvent.js");
+class OnTypingStart extends OnEvent {
   constructor() {
-    this.aEventName = "typingStart";
-  }
-
-  mEventName() {
-    return this.aEventName;
+    super("typingStart");
   }
 
   async mExecute(pDiscordBot, ...args) {

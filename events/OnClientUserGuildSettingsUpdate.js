@@ -1,6 +1,7 @@
-class OnClientUserGuildSettingsUpdate {
+const OnEvent = require("../OnEvent.js");
+class OnClientUserGuildSettingsUpdate extends OnEvent {
   constructor() {
-    this.aEventName = "clientUserGuildSettingsUpdate";
+    super("clientUserGuildSettingsUpdate");
   }
   
   mEventName() {

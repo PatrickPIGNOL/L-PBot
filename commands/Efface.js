@@ -6,7 +6,7 @@ class Efface extends Command{
       "efface",
       ["clean", "bulkdelete"],
       [
-        "ADMINISTRATOR"
+        "MANAGE_MESSAGES"
       ],
       1,
       0,

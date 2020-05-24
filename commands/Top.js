@@ -54,10 +54,11 @@ class Top extends Command {
           `#${vRank} - ${vData.Points} points (Niv. ${vData.Level})`,
           `@${vUser.tag}`
         );
-        //embed.setImage(vUser.displayAvatarURL());
         console.log("Field added !");
         vRank++;
       }
+      vData.GuildName = message.guild.name;
+      pDiscordBot.aSQL.setScore.run(vData);
     });
     console.log("loop Finished !");
     message.channel.send(vEmbed);

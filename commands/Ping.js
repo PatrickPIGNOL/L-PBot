@@ -7,8 +7,8 @@ class Ping extends Command {
       [],
       0,
       0,
-      "Commande pour tester l'activité du bot.",
-      'Répond : "Pong!".',
+      "ping",
+      "Commande pour tester l'activité du bot. Répond : 'Pong!'.",
       true,
       0
     );

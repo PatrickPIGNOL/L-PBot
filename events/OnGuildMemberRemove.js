@@ -1,10 +1,7 @@
-class OnGuildMemberRemove {
+const OnEvent = require("../OnEvent.js");
+class OnGuildMemberRemove extends OnEvent {
   constructor() {
-    this.aEventName = "guildMemberRemove";
-  }
-  
-  mEventName() {
-    return this.aEventName;
+    super("guildMemberRemove");
   }
   
   async mExecute(pDiscordBot, ...args) {
@@ -53,7 +50,7 @@ class OnGuildMemberRemove {
         vGuild.owner.user.displayAvatarURL()
       )
       .setColor(pDiscordBot.aConfig.Bad)
-      .setDescription(`Bon vent à toi, ${member}.`)
+      .setDescription(`Bon vents à toi, ${member}.`)
       .setThumbnail(vUser.displayAvatarURL());
     vAccueil.send(vLeaver);
   }

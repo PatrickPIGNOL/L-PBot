@@ -1,10 +1,7 @@
-class OnPresenceUpdate {
+const OnEvent = require("../OnEvent.js");
+class OnPresenceUpdate extends OnEvent {
   constructor() {
-    this.aEventName = "presenceUpdate";
-  }
-  
-  mEventName() {
-    return this.aEventName;
+    super("presenceUpdate");
   }
   
   async mExecute(pDiscordBot, ...args) {

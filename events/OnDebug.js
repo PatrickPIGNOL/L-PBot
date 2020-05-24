@@ -6,11 +6,11 @@ class OnDebug extends OnEvent{
   
   async mExecute(pDiscordBot, ...args) {
     const info = args[0];
-    //await this.mOnDebug(pDiscordBot, info);
+    await this.mOnDebug(pDiscordBot, info);
   }  
   
   async mOnDebug(pDiscordBot, info) {
-    console.log(`debug -> ${info}`);
+    //console.log(`debug -> ${info}`);
   }
 }
 

@@ -6,7 +6,7 @@ class Donne extends Command {
       "donne",
       ["give"],
       ["ADMINISTRATOR"],
-      1,
+      2,
       1,
       "donne <int> @IDPersonne[ @IDPersonne[ ...]]",
       "Donne ou enlève des points de reconnaissances à une ou plusieurs personnes",

@@ -1,10 +1,7 @@
-class OnMessageReactionAdd {
+const OnEvent = require("../OnEvent.js");
+class OnMessageReactionAdd extends OnEvent {
   constructor() {
-    this.aEventName = "messageReactionAdd";
-  }
-
-  mEventName() {
-    return this.aEventName;
+    super("messageReactionAdd");
   }
 
   async mExecute(pDiscordBot, ...args) {

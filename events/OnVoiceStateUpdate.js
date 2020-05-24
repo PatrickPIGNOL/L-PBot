@@ -1,10 +1,7 @@
-class OnVoiceStateUpdate {
+const OnEvent = require("../OnEvent.js");
+class OnVoiceStateUpdate extends OnEvent {
   constructor() {
-    this.aEventName = "voiceStateUpdate";
-  }
-
-  mEventName() {
-    return this.aEventName;
+    super("voiceStateUpdate");
   }
 
   async mExecute(pDiscordBot, ...args) {

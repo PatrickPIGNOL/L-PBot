@@ -1,10 +1,7 @@
-class OnRoleDelete {
+const OnEvent = require("../OnEvent.js");
+class OnRoleDelete extends OnEvent {
   constructor() {
-    this.aEventName = "roleDelete";
-  }
-
-  mEventName() {
-    return this.aEventName;
+    super("roleDelete");
   }
 
   async mExecute(pDiscordBot, ...args) {
