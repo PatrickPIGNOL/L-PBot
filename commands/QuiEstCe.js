@@ -15,10 +15,39 @@ class QuiEstCe extends Command {
     );
   }
   mExecute(pDiscordBot, message, args) 
-  {
-    super.mExecute(pDiscordBot, message, args);
+  {    
+    super.mExecute(pDiscordBot, message, args);    
     const vMember = message.mentions.members.first();
     const vUser = vMember.user;    
+    let vEconomy = pDiscordBot.mSQL().get
+    let vReconnaissance = pDiscordBot.aSQL.getReconnaissances.get(
+      message.guild.id,
+      vUser.id
+    );
+    if (!vReconnaissance) {
+      vReconnaissance = {
+        GuildID: message.guild.id,
+        GuildName: message.guild.name,
+        MemberID: vUser.id,
+        MemberTag: vUser.tag,
+        Points: 0,
+        Level: 0
+      };
+    }
+    let vParticipation = pDiscordBot.aSQL.getParticipations.get(
+      message.guild.id,
+      vUser.id
+    );
+    if (!vParticipation) {
+      vParticipation = {
+        GuildID: message.guild.id,
+        GuildName: message.guild.name,
+        MemberID: vUser.id,
+        MemberTag: vUser.tag,
+        Points: 0,
+        Level: 0
+      };
+    }
     const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
       .setAuthor(
         pDiscordBot.aClient.user.username,
@@ -26,19 +55,29 @@ class QuiEstCe extends Command {
         pDiscordBot.aConfig.URL
       )
       .setTitle(vUser.username)
-      .setColor(pDiscordBot.aConfig.Log)
+      .setColor(pDiscordBot.aConfig.Good)
       .setThumbnail(vUser.displayAvatarURL())
       .addFields(
-        { name: "ID :", value: `${vUser.id}`, inline: true },
-        { name: "Name :", value: `${vUser.username}`, inline: true },
-        { name: "Tag :", value: `@${vUser.tag}`, inline: true },
+        { name: "ID :", value: `${vUser.id}`, inline: false },
+        { name: "Name :", value: `${vUser.username}`, inline: false },
+        { name: "Tag :", value: `@${vUser.tag}`, inline: false },
         {
           name: "Date de création :",
           value: `${vUser.createdAt}`,
-          inline: true
+          inline: false
+        },
+        {
+          name: "Points de Reconnaissances :",
+          value: `Points : ${vReconnaissance.Points}\nNiveau : ${vReconnaissance.Level}\n Prochain niveau à ${(vReconnaissance.Level+1)*(vReconnaissance.Level+1)} points`,
+          inline: false
+        },
+        {
+          name: "Points de Participations :",
+          value: `Points : ${vParticipation.Points}\nNiveau : ${vParticipation.Level}\n Prochain niveau à ${(vParticipation.Level+1)*(vParticipation.Level+1)} points`,
+          inline: false
         }
       );
-    message.channel.send(vEmbed);
+    message.reply(vEmbed);
     message.delete();
   }
 }

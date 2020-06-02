@@ -1,14 +1,14 @@
 const Command = require("../Command.js");
-class Donne extends Command {
+class Reconnaissance extends Command {
   constructor() 
   {
     super(
-      "donne",
-      ["give"],
+      "participation",
+      ["part"],
       ["ADMINISTRATOR"],
+      2,
       1,
-      1,
-      "donne <int> @IDPersonne[ @IDPersonne[ ...]]",
+      "Participation <[+|-]int> @IDPersonne[ @IDPersonne[ ...]]",
       "Donne ou enlève des points de reconnaissances à une ou plusieurs personnes",
       true,
       0
@@ -33,12 +33,12 @@ class Donne extends Command {
       message.delete();
       return;
     }    
-    const vPoints = parseInt(vArgs[1]);
+    const vPoints = parseInt(vArgs[1]);   
     message.mentions.members.forEach(vMember => {
-      var vUser = vMember.user;
-      var vScore = pDiscordBot.aSQL.getScore.get(message.guild.id, vUser.id);
-      if (!vScore) {
-        vScore = {
+      let vUser = vMember.user;
+      let vParticipation = pDiscordBot.mSQL().getParticipations.get(message.guild.id, vUser.id);
+      if (!vParticipation) {
+        vParticipation = {
           GuildID: message.guild.id,
           GuildName: message.guild.name,
           MemberID: vUser.id,
@@ -47,28 +47,28 @@ class Donne extends Command {
           Level: 1
         };
       } else {
-        vScore.MemberTag = vUser.tag;
+        vParticipation.MemberTag = vUser.tag;
       }
-      vScore.GuildName = message.guild.name;
+      vParticipation.GuildName = message.guild.name; 
+      let vColor;
       if (vPoints < 0) {
         vColor = pDiscordBot.aConfig.Bad;
       } else {
         vColor = pDiscordBot.aConfig.Good;
       }
-      vScore.Points += vPoints;
-      var vColor;
-      var vMessage = `${message.author} a donné à ${vMember} ${vPoints} point de Reconnaissance soit un total de ${vScore.Points}.\n`;
-      const vLevel = Math.floor(Math.sqrt(vScore.Points));
-      if (vScore.Level != vLevel) {
+      vParticipation.Points += vPoints;
+      let vMessage = `${message.author} a donné à ${vMember} ${vPoints} point de Participation soit un total de ${vParticipation.Points}.\n`;
+      const vLevel = Math.floor(Math.sqrt(vParticipation.Points));
+      if (vParticipation.Level != vLevel) {
         vMessage += `${vUser} est passé au niveau ${vLevel}.\n`;
-        if (vScore.Level < vLevel) {
+        if (vParticipation.Level < vLevel) {
           vMessage += `:tada::confetti_ball: Félicitations ! :confetti_ball::tada:\n`;
         } else {
           vMessage += `:sob::scream: Vous avez été rétrogradé ! :scream::sob:\n`;
         }
       }
-      vScore.Level = vLevel;
-      pDiscordBot.aSQL.setScore.run(vScore);
+      vParticipation.Level = vLevel;
+      pDiscordBot.aSQL.setParticipations.run(vParticipation);
       const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
         .setColor(vColor)
         .setAuthor(
@@ -76,7 +76,7 @@ class Donne extends Command {
           pDiscordBot.aClient.user.displayAvatarURL(),
           pDiscordBot.aConfig.URL
         )
-        .setTitle("**Modification des points de reconnaissance**")
+        .setTitle("**Modification des points de participations**")
         .setThumbnail(vUser.displayAvatarURL())
         .setDescription(vMessage);
       message.channel.send(vEmbed);
@@ -85,4 +85,4 @@ class Donne extends Command {
   }
 }
 
-module.exports = new Donne();
+module.exports = new Reconnaissance();

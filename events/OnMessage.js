@@ -1,10 +1,7 @@
-class OnMessage {
+const OnEvent = require("../OnEvent.js");
+class OnMessage extends OnEvent {
   constructor() {
-    this.aEventName = "message";
-  }
-
-  mEventName() {
-    return this.aEventName;
+    super("message");
   }
 
   async mExecute(pDiscordBot, ...args) {
@@ -30,10 +27,27 @@ class OnMessage {
       console.log("message is a bot message. Returning.");
       return;
     }
-
+    if(message.mentions.has(pDiscordBot.mClient().user))
+    {
+      const vEmbed = new pDiscordBot.Discord.MessageEmbed()
+        .setAuthor(
+          pDiscordBot.aClient.user.username,
+          pDiscordBot.aClient.user.displayAvatarURL(),
+          pDiscordBot.aConfig.URL
+        )
+        .setColor(pDiscordBot.aConfig.Good)
+        .setTitle(`Bonjour`)
+        .setDescription(`Bonjour à toi ${message.author}.\nTu ne sais pas comment m'appeler ? C'est pourtant simple...\nMon préfixe est : **${pDiscordBot.mConfig().Prefix}**\nPour avoir la liste des commandes disponibles il faut donc que tu tape "**${pDiscordBot.mConfig().Prefix}aide**".\nVoila c'est pas plus compliqué que ça...`)
+        .setThumbnail(message.author.displayAvatarURL());
+      message.reply(vEmbed);
+      message.delete();
+      return;
+    }
     this.mRemerciements(pDiscordBot, message);
 
     if (!message.content.startsWith(pDiscordBot.aConfig.Prefix)) {
+      this.mRaids(pDiscordBot, message);
+      this.mParticipation(pDiscordBot, message);
       console.log("message is not a command. Returning.");
       return;
     }
@@ -56,64 +70,150 @@ class OnMessage {
     }
   }
 
-  mRemerciements(pDiscordBot, message) {
-    const vArgs = message.content.slice().split(/ +/);
-    vArgs.forEach(vArg => {
-      if (
-        vArg.toLowerCase().startsWith("merci") ||
-        vArg.toLowerCase().startsWith("remerci") ||
-        vArg.toLowerCase().startsWith("remercie") ||
-        vArg.toLowerCase() === "thanks" ||
-        vArg.toLowerCase() === "thank" ||
-        vArg.toLowerCase() === "thx" ||
-        vArg.toLowerCase() === "thank's"
-      ) {
-        console.log("remerciements détectés");
-        message.mentions.members.forEach(vMember => {
-          console.log(vMember);
-          const vUser = vMember.user;
-          console.log(`utilisateur @${vUser.tag} (${vUser.id}) détecté.`);
-          if (!vUser.bot) {
-            if (message.author !== vUser) {
-              var vScore;
-              if (message.guild) {
-                vScore = pDiscordBot.aSQL.getScore.get(
-                  message.guild.id,
-                  vUser.id
-                );
-                if (!vScore) {
-                  vScore = {
-                    GuildID: message.guild.id,
-                    GuildName: message.guild.name,
-                    MemberID: vUser.id,
-                    MemberTag: vUser.tag,
-                    Points: 0,
-                    Level: 0
-                  };
-                }
-                vScore.Points++;
-                console.log(vScore);
-                var vMessage = `${message.author} a donné à ${vUser} +1 point de Reconnaissance soit un total de ${vScore.Points}.\n`;
-                const vLevel = Math.floor(Math.sqrt(vScore.Points));
-                if (vScore.Level < vLevel) {
-                  vScore.Level = vLevel;
-                  vMessage += `${vUser} est passé au niveau supérieur soit le niveau ${vScore.Level}.\n:tada::confetti_ball: Félicitations ! :confetti_ball::tada:\n`;
-                }
-                console.log(vScore);
-                const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
-                  .setColor(pDiscordBot.aConfig.Good)
-                  .setTitle("**Reconnaissance**")
-                  .setAuthor(
-                    message.author.username,
-                    message.author.displayAvatarURL()
-                  )
-                  .setDescription(vMessage)
-                  .setThumbnail(vUser.displayAvatarURL());
-                message.channel.send(vEmbed);
-                pDiscordBot.aSQL.setScore.run(vScore);
-              }
-            }
+  mRaids(pDiscordBot, message)
+  {
+    if(message.guild)
+    {      
+      let vRaid = pDiscordBot.mSQL().getRaids.get(message.guild.id, message.author.id, message.content);
+      if(!vRaid)
+      {
+        vRaid = {
+          GuildID : message.guild.id,
+          GuildName : message.guild.name,
+          MemberID : message.author.id,
+          MemberTag : message.author.tag,
+          Message : message.content,
+          Number : 0, 
+          Date : Date.now()
+        }
+      }
+      if(Date.now() - vRaid.Date < 300000)
+      {          
+        vRaid.Number++;
+      }        
+      else
+      {
+        vRaid.Number = 1;
+      }
+      vRaid.Date = Date.now();
+      pDiscordBot.mSQL().setRaids.run(vRaid); 
+      if(vRaid.Number > 4)
+      { 
+        if(message.author.id !== message.guild.owner.user.id)
+        {
+          if(message.member)
+          {
+            message.member.ban({days: 1, reason: "Auto-Ban : Raider detected."});
           }
+          else
+          {            
+            const vMember = message.guild.members.cache.find(vUserFound => vUserFound.id === message.author.id);
+            vMember.ban({days: 1, reason: "Auto-Ban : Raider detected"});
+          }
+        }
+      }
+      const vRaids = pDiscordBot.mSQL().prepare("SELECT rowid, * FROM raids WHERE GuildID == ? ORDER BY Date DESC").all(message.guild.id);
+      vRaids.forEach(vData => {        
+        if(Date.now() - vData.Date > 300000)
+        {
+          pDiscordBot.mSQL().prepare(
+            "DELETE FROM raids WHERE rowid == ?"
+          ).run(vData.rowid);
+        }
+      });
+    }
+  }
+  
+  mParticipation(pDiscordBot, message)
+  {
+    let vParticipation;
+    if (message.guild) 
+    {
+      vParticipation = pDiscordBot.mSQL().getParticipations.get(
+        message.guild.id,
+        message.author.id
+      );
+      if (!vParticipation) {
+        vParticipation = {
+          GuildID: message.guild.id,
+          GuildName: message.guild.name,
+          MemberID: message.author.id,
+          MemberTag: message.author.tag,
+          Points: 0,
+          Level: 0
+        };
+      }
+      vParticipation.Points++;
+      const vLevel = Math.floor(Math.sqrt(vParticipation.Points));
+      if (vParticipation.Level < vLevel) 
+      {
+        vParticipation.Level = vLevel;
+        let vMessage = `${message.author} à un total de ${vParticipation.Points} points de Participation et est passé au niveau de participation supérieur soit le niveau ${vParticipation.Level}.\n:tada::confetti_ball: Félicitations ! :confetti_ball::tada:\n`;
+        const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+          .setColor(pDiscordBot.aConfig.Good)
+          .setTitle("**Participation**")
+          .setAuthor(
+            pDiscordBot.mClient().user.username,
+            pDiscordBot.mClient().user.displayAvatarURL()
+          )
+          .setDescription(vMessage)
+          .setThumbnail(message.author.displayAvatarURL());
+        message.channel.send(vEmbed);
+      }     
+      pDiscordBot.mSQL().setParticipations.run(vParticipation);
+    }
+  }
+  
+  mRemerciements(pDiscordBot, message) {
+    const vArgs = message.content.split(/ +/);
+    vArgs.forEach(vArg => {
+      const vWord = vArg.toLowerCase();
+      if (
+        vWord.includes("merci") 
+        ||
+        vWord.includes("thank") 
+        ||
+        vWord.includes("thx")
+      ) {
+        message.mentions.members.forEach(vMember => {
+          const vUser = vMember.user;       
+          if (message.author !== vUser) {
+            let vReconnaissance;
+            if (message.guild) {
+              vReconnaissance = pDiscordBot.mSQL().getReconnaissances.get(
+                message.guild.id,
+                vUser.id
+              );
+              if (!vReconnaissance) {
+                vReconnaissance = {
+                  GuildID: message.guild.id,
+                  GuildName: message.guild.name,
+                  MemberID: vUser.id,
+                  MemberTag: vUser.tag,
+                  Points: 0,
+                  Level: 0
+                };
+              }
+              vReconnaissance.Points++;
+              var vMessage = `${message.author} a donné à ${vUser} +1 point de Reconnaissance soit un total de ${vReconnaissance.Points}.\n`;
+              const vLevel = Math.floor(Math.sqrt(vReconnaissance.Points));
+              if (vReconnaissance.Level < vLevel) {
+                vReconnaissance.Level = vLevel;
+                vMessage += `${vUser} est passé au niveau supérieur soit le niveau ${vReconnaissance.Level}.\n:tada::confetti_ball: Félicitations ! :confetti_ball::tada:\n`;
+              }
+              pDiscordBot.mSQL().setReconnaissances.run(vReconnaissance);
+              const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+                .setColor(pDiscordBot.aConfig.Good)
+                .setTitle("**Reconnaissance**")
+                .setAuthor(
+                  message.author.username,
+                  message.author.displayAvatarURL()
+                )
+                .setDescription(vMessage)
+                .setThumbnail(vUser.displayAvatarURL());
+              message.channel.send(vEmbed);
+            }
+          }          
         });
       }
     });

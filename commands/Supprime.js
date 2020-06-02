@@ -1,6 +1,20 @@
-class Supprime {
+const Command = require("../Command.js");
+class Supprime extends Command{
   constructor() 
   {
+    super(
+      "exclure",
+      ["delete", "clear"],
+      [
+        "MANAGE_MESSAGES"
+      ],
+      1,
+      0,
+      "supprime <nombre-1-99>",
+      "Supprime les messages un par un.",
+      true,
+      0
+    ); 
     this.aName = "supprime";
     this.aAliases = ['delete', 'clear'];
     this.aArgs = true;

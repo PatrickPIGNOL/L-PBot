@@ -1,6 +1,20 @@
-class Sondage {
+const Command = require("../Command.js");
+class Sondage extends Command {
   constructor() 
   {
+    super(
+      "sondage",
+      ["poll"],
+      [
+        "ADMINISTRATOR"
+      ],
+      0,
+      0,
+      "sondage",
+      "Crée un sondage.",
+      true,
+      0
+    ); 
     this.aName = "sondage";
     this.aAliases = ['poll'];
     this.aArgs = true;

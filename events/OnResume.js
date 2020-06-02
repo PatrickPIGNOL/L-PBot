@@ -1,18 +1,19 @@
-class OnResume {
-  constructor() {
-    this.aEventName = "resume";
+const OnEvent = require("../OnEvent.js");
+class OnResume extends OnEvent 
+{
+  constructor() 
+  {
+    super("resume");
   }
 
-  mEventName() {
-    return this.aEventName;
-  }
-
-  async mExecute(pDiscordBot, ...args) {
+  async mExecute(pDiscordBot, ...args) 
+  {
     const replayed = args[0];
     await this.mOnResume(pDiscordBot, replayed);
   }
 
-  async mOnResume(pDiscordBot, replayed) {
+  async mOnResume(pDiscordBot, replayed) 
+  {
     console.log(`whenever a WebSocket resumes, ${replayed} replays`);
   }
 }

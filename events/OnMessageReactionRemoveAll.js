@@ -1,10 +1,7 @@
-class OnMessageReactionRemoveAll {
+const OnEvent = require("../OnEvent.js");
+class OnMessageReactionRemoveAll extends OnEvent {
   constructor() {
-    this.aEventName = "messageReactionRemoveAll";
-  }
-
-  mEventName() {
-    return this.aEventName;
+    super("messageReactionRemoveAll");
   }
 
   async mExecute(pDiscordBot, ...args) {

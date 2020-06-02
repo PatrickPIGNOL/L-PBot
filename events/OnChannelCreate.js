@@ -10,7 +10,7 @@ class OnChannelCreate extends OnEvent {
   }
 
   async mOnChannelCreate(pDiscordBot, channel) {
-    console.log(`channelCreate: ${channel}`);
+    console.log(`channelCreate: #${channel.name}`);
   }
 }
 

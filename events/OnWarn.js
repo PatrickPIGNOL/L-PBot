@@ -1,10 +1,7 @@
-class OnWarn {
+const OnEvent = require("../OnEvent.js");
+class OnWarn extends OnEvent {
   constructor() {
-    this.aEventName = "warn";
-  }
-
-  mEventName() {
-    return this.aEventName;
+    super("warn");
   }
 
   async mExecute(pDiscordBot, ...args) {

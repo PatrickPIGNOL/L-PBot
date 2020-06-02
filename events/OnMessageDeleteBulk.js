@@ -1,15 +1,12 @@
-class OnMessageDelete {
+const OnEvent = require("../OnEvent.js");
+class OnMessageDelete extends OnEvent {
   constructor() {
-    this.aEventName = "messageDeleteBulk";
-  }
-  
-  mEventName() {
-    return this.aEventName;
+    super("messageDeleteBulk");
   }
   
   async mExecute(pDiscordBot, ...args) {
     const messages = args[0];
-    await this.mOnMessageDelete(pDiscordBot, messages);
+    await this.mOnMessageDeleteBulk(pDiscordBot, messages);
   }
   
   async mOnMessageDeleteBulk(pDiscordBot, messages) {

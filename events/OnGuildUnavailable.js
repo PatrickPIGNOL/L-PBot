@@ -1,10 +1,7 @@
-class OnGuildUnavailable {
+const OnEvent = require("../OnEvent.js");
+class OnGuildUnavailable extends OnEvent {
   constructor() {
-    this.aEventName = "guildUnavailable";
-  }
-
-  mEventName() {
-    return this.aEventName;
+    super("guildUnavailable");
   }
 
   async mExecute(pDiscordBot, ...args) {

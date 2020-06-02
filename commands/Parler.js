@@ -1,14 +1,20 @@
-class Parler {
+const Command = require("../Command.js");
+class Parler extends Command {
   constructor() 
   {
-    this.aName = "parler";
-    this.aAliases = ['unmute'];
-    this.aArgs = false;
-    this.aMentions = true;
-    this.aUsage = "+parler <raison + @IDPersonne(s)>";
-    this.aDescription = "Commande d'administration. Rend la parole à une ou plusieurs personne.";
-    this.aGuildOnly = true;
-    this.aCooldown = 5;
+    super(
+      "parler",
+      ["unmute"],
+      [
+        "MUTE_MEMBERS"
+      ],
+      2,
+      1,
+      "parler <raison + @IDPersonne(s)>",
+      "Commande d'administration. Rend la parole à une ou plusieurs personne.",
+      true,
+      0
+    ); 
   }
   mName() {
     return this.aName;

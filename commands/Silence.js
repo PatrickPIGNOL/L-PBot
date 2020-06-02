@@ -1,14 +1,20 @@
-class Silence {
+const Command = require("../Command.js");
+class Silence extends Command{
   constructor() 
   {
-    this.aName = "silence";
-    this.aAliases = ['mute'];
-    this.aArgs = false;
-    this.aMentions = true;
-    this.aUsage = "+silence <raison + @IDPersonne(s)>";
-    this.aDescription = "Commande d'administration. Impose le silence à une ou plusieurs personnes.";
-    this.aGuildOnly = true;
-    this.aCooldown = 5;
+    super(
+      "silence",
+      ["mute"],
+      [
+        "MUTE_MEMBERS"
+      ],
+      2,
+      1,
+      "silence <@IDPersonne [@IDPersonne [...]] + Raison>",
+      "Commande d'administration. Impose le silence à une ou plusieurs personnes.",
+      true,
+      0
+    );
   }
   mName() {
     return this.aName;

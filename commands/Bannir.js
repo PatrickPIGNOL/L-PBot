@@ -5,8 +5,8 @@ class Bannir extends Command {
     super(
       "bannir",
       ["ban"],
-      [
-        "ADMINISTRATOR", // (implicitly has all permissions, and bypasses all channel overwrites) 
+      [        
+        "BAN_MEMBERS"
       ],
       1,
       1,
