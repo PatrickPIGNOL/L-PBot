@@ -15,16 +15,16 @@ class Ping extends Command {
   }
   async mExecute(pDiscordBot, message, args) {
     super.mExecute(pDiscordBot, message, args);
-    const vPong = new pDiscordBot.aDiscord.MessageEmbed()
+    const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
       .setAuthor(
         pDiscordBot.aClient.user.username,
-        pDiscordBot.aClient.user.displayAvatarURL,
+        pDiscordBot.aClient.user.displayAvatarURL(),
         pDiscordBot.aConfig.URL
       )
       .setColor(pDiscordBot.aConfig.Good)
       .setDescription(`Pong !`)
       .setThumbnail(message.author.displayAvatarURL());
-    message.reply(vPong);
+    message.reply(vEmbed);
     message.delete();
   }
 }

@@ -65,11 +65,8 @@ class Command {
   mHavePermission(pDiscordBot, pMessage) 
   {
     let vHavePermission = true;
-    console.log("1");
-    console.log(this.aPermissions)
     if (this.aPermissions && this.aPermissions.length) 
     {
-      console.log("2");
       vHavePermission = false;
       const vMemberAuthor = pMessage.member;
       if (vMemberAuthor) 
@@ -78,7 +75,6 @@ class Command {
         {
           if (vMemberAuthor.hasPermission(vPermissionFound)) 
           {
-            console.log("3");
             vHavePermission = true;            
             return vHavePermission;
           }
@@ -87,12 +83,10 @@ class Command {
       else 
       {
         console.log("Erreur pas d'auteur pour le message");
-        console.log("4");
         vHavePermission = false;
         return vHavePermission;
       }
     }
-    console.log("5");
     return vHavePermission;
   }
   mArgs() {

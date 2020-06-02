@@ -15,7 +15,6 @@ class DiscordBot {
     this.aConfig.token = process.env.TOKEN;
     this.aSQLite = require("better-sqlite3");
     this.aSQL = new this.aSQLite("./discordbot.sqlite");
-    this.aMS = require("ms");
   }
   mLogin() {
     this.aClient.login(this.aConfig.token);
@@ -33,8 +32,8 @@ class DiscordBot {
       });
     }
   }
-  mDiscord() {
-    return this.aDiscord();
+  get Discord() {
+    return this.aDiscord;
   }
   mClient() {
     return this.aClient;

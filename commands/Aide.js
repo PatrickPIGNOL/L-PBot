@@ -10,7 +10,7 @@ class Aide extends Command {
       "aide",
       "Affiche l'aide du bot et toutes ses commandes.",
       true,
-      5
+      0
     );
   }
   mExecute(pDiscordBot, message, args) {

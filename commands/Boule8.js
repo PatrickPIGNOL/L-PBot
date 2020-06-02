@@ -9,7 +9,7 @@ class Boule8 extends Command {
       1,
       0,
       "boule8 <Question fermée ?>",
-      "La boule 🎱 donne à ta question une réponse aléatoire ?",
+      "La boule 🎱 donne à ta question fermée une réponse aléatoire ?",
       true,
       0
     );

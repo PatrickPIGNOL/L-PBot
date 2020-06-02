@@ -25,7 +25,7 @@ class Citer extends Command{
         message.author.username,
         message.author.displayAvatarURL()        
       )
-      .setColor(pDiscordBot.aConfig.Log)
+      .setColor(pDiscordBot.aConfig.Good)
       .setDescription(`${vEmitter.user}` + " à dit : *\"" + args.join(' ') + "\"*")
       .setThumbnail(vEmitter.user.displayAvatarURL());
     message.channel.send(vEmbed);

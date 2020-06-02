@@ -7,7 +7,9 @@ L&PBot Page
 
 [/](https://l-pbot.glitch.me/) An activity page to know if bot is available.
 
-[/points](https://l-pbot.glitch.me/points) A page that show members's classment.
+[/reconnaissance](https://l-pbot.glitch.me/reconnaissance) A page that show members's graceness classment.
+
+[/participation](https://l-pbot.glitch.me/participation) A page that show members's participation classment.
 
 ## Made by [Glitch](https://glitch.com/)
 
