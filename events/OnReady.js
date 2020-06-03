@@ -60,7 +60,7 @@ class OnReady extends OnEvent {
       () => {
         this.mChange(pDiscordBot);
       },
-      900000
+      120000
     );
 
     console.log(`${pDiscordBot.aClient.user.tag} - Je suis en ligne ...`);

@@ -61,12 +61,16 @@ app.get("/", (request, response) => {
   response.send(vHTML);
 });
 
-app.get("/monitor", (request, response) => {
-  while (!LPBot.status === 4) {}
+app.get("/monitor", (request, response) => {  
   let vHTML = mHTMLHeader();
   vHTML += `</H1><img src='${LPBot.mClient().user.displayAvatarURL()}' width='50'>${
       LPBot.mClient().user.username
-    } en ligne ...</H1>`; 
+    } en ligne ...</H1>`+
+    `<script type="text/javascript">`+
+    `setTimeout(()=>{`+
+    `location = 'https://l-pbot.glitch.me/monitor'`+
+    `}, 60000)`+
+    `</script>`;
   vHTML += mHTMLFooter();
   response.send(vHTML);
 });
