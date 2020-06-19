@@ -5,7 +5,9 @@ L&PBot Page
 
 ## A General purpose Discord Bot 
 
-[/](https://l-pbot.glitch.me/) An activity page to know if bot is available.
+[/](https://l-pbot.glitch.me/) An activity page to know if L&PBot is available.
+
+[/monitor](https://l-pbot.glitch.me/monitor) An activity page to know if L&PBot is available designed to be used by [uptimerobot.com](https://uptimerobot.com).
 
 [/reconnaissance](https://l-pbot.glitch.me/reconnaissance) A page that show members's graceness classment.
 

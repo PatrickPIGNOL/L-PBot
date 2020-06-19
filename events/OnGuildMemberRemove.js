@@ -44,15 +44,22 @@ class OnGuildMemberRemove extends OnEvent {
       console.log('channel "accueil-et-départs" not found');
       return;
     }
-    const vLeaver = new pDiscordBot.aDiscord.MessageEmbed()
+    const vMessageRandom = Math.floor(Math.random() * 4);
+    const vMessages = [
+      "Bons vents à toi, ",
+      "Que les vents te soient favorables, ",
+      "Paix et prospérité, ",
+      "Que tes pas te guident vers ton but, "
+    ];
+    const vEmbedLeaver = new pDiscordBot.aDiscord.MessageEmbed()
       .setAuthor(
         vGuild.owner.user.username,
         vGuild.owner.user.displayAvatarURL()
       )
       .setColor(pDiscordBot.aConfig.Bad)
-      .setDescription(`Bon vents à toi, ${member}.`)
+      .setDescription(`${vMessages[vMessageRandom]}${member}.`)
       .setThumbnail(vUser.displayAvatarURL());
-    vAccueil.send(vLeaver);
+    vAccueil.send(vEmbedLeaver);
   }
 }
 

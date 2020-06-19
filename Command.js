@@ -37,7 +37,9 @@ class Command {
     pAliases,
     pPermissions,
     pArgs,
-    pMentions,
+    pMemberMentions,
+    pRoleMentions,
+    pChannelMentions,
     pUsage,
     pDescription,
     pGuildOnly,
@@ -47,7 +49,9 @@ class Command {
     this.aAliases = pAliases;
     this.aPermissions = pPermissions;
     this.aArgs = pArgs;
-    this.aMentions = pMentions;
+    this.aMemberMentions = pMemberMentions;
+    this.aRoleMentions = pRoleMentions;
+    this.aChannelMentions = pChannelMentions;
     this.aUsage = pUsage;
     this.aDescription = pDescription;
     this.aGuildOnly = pGuildOnly;
@@ -84,7 +88,6 @@ class Command {
       {
         console.log("Erreur pas d'auteur pour le message");
         vHavePermission = false;
-        return vHavePermission;
       }
     }
     return vHavePermission;
@@ -92,8 +95,16 @@ class Command {
   mArgs() {
     return this.aArgs;
   }
-  mMentions() {
+  mMemberMentions() {
     return this.aMentions;
+  }
+  mRoleMentions()
+  {
+    return this.aRoleMentions;
+  }
+  mChannelMentions()
+  {
+    return this.aChannelMentions;
   }
   mUsage() {
     return this.aUsage;
@@ -121,11 +132,9 @@ class Command {
         .setDescription(
           "Vous n'avez pas la permission d'executer cette commande."
         );
-      message.reply(vEmbed);
-      message.delete();
-      return;
+      throw vEmbed;
     }
-    if (this.aMentions > message.mentions.members.length) {
+    if (this.aMemberMentions > message.mentions.members.size) {
       const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
         .setAuthor(
           pDiscordBot.aClient.user.username,
@@ -136,13 +145,41 @@ class Command {
         .setColor(pDiscordBot.aConfig.Bad)
         .setThumbnail(message.author.displayAvatarURL())
         .setDescription(
-          `Vous devez mentionner au moins ${this.aMentions} membre(s).`
+          `Vous devez mentionner au moins ${this.aMemberMentions} membre(s).`
         );
-      message.reply(vEmbed);
-      message.delete();
-      return;
+      throw vEmbed;
     }
-    if (this.aArgs > 0 && args.length < this.aArgs) {
+    if (this.aRoleMentions > message.mentions.roles.length) {
+      const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+        .setAuthor(
+          pDiscordBot.aClient.user.username,
+          pDiscordBot.aClient.user.displayAvatarURL(),
+          pDiscordBot.aConfig.URL
+        )
+        .setTitle("**Erreur**")
+        .setColor(pDiscordBot.aConfig.Bad)
+        .setThumbnail(message.author.displayAvatarURL())
+        .setDescription(
+          `Vous devez mentionner au moins ${this.aRoleMentions} rôle(s).`
+        );
+      throw vEmbed;
+    }
+    if (this.aChannelMentions > message.mentions.channels.length) {
+      const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+        .setAuthor(
+          pDiscordBot.aClient.user.username,
+          pDiscordBot.aClient.user.displayAvatarURL(),
+          pDiscordBot.aConfig.URL
+        )
+        .setTitle("**Erreur**")
+        .setColor(pDiscordBot.aConfig.Bad)
+        .setThumbnail(message.author.displayAvatarURL())
+        .setDescription(
+          `Vous devez mentionner au moins ${this.aChannelMentions} salon(s).`
+        );
+      throw vEmbed;
+    }
+    if (this.aArgs > args.length) {
       const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
         .setAuthor(
           pDiscordBot.aClient.user.username,
@@ -155,10 +192,7 @@ class Command {
         .setDescription(
           `Vous devez fournir au moins ${this.aArgs} paramètres !`
         );
-      message.reply(vEmbed);
-      message.delete();
-      message.reply(vEmbed);
-      return;
+      throw vEmbed;
     }
     if (this.aGuildOnly && message.channel.type !== "text") {
       const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
@@ -173,10 +207,7 @@ class Command {
         .setDescription(
           "Je ne peux pas executer cette commande dans un cannal privé !"
         );
-      message.reply(vEmbed);
-      message.delete();
-      message.reply(vEmbed);
-      return message.reply();
+      throw vEmbed;
     }
   }
 }

@@ -10,6 +10,36 @@ class OnGuildMemberAdd extends OnEvent {
   }
 
   async mOnGuildMemberAdd(pDiscordBot, member) {
+    if (member.user.bot) {
+      const vBotAutoroles = pDiscordBot
+        .mSQL()
+        .Database.Autoroles.mGetAutoroles(member.guild.id, "bot");
+      if (vBotAutoroles) {
+        vBotAutoroles.forEach(vBotAutorole => {
+          const vBotRole = member.guild.roles.cache.find(
+            vRoleFound => vRoleFound.id === vBotAutorole.RoleID
+          );
+          if (vBotRole) {
+            member.roles.add(vBotRole, "autorole onGuildMemberAdd");
+          }
+        });
+      }
+    } else {
+      const vUserAutoroles = pDiscordBot
+        .mSQL()
+        .Database.Autoroles.mGetAutoroles(member.guild.id, "user");
+      if (vUserAutoroles) {
+        vUserAutoroles.forEach(vUserAutorole => {
+          const vUserRole = member.guild.roles.cache.find(
+            vRoleFound => vRoleFound.id === vUserAutorole.RoleID
+          );
+          if (vUserRole) {
+            member.roles.add(vUserRole, "autorole onGuildMemberAdd");
+          }
+        });
+      }
+    }
+
     const vUser = member.user;
     const vGuild = member.guild;
     const vCache = vGuild.channels.cache;
@@ -39,7 +69,6 @@ class OnGuildMemberAdd extends OnEvent {
       .setDescription(`Nouvel arrivant sur le serveur : ${vUser}.`)
       .setThumbnail(vUser.displayAvatarURL());
     //vGuild.owner.send(vEmbed);
-    // Do nothing if the channel wasn't found on this server
     if (!vLogs) {
       console.error('channel "logs" not found');
       return;
@@ -80,10 +109,7 @@ class OnGuildMemberAdd extends OnEvent {
       .setDescription(
         `Bienvenu à toi, ${vUser}.\nValide le règlement dans ${vReglement} svp.\nPuis attribue toi des rôles dans ${vRoles}.\nEnfin dis "Bonjour" dans ${vBlabla}.\nSi tu ne sais pas où aller, la ${vFaq} te guidera.`
       )
-      .setThumbnail(vUser.displayAvatarURL())
-      //.setImage(pDiscordBot.aConfig.HelloWorldGreetings)
-    ;
-
+      .setThumbnail(vUser.displayAvatarURL());
     vAccueil.send({
       content: `${vUser}`,
       embed: vNewcomer

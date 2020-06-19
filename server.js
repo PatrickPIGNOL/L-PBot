@@ -48,28 +48,39 @@ function mHTMLFooter() {
 }
 
 app.get("/", (request, response) => {
-  while (!LPBot.status === 4) {}
+//  while (!LPBot.status === 4) {}
   let vHTML = mHTMLHeader();
   if (LPBot && LPBot.mClient() && LPBot.mClient().user) {
     vHTML += `</H1><img src='${LPBot.mClient().user.displayAvatarURL()}' width='50'>${
       LPBot.mClient().user.username
-    } en ligne ...</H1>`;
+    } : en ligne ...</H1>`;
   } else {
     vHTML += `</H1><img src='https://cdn.discordapp.com/avatars/699652839361872002/ffa4f7a78064cf9047c709e48357e495.webp' width='50'>L&PBot : Hors service ...</H1>`;
   }
+  vHTML += `<script type="text/javascript">`+
+    `setTimeout(()=>{`+
+    `location = 'https://l-pbot.glitch.me/'`+
+    `}, 300000)`+
+    `</script>`;
   vHTML += mHTMLFooter();
   response.send(vHTML);
 });
 
-app.get("/monitor", (request, response) => {
-  while (!LPBot.status === 4) {}
+app.get("/monitor", async (request, response) => {
+  let vRandom = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
   let vHTML = mHTMLHeader();
-  vHTML += `</H1><img src='${LPBot.mClient().user.displayAvatarURL()}' width='50'>${
-      LPBot.mClient().user.username
-    } en ligne ...</H1>`; 
+  const vCat = await LPBot.mCat();
+  vHTML += `<img src="${vCat}" width="500"><BR/>${vRandom}`;  
+  vHTML += `<script type="text/javascript">`+
+    `setTimeout(()=>{`+
+    `location = 'https://l-pbot.glitch.me/'`+
+    `}, 300000)`+
+    `</script>`;
   vHTML += mHTMLFooter();
   response.send(vHTML);
 });
+
+
 
 app.get("/reconnaissance", (request, response) => {
   while (!LPBot.status === 4) {}

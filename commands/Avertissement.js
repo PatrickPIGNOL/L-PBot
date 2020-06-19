@@ -6,6 +6,8 @@ class Avertissement extends Command {
       ["warn"],
       ["ADMINISTRATOR", "KICK_MEMBERS", "BAN_MEMBERS"],
       0,
+      1,
+      0,
       0,
       "avertissement @IDPersonne [@IDPersonne[...]] + reason",
       "Met un avertissement à une personne.",
@@ -14,10 +16,16 @@ class Avertissement extends Command {
     );
   }
   async mExecute(pDiscordBot, message, args) {
-    super.mExecute(pDiscordBot, message, args);
-    
-    message.reply();
-    message.delete();
+    super.mExecute(pDiscordBot, message, args).then(() => {
+        message.reply("not implemented");
+        message.delete();
+      })
+      .catch(e => {
+      console.error(e);
+      message.reply(e);
+      message.delete();
+      return;
+    });
   }
 }
 
