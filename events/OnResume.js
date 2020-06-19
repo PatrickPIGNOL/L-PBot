@@ -16,6 +16,6 @@ class OnResume extends OnEvent
   {
     console.log(`whenever a WebSocket resumes, ${replayed} replays`);
   }
-}
+} 
 
 module.exports = new OnResume();

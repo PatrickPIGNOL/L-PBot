@@ -17,7 +17,7 @@ class OnMessageDelete extends OnEvent {
         pDiscordBot.aConfig.URL
       )
       .setTitle("DeleteBulk")
-      .setDescription(`${messages.length} messages ont été supprimés en masse.`)
+      .setDescription(`${messages.size} messages ont été supprimés en masse.`)
       .setColor(pDiscordBot.aConfig.Bad);    
     const vLogs = pDiscordBot.aClient.guilds.cache
       .first()

@@ -29,18 +29,43 @@ class OnMessage extends OnEvent {
     }
     if(message.mentions.has(pDiscordBot.mClient().user))
     {
-      const vEmbed = new pDiscordBot.Discord.MessageEmbed()
-        .setAuthor(
-          pDiscordBot.aClient.user.username,
-          pDiscordBot.aClient.user.displayAvatarURL(),
-          pDiscordBot.aConfig.URL
-        )
-        .setColor(pDiscordBot.aConfig.Good)
-        .setTitle(`Bonjour`)
-        .setDescription(`Bonjour à toi ${message.author}.\nTu ne sais pas comment m'appeler ? C'est pourtant simple...\nMon préfixe est : **${pDiscordBot.mConfig().Prefix}**\nPour avoir la liste des commandes disponibles il faut donc que tu tape "**${pDiscordBot.mConfig().Prefix}aide**".\nVoila c'est pas plus compliqué que ça...`)
-        .setThumbnail(message.author.displayAvatarURL());
-      message.reply(vEmbed);
-      message.delete();
+      /*
+      const vArgs = message.content.split(/ +/);
+      console.log(vArgs);
+      vArgs.shift();
+      if(vArgs.length)
+      {
+        const vCommandName = vArgs.shift().toLowerCase();
+        const vCommand =
+        pDiscordBot.aClient.commands.get(vCommandName) ||
+        pDiscordBot.aClient.commands.find(
+          vCommandFound =>
+            vCommandFound.mAliases() &&
+            vCommandFound.mAliases().includes(vCommandName)
+        );
+        console.log(vCommand);
+        console.log(vArgs);
+        
+        if (vCommand) {
+          vCommand.mExecute(pDiscordBot, message, vArgs);
+        }
+      }
+      else
+      {
+        */
+        const vEmbed = new pDiscordBot.Discord.MessageEmbed()
+          .setAuthor(
+            pDiscordBot.aClient.user.username,
+            pDiscordBot.aClient.user.displayAvatarURL(),
+            pDiscordBot.aConfig.URL
+          )
+          .setColor(pDiscordBot.aConfig.Good)
+          .setTitle(`Bonjour`)
+          .setDescription(`Bonjour à toi ${message.author}.\nTu ne sais pas comment m'appeler ? C'est pourtant simple...\nMon préfixe est : **${pDiscordBot.mConfig().Prefix}**\nPour avoir la liste des commandes disponibles il faut donc que tu tape "**${pDiscordBot.mConfig().Prefix}aide**".\nVoila c'est pas plus compliqué que ça...`)
+          .setThumbnail(message.author.displayAvatarURL());
+        message.reply(vEmbed);
+        message.delete();       
+      //}  
       return;
     }
     this.mRemerciements(pDiscordBot, message);
@@ -71,10 +96,10 @@ class OnMessage extends OnEvent {
   }
 
   mRaids(pDiscordBot, message)
-  {
+  { 
     if(message.guild)
-    {      
-      let vRaid = pDiscordBot.mSQL().getRaids.get(message.guild.id, message.author.id, message.content);
+    {
+      let vRaid = pDiscordBot.mSQL().Database.Raids.mGetRaids(message.guild.id, message.author.id, message.content);
       if(!vRaid)
       {
         vRaid = {
@@ -96,7 +121,7 @@ class OnMessage extends OnEvent {
         vRaid.Number = 1;
       }
       vRaid.Date = Date.now();
-      pDiscordBot.mSQL().setRaids.run(vRaid); 
+      pDiscordBot.mSQL().Database.Raids.mSetRaids(vRaid); 
       if(vRaid.Number > 4)
       { 
         if(message.author.id !== message.guild.owner.user.id)
@@ -112,13 +137,12 @@ class OnMessage extends OnEvent {
           }
         }
       }
-      const vRaids = pDiscordBot.mSQL().prepare("SELECT rowid, * FROM raids WHERE GuildID == ? ORDER BY Date DESC").all(message.guild.id);
-      vRaids.forEach(vData => {        
+      const vRaids = pDiscordBot.mSQL().Database.Raids.mGetAllRaids(message.guild.id);
+      vRaids.forEach(vData => 
+      {        
         if(Date.now() - vData.Date > 300000)
         {
-          pDiscordBot.mSQL().prepare(
-            "DELETE FROM raids WHERE rowid == ?"
-          ).run(vData.rowid);
+          pDiscordBot.mSQL().Database.Raids.mDelRaids(vData.rowid);
         }
       });
     }
@@ -154,7 +178,8 @@ class OnMessage extends OnEvent {
           .setTitle("**Participation**")
           .setAuthor(
             pDiscordBot.mClient().user.username,
-            pDiscordBot.mClient().user.displayAvatarURL()
+            pDiscordBot.mClient().user.displayAvatarURL(),
+            pDiscordBot.mConfig().URL
           )
           .setDescription(vMessage)
           .setThumbnail(message.author.displayAvatarURL());
@@ -169,11 +194,13 @@ class OnMessage extends OnEvent {
     vArgs.forEach(vArg => {
       const vWord = vArg.toLowerCase();
       if (
-        vWord.includes("merci") 
+        vWord.includes("merci")
         ||
-        vWord.includes("thank") 
+        vWord.includes("thank")
         ||
         vWord.includes("thx")
+        ||
+        vWord.includes("gracia")
       ) {
         message.mentions.members.forEach(vMember => {
           const vUser = vMember.user;       

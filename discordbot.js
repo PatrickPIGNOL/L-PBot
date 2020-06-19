@@ -1,3 +1,5 @@
+const fetch = require('node-fetch');
+const Database = require("./tables/Database.js");
 class DiscordBot {
   constructor() {
     this.aFS = require("fs");
@@ -16,6 +18,18 @@ class DiscordBot {
     this.aSQLite = require("better-sqlite3");
     this.aSQL = new this.aSQLite("./discordbot.sqlite");
   }
+  async mCat()
+  {
+    const vCat = await fetch('https://aws.random.cat/meow').then(response => response.json());
+    this
+      .mClient()
+      .guilds.cache.find(
+        vGuildFound => vGuildFound.name === "Logique & Programmation"
+      )
+      .channels.cache.find(vChannelFound => vChannelFound.name === "chats")
+      .send(vCat.file);
+    return vCat.file;
+  }
   mLogin() {
     this.aClient.login(this.aConfig.token);
 
@@ -31,6 +45,7 @@ class DiscordBot {
         vEvent.mExecute(this, ...args);
       });
     }
+    this.aSQL.Database = new Database(this.aSQL);
   }
   get Discord() {
     return this.aDiscord;
