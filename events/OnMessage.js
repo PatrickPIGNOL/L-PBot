@@ -153,7 +153,7 @@ class OnMessage extends OnEvent {
     let vParticipation;
     if (message.guild) 
     {
-      vParticipation = pDiscordBot.mSQL().getParticipations.get(
+      vParticipation = pDiscordBot.mSQL().Database.Participations.mGetParticipations(
         message.guild.id,
         message.author.id
       );
@@ -185,7 +185,7 @@ class OnMessage extends OnEvent {
           .setThumbnail(message.author.displayAvatarURL());
         message.channel.send(vEmbed);
       }     
-      pDiscordBot.mSQL().setParticipations.run(vParticipation);
+      pDiscordBot.mSQL().Database.Participations.mSetParticipations(vParticipation);
     }
   }
   

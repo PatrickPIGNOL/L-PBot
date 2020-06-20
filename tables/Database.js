@@ -1,6 +1,8 @@
 const AutorolesTable = require("./AutorolesTable.js");
 const MembersTable = require("./MembersTable.js");
 const RaidsTable = require("./RaidsTable.js");
+const ParticipationsTable = require("./ParticipationsTable.js");
+const EconomyTable = require("./EconomyTable.js");
 class Database
 {
   constructor(pSQL)
@@ -11,6 +13,10 @@ class Database
     this.aMembers.mCreate();
     this.aRaids = new RaidsTable(pSQL);
     this.aRaids.mCreate();
+    this.aParticipations = new ParticipationsTable(pSQL);
+    this.aParticipations.mCreate();
+    this.aEconomy = new EconomyTable(pSQL);
+    this.aEconomy.mCreate();
   }
   get Autoroles()
   {
@@ -23,6 +29,14 @@ class Database
   get Raids()
   {
     return this.aRaids;
+  }
+  get Participations()
+  {
+    return this.aParticipations;
+  }
+  get Economy()
+  {
+    return this.aEconomy;
   }
 }
 
