@@ -105,20 +105,6 @@ class OnReady extends OnEvent {
         "CREATE TABLE IF NOT EXISTS RoleMenuCommand (GuildID TEXT, GuildName TEXT, RoleMenuID INTEGER REFERENCES RoleMenu(rowid) ON UPDATE CASCADE ON DELETE CASCADE, RoleCommandID INTEGER REFERENCES RoleCommand(rowid) ON UPDATE CASCADE ON DELETE CASCADE, Emoji TEXT, PRIMARY KEY (GuildID, RoleMenuID, RoleCommandID));"
       )
       .run();
-    
-    
-    pDiscordBot
-      .mSQL()
-      .prepare(
-        "CREATE TABLE IF NOT EXISTS participations (GuildID TEXT, GuildName TEXT, MemberID TEXT, MemberTag TEXT, Points INTEGER, Level INTEGER, PRIMARY KEY (GuildID, MemberID));"
-      )
-      .run();
-    pDiscordBot
-      .mSQL()
-      .prepare(
-        "CREATE TABLE IF NOT EXISTS economy (GuildID TEXT, GuildName TEXT, MemberID TEXT, MemberTag TEXT, Money DOUBLE, Date DOUBLE, PRIMARY KEY (GuildID, MemberID));"
-      )
-      .run();
     pDiscordBot
       .mSQL()
       .prepare(
@@ -131,8 +117,6 @@ class OnReady extends OnEvent {
         "CREATE TABLE IF NOT EXISTS reconnaissances (GuildID TEXT, GuildName TEXT, MemberID TEXT, MemberTag TEXT, Points INTEGER, Level INTEGER, PRIMARY KEY (GuildID, MemberID));"
       )
       .run();
-    
-    
     pDiscordBot.mSQL().getReconnaissances = pDiscordBot
       .mSQL()
       .prepare(
@@ -143,17 +127,6 @@ class OnReady extends OnEvent {
       .prepare(
         "INSERT OR REPLACE INTO reconnaissances (GuildID, GuildName, MemberID, MemberTag, Points, Level) VALUES (@GuildID, @GuildName, @MemberID, @MemberTag, @Points, @Level)"
       );
-    pDiscordBot.mSQL().getParticipations = pDiscordBot
-      .mSQL()
-      .prepare(
-        "SELECT * FROM participations WHERE GuildID = ? AND MemberID = ? ORDER BY Points DESC"
-      );
-    pDiscordBot.mSQL().setParticipations = pDiscordBot
-      .mSQL()
-      .prepare(
-        "INSERT OR REPLACE INTO participations (GuildID, GuildName, MemberID, MemberTag, Points, Level) VALUES (@GuildID, @GuildName, @MemberID, @MemberTag, @Points, @Level)"
-      );
-    
     pDiscordBot.mSQL().getWarns = pDiscordBot
       .mSQL()
       .prepare(
@@ -164,16 +137,7 @@ class OnReady extends OnEvent {
       .prepare(
         "INSERT OR REPLACE INTO warns (GuildID, GuildName, MemberID, MemberTag, Date, Reason) VALUES (@GuildID, @GuildName, @MemberID, @MemberTag, @Date, @Reason)"
       );
-    pDiscordBot.mSQL().getEconomy = pDiscordBot
-      .mSQL()
-      .prepare(
-        "SELECT * FROM economy WHERE GuildID = ? AND MemberID = ? ORDER BY MemberTag ASC"
-      );
-    pDiscordBot.mSQL().setEconomy = pDiscordBot
-      .mSQL()
-      .prepare(
-        "INSERT OR REPLACE INTO economy (GuildID, GuildName, MemberID, MemberTag, Money, Date) VALUES (@GuildID, @GuildName, @MemberID, @MemberTag, @Money, @Date)"
-      );
+    
     pDiscordBot.mSQL().pragma("synchronous = 1");
     pDiscordBot.mSQL().pragma("journal_mode = persist");
     pDiscordBot.mSQL().pragma("foreign_keys = ON");

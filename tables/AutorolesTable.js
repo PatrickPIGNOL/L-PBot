@@ -13,7 +13,7 @@ class AutorolesTable extends Table
       )
       .run();
   }
-  mDrop()
+  mDrop() 
   {
     this.SQL
       .prepare(

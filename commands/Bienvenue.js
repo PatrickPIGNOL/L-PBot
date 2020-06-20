@@ -22,7 +22,7 @@ class Bienvenue extends Command {
       .mExecute(pDiscordBot, message, args)
       .then(() => {
         const vMember = message.mentions.members.size;
-        if (this.mMentions() > vMember) {
+        if (this.mMemberMentions() > vMember) {
           const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
             .setAuthor(
               pDiscordBot.aClient.user.username,

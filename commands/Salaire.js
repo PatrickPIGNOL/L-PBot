@@ -21,7 +21,7 @@ class Salaire extends Command {
       .mExecute(pDiscordBot, message, args)
       .then(() => {
         console.log("0");
-        let vParticipation = pDiscordBot.aSQL.getParticipations.get(
+        let vParticipation = pDiscordBot.aSQL.Database.Participations.mGetParticipations(
           message.guild.id,
           message.author.id
         );
@@ -35,7 +35,7 @@ class Salaire extends Command {
             Level: 0
           };
         }
-        let vReconnaissance = pDiscordBot.aSQL.getReconnaissances.get(
+        let vReconnaissance = pDiscordBot.mSQL().getReconnaissances.get(
           message.guild.id,
           message.author.id
         );
@@ -49,7 +49,7 @@ class Salaire extends Command {
             Level: 0
           };
         }
-        let vEconomy = pDiscordBot.aSQL.getEconomy.get(
+        let vEconomy = pDiscordBot.aSQL.Database.Economy.mGetEconomy(
           message.guild.id,
           message.author.id
         );
@@ -88,9 +88,9 @@ class Salaire extends Command {
           console.log(vSalaire);
           vEconomy.Money += vSalaire;
           vEconomy.Date = Date.now();
-          pDiscordBot.aSQL.setEconomy.run(vEconomy);
+          pDiscordBot.aSQL.Database.Economy.mSetEconomy(vEconomy);
           const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
-            .setAuthor(
+            .setAuthor( 
               pDiscordBot.aClient.user.username,
               pDiscordBot.aClient.user.displayAvatarURL(),
               pDiscordBot.aConfig.URL
