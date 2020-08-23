@@ -39,8 +39,7 @@ class Reconnaissance extends Command {
         message.mentions.members.forEach(vMember => {
           let vUser = vMember.user;
           let vReconnaissance = pDiscordBot
-            .mSQL()
-            .getReconnaissances.get(message.guild.id, vUser.id);
+            .mSQL().Database.Reconnaissances.mGetReconnaissances(message.guild.id, vUser.id);
           if (!vReconnaissance) {
             vReconnaissance = {
               GuildID: message.guild.id,
@@ -72,7 +71,7 @@ class Reconnaissance extends Command {
             }
           }
           vReconnaissance.Level = vLevel;
-          pDiscordBot.aSQL.setReconnaissances.run(vReconnaissance);
+          pDiscordBot.aSQL.Database.Reconnaissances.mSetReconnaissances(vReconnaissance);
           const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
             .setColor(vColor)
             .setAuthor(

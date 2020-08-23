@@ -5,11 +5,13 @@ const express = require("express");
 const app = express();
 app.use(express.static("public"));
 
-const listener = app.listen(process.env.PORT, () => {
+const listener = app.listen(process.env.PORT, () => 
+{
   console.log("Your app is listening on port " + listener.address().port);
 });
 
-function mHTMLHeader() {
+function mHTMLHeader() 
+{
   var vHTML =
     "<!DOCTYPE html>" +
     "<html lang='fr'>" +
@@ -57,20 +59,16 @@ app.get("/", (request, response) => {
   } else {
     vHTML += `</H1><img src='https://cdn.discordapp.com/avatars/699652839361872002/ffa4f7a78064cf9047c709e48357e495.webp' width='50'>L&PBot : Hors service ...</H1>`;
   }
-  vHTML += `<script type="text/javascript">`+
-    `setTimeout(()=>{`+
-    `location = 'https://l-pbot.glitch.me/'`+
-    `}, 300000)`+
-    `</script>`;
   vHTML += mHTMLFooter();
   response.send(vHTML);
 });
-
+/*
 app.get("/monitor", async (request, response) => {
   let vRandom = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+  let vRandom2 = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
   let vHTML = mHTMLHeader();
-  const vCat = await LPBot.mCat();
-  vHTML += `<img src="${vCat}" width="500"><BR/>${vRandom}`;  
+  //const vCat = await LPBot.mCat();
+  vHTML += `${vRandom}<BR/>${vRandom2}`;  
   vHTML += `<script type="text/javascript">`+
     `setTimeout(()=>{`+
     `location = 'https://l-pbot.glitch.me/'`+
@@ -79,8 +77,7 @@ app.get("/monitor", async (request, response) => {
   vHTML += mHTMLFooter();
   response.send(vHTML);
 });
-
-
+*/
 
 app.get("/reconnaissance", (request, response) => {
   while (!LPBot.status === 4) {}
@@ -96,11 +93,7 @@ app.get("/reconnaissance", (request, response) => {
   let vGuild = LPBot.mClient().guilds.cache.find(
     vGuildFound => vGuildFound.name === "Logique & Programmation"
   );
-  const vTop = LPBot.mSQL()
-    .prepare(
-      "SELECT * FROM reconnaissances WHERE GuildID = ? ORDER BY Points DESC, MemberTag ASC;"
-    )
-    .all(vGuild.id);
+  const vTop = LPBot.mSQL().Database.Reconnaissances.mAllReconnaissances(vGuild.id);
   vTop.forEach(vData => {
     const vUserID = vData.MemberID;
     const vMember = vGuild.members.cache.find(
