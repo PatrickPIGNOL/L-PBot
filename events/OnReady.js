@@ -105,38 +105,7 @@ class OnReady extends OnEvent {
         "CREATE TABLE IF NOT EXISTS RoleMenuCommand (GuildID TEXT, GuildName TEXT, RoleMenuID INTEGER REFERENCES RoleMenu(rowid) ON UPDATE CASCADE ON DELETE CASCADE, RoleCommandID INTEGER REFERENCES RoleCommand(rowid) ON UPDATE CASCADE ON DELETE CASCADE, Emoji TEXT, PRIMARY KEY (GuildID, RoleMenuID, RoleCommandID));"
       )
       .run();
-    pDiscordBot
-      .mSQL()
-      .prepare(
-        "CREATE TABLE IF NOT EXISTS warns (GuildID TEXT, GuildName TEXT, MemberID TEXT, MemberTag TEXT, Date TEXT, Reason TEXT);"
-      )
-      .run();
-    pDiscordBot
-      .mSQL()
-      .prepare(
-        "CREATE TABLE IF NOT EXISTS reconnaissances (GuildID TEXT, GuildName TEXT, MemberID TEXT, MemberTag TEXT, Points INTEGER, Level INTEGER, PRIMARY KEY (GuildID, MemberID));"
-      )
-      .run();
-    pDiscordBot.mSQL().getReconnaissances = pDiscordBot
-      .mSQL()
-      .prepare(
-        "SELECT * FROM reconnaissances WHERE GuildID = ? AND MemberID = ? ORDER BY Points DESC"
-      );
-    pDiscordBot.mSQL().setReconnaissances = pDiscordBot
-      .mSQL()
-      .prepare(
-        "INSERT OR REPLACE INTO reconnaissances (GuildID, GuildName, MemberID, MemberTag, Points, Level) VALUES (@GuildID, @GuildName, @MemberID, @MemberTag, @Points, @Level)"
-      );
-    pDiscordBot.mSQL().getWarns = pDiscordBot
-      .mSQL()
-      .prepare(
-        "SELECT * FROM warns WHERE GuildID = ? AND MemberID = ? ORDER BY Date ASC"
-      );
-    pDiscordBot.mSQL().setWarns = pDiscordBot
-      .mSQL()
-      .prepare(
-        "INSERT OR REPLACE INTO warns (GuildID, GuildName, MemberID, MemberTag, Date, Reason) VALUES (@GuildID, @GuildName, @MemberID, @MemberTag, @Date, @Reason)"
-      );
+   
     
     pDiscordBot.mSQL().pragma("synchronous = 1");
     pDiscordBot.mSQL().pragma("journal_mode = persist");

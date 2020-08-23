@@ -31,185 +31,203 @@
 "MANAGE_WEBHOOKS",
 "MANAGE_EMOJIS"
 */
-class Command {
-  constructor(
-    pName,
-    pAliases,
-    pPermissions,
-    pArgs,
-    pMemberMentions,
-    pRoleMentions,
-    pChannelMentions,
-    pUsage,
-    pDescription,
-    pGuildOnly,
-    pCooldown
-  ) {
-    this.aName = pName;
-    this.aAliases = pAliases;
-    this.aPermissions = pPermissions;
-    this.aArgs = pArgs;
-    this.aMemberMentions = pMemberMentions;
-    this.aRoleMentions = pRoleMentions;
-    this.aChannelMentions = pChannelMentions;
-    this.aUsage = pUsage;
-    this.aDescription = pDescription;
-    this.aGuildOnly = pGuildOnly;
-    this.aCooldown = pCooldown;
-  }
-  mName() {
-    return this.aName;
-  }
-  mAliases() {
-    return this.aAliases;
-  }
-  mPermissions() {
-    return this.aPermissions;
-  }
-  mHavePermission(pDiscordBot, pMessage) 
-  {
-    let vHavePermission = true;
-    if (this.aPermissions && this.aPermissions.length) 
-    {
-      vHavePermission = false;
-      const vMemberAuthor = pMessage.member;
-      if (vMemberAuthor) 
-      {
-        for(const vPermissionFound of this.aPermissions) 
-        {
-          if (vMemberAuthor.hasPermission(vPermissionFound)) 
-          {
-            vHavePermission = true;            
-            return vHavePermission;
-          }
-        }
-      }
-      else 
-      {
-        console.log("Erreur pas d'auteur pour le message");
-        vHavePermission = false;
-      }
-    }
-    return vHavePermission;
-  }
-  mArgs() {
-    return this.aArgs;
-  }
-  mMemberMentions() {
-    return this.aMentions;
-  }
-  mRoleMentions()
-  {
-    return this.aRoleMentions;
-  }
-  mChannelMentions()
-  {
-    return this.aChannelMentions;
-  }
-  mUsage() {
-    return this.aUsage;
-  }
-  mDescription() {
-    return this.aDescription;
-  }
-  mGuildOnly() {
-    return this.aGuildOnly();
-  }
-  mCooldown() {
-    return this.aCooldown();
-  }
-  async mExecute(pDiscordBot, message, args) {
-    if (!this.mHavePermission(pDiscordBot, message)) {
-      const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
-        .setAuthor(
-          pDiscordBot.aClient.user.username,
-          pDiscordBot.aClient.user.displayAvatarURL(),
-          pDiscordBot.aConfig.URL
-        )
-        .setTitle("**Erreur**")
-        .setColor(pDiscordBot.aConfig.Bad)
-        .setThumbnail(message.author.displayAvatarURL())
-        .setDescription(
-          "Vous n'avez pas la permission d'executer cette commande."
-        );
-      throw vEmbed;
-    }
-    if (this.aMemberMentions > message.mentions.members.size) {
-      const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
-        .setAuthor(
-          pDiscordBot.aClient.user.username,
-          pDiscordBot.aClient.user.displayAvatarURL(),
-          pDiscordBot.aConfig.URL
-        )
-        .setTitle("**Erreur**")
-        .setColor(pDiscordBot.aConfig.Bad)
-        .setThumbnail(message.author.displayAvatarURL())
-        .setDescription(
-          `Vous devez mentionner au moins ${this.aMemberMentions} membre(s).`
-        );
-      throw vEmbed;
-    }
-    if (this.aRoleMentions > message.mentions.roles.length) {
-      const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
-        .setAuthor(
-          pDiscordBot.aClient.user.username,
-          pDiscordBot.aClient.user.displayAvatarURL(),
-          pDiscordBot.aConfig.URL
-        )
-        .setTitle("**Erreur**")
-        .setColor(pDiscordBot.aConfig.Bad)
-        .setThumbnail(message.author.displayAvatarURL())
-        .setDescription(
-          `Vous devez mentionner au moins ${this.aRoleMentions} rôle(s).`
-        );
-      throw vEmbed;
-    }
-    if (this.aChannelMentions > message.mentions.channels.length) {
-      const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
-        .setAuthor(
-          pDiscordBot.aClient.user.username,
-          pDiscordBot.aClient.user.displayAvatarURL(),
-          pDiscordBot.aConfig.URL
-        )
-        .setTitle("**Erreur**")
-        .setColor(pDiscordBot.aConfig.Bad)
-        .setThumbnail(message.author.displayAvatarURL())
-        .setDescription(
-          `Vous devez mentionner au moins ${this.aChannelMentions} salon(s).`
-        );
-      throw vEmbed;
-    }
-    if (this.aArgs > args.length) {
-      const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
-        .setAuthor(
-          pDiscordBot.aClient.user.username,
-          pDiscordBot.aClient.user.displayAvatarURL(),
-          pDiscordBot.aConfig.URL
-        )
-        .setTitle("**Erreur**")
-        .setColor(pDiscordBot.aConfig.Bad)
-        .setThumbnail(message.author.displayAvatarURL())
-        .setDescription(
-          `Vous devez fournir au moins ${this.aArgs} paramètres !`
-        );
-      throw vEmbed;
-    }
-    if (this.aGuildOnly && message.channel.type !== "text") {
-      const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
-        .setAuthor(
-          pDiscordBot.aClient.user.username,
-          pDiscordBot.aClient.user.displayAvatarURL(),
-          pDiscordBot.aConfig.URL
-        )
-        .setTitle("**Erreur**")
-        .setColor(pDiscordBot.aConfig.Bad)
-        .setThumbnail(message.author.displayAvatarURL())
-        .setDescription(
-          "Je ne peux pas executer cette commande dans un cannal privé !"
-        );
-      throw vEmbed;
-    }
-  }
+
+class Command 
+{
+	constructor
+	(
+		pName,
+		pAliases,
+		pPermissions,
+		pArgs,
+		pMemberMentions,
+		pRoleMentions,
+		pChannelMentions,
+		pUsage,
+		pDescription,
+		pGuildOnly,
+		pCooldown
+	) 
+	{
+		this.aName = pName;
+		this.aAliases = pAliases;
+		this.aPermissions = pPermissions;
+		this.aArgs = pArgs;
+		this.aMemberMentions = pMemberMentions;
+		this.aRoleMentions = pRoleMentions;
+		this.aChannelMentions = pChannelMentions;
+		this.aUsage = pUsage;
+		this.aDescription = pDescription;
+		this.aGuildOnly = pGuildOnly;
+		this.aCooldown = pCooldown;
+	}
+	mName() 
+	{
+		return this.aName;
+	}
+	mAliases() 
+	{
+		return this.aAliases;
+	}
+	mPermissions() 
+	{
+		return this.aPermissions;
+	}
+	mHavePermission(pDiscordBot, pMessage) 
+	{
+		let vHavePermission = true;
+		if (this.aPermissions && this.aPermissions.length) 
+		{
+			vHavePermission = false;
+			const vMemberAuthor = pMessage.member;
+			if (vMemberAuthor) 
+			{
+				for(const vPermissionFound of this.aPermissions) 
+				{
+					if (vMemberAuthor.hasPermission(vPermissionFound)) 
+					{
+						vHavePermission = true;            
+						return vHavePermission;
+					}
+				}
+			}
+			else 
+			{
+				console.log("Erreur pas d'auteur pour le message");
+				vHavePermission = false;
+			}
+		}
+		return vHavePermission;
+	}
+	mArgs() 
+	{
+		return this.aArgs;
+	}
+	mMemberMentions() 
+	{
+		return this.aMentions;
+	}
+	mRoleMentions()
+	{
+		return this.aRoleMentions;
+	}
+	mChannelMentions()
+	{
+		return this.aChannelMentions;
+	}
+	mUsage() 
+	{
+		return this.aUsage;
+	}
+	mDescription() 
+	{
+		return this.aDescription;
+	}
+	mGuildOnly() 
+	{
+		return this.aGuildOnly();
+	}
+	mCooldown() 
+	{
+		return this.aCooldown();
+	}
+	async mExecute(pDiscordBot, message, args) {
+		if (!this.mHavePermission(pDiscordBot, message)) {
+		const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+			.setAuthor(
+			pDiscordBot.aClient.user.username,
+			pDiscordBot.aClient.user.displayAvatarURL(),
+			pDiscordBot.aConfig.URL
+			)
+			.setTitle("**Erreur**")
+			.setColor(pDiscordBot.aConfig.Bad)
+			.setThumbnail(message.author.displayAvatarURL())
+			.setDescription(
+			"Vous n'avez pas la permission d'executer cette commande."
+			);
+		throw vEmbed;
+		}
+		if (this.aMemberMentions > message.mentions.members.size) 
+		{
+			const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+				.setAuthor(
+				pDiscordBot.aClient.user.username,
+				pDiscordBot.aClient.user.displayAvatarURL(),
+				pDiscordBot.aConfig.URL
+				)
+				.setTitle("**Erreur**")
+				.setColor(pDiscordBot.aConfig.Bad)
+				.setThumbnail(message.author.displayAvatarURL())
+				.setDescription(
+				`Vous devez mentionner au moins ${this.aMemberMentions} membre(s).`
+				);
+			throw vEmbed;
+		}
+		if (this.aRoleMentions > message.mentions.roles.length) 
+		{
+			const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+				.setAuthor(
+				pDiscordBot.aClient.user.username,
+				pDiscordBot.aClient.user.displayAvatarURL(),
+				pDiscordBot.aConfig.URL
+				)
+				.setTitle("**Erreur**")
+				.setColor(pDiscordBot.aConfig.Bad)
+				.setThumbnail(message.author.displayAvatarURL())
+				.setDescription(
+				`Vous devez mentionner au moins ${this.aRoleMentions} rôle(s).`
+				);
+			throw vEmbed;
+		}
+		if (this.aChannelMentions > message.mentions.channels.length) 
+		{
+			const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+				.setAuthor(
+				pDiscordBot.aClient.user.username,
+				pDiscordBot.aClient.user.displayAvatarURL(),
+				pDiscordBot.aConfig.URL
+				)
+				.setTitle("**Erreur**")
+				.setColor(pDiscordBot.aConfig.Bad)
+				.setThumbnail(message.author.displayAvatarURL())
+				.setDescription(
+				`Vous devez mentionner au moins ${this.aChannelMentions} salon(s).`
+				);
+			throw vEmbed;
+		}
+		if (this.aArgs > args.length) 
+		{
+			const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+				.setAuthor(
+				pDiscordBot.aClient.user.username,
+				pDiscordBot.aClient.user.displayAvatarURL(),
+				pDiscordBot.aConfig.URL
+				)
+				.setTitle("**Erreur**")
+				.setColor(pDiscordBot.aConfig.Bad)
+				.setThumbnail(message.author.displayAvatarURL())
+				.setDescription(
+				`Vous devez fournir au moins ${this.aArgs} paramètres !`
+				);
+			throw vEmbed;
+		}
+		if (this.aGuildOnly && message.channel.type !== "text") 
+		{
+			const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+				.setAuthor(
+				pDiscordBot.aClient.user.username,
+				pDiscordBot.aClient.user.displayAvatarURL(),
+				pDiscordBot.aConfig.URL
+				)
+				.setTitle("**Erreur**")
+				.setColor(pDiscordBot.aConfig.Bad)
+				.setThumbnail(message.author.displayAvatarURL())
+				.setDescription(
+				"Je ne peux pas executer cette commande dans un cannal privé !"
+				);
+			throw vEmbed;
+		}
+	}
 }
 
 module.exports = Command;
