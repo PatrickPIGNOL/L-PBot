@@ -4,7 +4,7 @@ L&PBot Page
 
 ## A General purpose Discord Bot 
 
-[/](https://L-PBot.patrickpignol.repl.co/) An activity page to know if L&PBot is available designed to be used by [uptimerobot.com](https://uptimerobot.com).
+[/](https://L-PBot.patrickpignol.repl.co/) An activity page to know if L&PBot is available designed to be used by [uptimerobot.com](https://uptimerobot.com). 
 
 [/reconnaissance](https://L-PBot.patrickpignol.repl.co/reconnaissance) A page that show members's graceness classment.
 
