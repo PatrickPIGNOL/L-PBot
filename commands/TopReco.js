@@ -19,7 +19,9 @@ class TopReco extends Command {
 			0
 		);
 	}
-	mExecute(pDiscordBot, message, args) {
+    
+	mExecute(pDiscordBot, message, args) 
+    {
 		super
 		.mExecute(pDiscordBot, message, args)
 		.then(() => 
@@ -54,7 +56,7 @@ class TopReco extends Command {
 
 					vEmbed.addField
 					(
-						`#${vRank} - ${vData.Points} points (Niv. ${vData.Level})`,
+						`#${vRank} - ${vData.Points} points (Niv. ${Math.floor(Math.log2(vData.Points))})`,
 						`@${vUser.tag}`
 					);
 					vRank++;

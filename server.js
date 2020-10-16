@@ -79,120 +79,132 @@ app.get("/monitor", async (request, response) => {
 });
 */
 
-app.get("/reconnaissance", (request, response) => {
-  while (!LPBot.status === 4) {}
-  let vHTML = mHTMLHeader();
-  vHTML +=
-    "<H1><table width='100%'><tr><td><img src='" +
-    LPBot.mClient().user.displayAvatarURL() +
-    "' width='80' height='80'></td><td align='left'>" +
-    LPBot.mClient().user.username +
-    "</td><td width='100%'></td></tr></table></H1>" +
-    "<H2>Classement des points de reconnaissances</H2><table width='100%' border='0' cellpadding='0' cellspacing='0'>";
-  let vRank = 1;
-  let vGuild = LPBot.mClient().guilds.cache.find(
-    vGuildFound => vGuildFound.name === "Logique & Programmation"
-  );
-  const vTop = LPBot.mSQL().Database.Reconnaissances.mAllReconnaissances(vGuild.id);
-  vTop.forEach(vData => {
-    const vUserID = vData.MemberID;
-    const vMember = vGuild.members.cache.find(
-      vSearchMember => vSearchMember.user.id == vUserID
+app.get("/reconnaissance", (request, response) => 
+{
+    while (!LPBot.status === 4) {}
+    let vHTML = mHTMLHeader();
+    vHTML +=
+        "<H1><table width='100%'><tr><td><img src='" +
+        LPBot.mClient().user.displayAvatarURL() +
+        "' width='80' height='80'></td><td align='left'>" +
+        LPBot.mClient().user.username +
+        "</td><td width='100%'></td></tr></table></H1>" +
+        "<H2>Classement des points de reconnaissances</H2><table width='100%' border='0' cellpadding='0' cellspacing='0'>";
+    let vRank = 1;
+    let vGuild = LPBot.mClient().guilds.cache.find(
+        vGuildFound => vGuildFound.name === "Logique & Programmation"
     );
-    if (vMember) {
-      const vUser = vMember.user;
-      vHTML +=
-        "<tr><td>" +
-        vRank +
-        "</td><td>&nbsp;</td><td>" +
-        "<img valign='middle' src='" +
-        vUser.displayAvatarURL() +
-        "' width='80' height='80' border='0'>" +
-        "</td><td>&nbsp;</td><td width='100%'>" +
-        vUser.username +
-        " (@" +
-        vUser.tag +
-        ")" +
-        "</BR>" +
-        vData.Points +
-        " points : Niveau " +
-        vData.Level +
-        ". </BR> Prochain niveau (" +
-        (vData.Level + 1) +
-        ") : " +
-        (vData.Level + 1) * (vData.Level + 1) +
-        " points." +
-        "</td></tr><tr><td></td><td></td><td colspan='3'>" +
-        "<table width='100%' height='4px' border='0' cellpading='0' cellspacing='0'><tr><td class='barleft' bgcolor='" +
-        LPBot.mConfig().Good +
-        "' width='" +
-        (vData.Points / ((vData.Level + 1) * (vData.Level + 1))) * 100 +
-        "%'></td><td class='barright' bgcolor='#005500'></td></tr></table></td></tr><tr><td colspan='5' height='8px'></td></tr>";
-      vRank++;
-    }
-  });
+    const vTop = LPBot.mSQL().Database.Reconnaissances.mAllReconnaissances(vGuild.id);
+    vTop.forEach(vData => 
+    {
+        const vUserID = vData.MemberID;
+        const vMember = vGuild.members.cache.find(
+            vSearchMember => vSearchMember.user.id == vUserID
+        );
+        if (vMember) 
+        {
+            const vUser = vMember.user;
+            vHTML +=
+                "<tr><td>" +
+                vRank +
+                "</td><td>&nbsp;</td><td>" +
+                "<img valign='middle' src='" +
+                vUser.displayAvatarURL() +
+                "' width='80' height='80' border='0'>" +
+                "</td><td>&nbsp;</td><td width='100%'>" +
+                vUser.username +
+                " (@" +
+                vUser.tag +
+                ")" +
+                "</BR>Actuel : " +
+                vData.Points +
+                " points (Niveau " +
+                (Math.floor(Math.log2(vData.Points)) + 1) +
+                ").</BR> Prochain niveau : " +
+                Math.pow(2, Math.floor(Math.log2(vData.Points)) + 1) +
+                " (Niveau " +
+                (Math.floor(Math.log2(vData.Points)) + 2) +
+                ")." +
+                "</td></tr><tr><td></td><td></td><td colspan='3'>" +
+                "<table width='100%' height='4px' border='0' cellpading='0' cellspacing='0'><tr><td class='barleft' bgcolor='" +
+                LPBot.mConfig().Good +
+                "' width='" +
+                (vData.Points / Math.pow(2, Math.floor(Math.log2(vData.Points)) + 1)) * 100 +
+                "%'></td><td class='barright' bgcolor='#005500'></td></tr></table></td></tr><tr><td colspan='5' height='8px'></td></tr>";
+            vRank++;
+        }
+    });
 
-  vHTML += mHTMLFooter();
-  response.send(vHTML);
+    vHTML += mHTMLFooter();
+    response.send(vHTML);
 });
 
-app.get("/participation", (request, response) => {
-  while (!LPBot.status === 4) {}
-  let vHTML = mHTMLHeader();
-  vHTML +=
-    "<H1><table width='100%'><tr><td><img src='" +
-    LPBot.mClient().user.displayAvatarURL() +
-    "' width='80' height='80'></td><td align='left'>" +
-    LPBot.mClient().user.username +
-    "</td><td width='100%'></td></tr></table></H1>" +
-    "<H2>Classement des points de participations</H2><table width='100%' border='0' cellpadding='0' cellspacing='0'>";
-  let vRank = 1;
-  let vGuild = LPBot.mClient().guilds.cache.find(
-    vGuildFound => vGuildFound.name === "Logique & Programmation"
-  );
-  const vTop = LPBot.mSQL()
-    .prepare(
-      "SELECT * FROM participations WHERE GuildID = ? ORDER BY Points DESC, MemberTag ASC;"
-    )
-    .all(vGuild.id);
-  vTop.forEach(vData => {
-    const vUserID = vData.MemberID;
-    const vMember = vGuild.members.cache.find(
-      vSearchMember => vSearchMember.user.id == vUserID
+app.get("/participation", (request, response) => 
+{
+    while (!LPBot.status === 4) {}
+    let vHTML = mHTMLHeader();
+    vHTML +=
+        "<H1><table width='100%'><tr><td><img src='" +
+        LPBot.mClient().user.displayAvatarURL() +
+        "' width='80' height='80'></td><td align='left'>" +
+        LPBot.mClient().user.username +
+        "</td><td width='100%'></td></tr></table></H1>" +
+        "<H2>Classement des points de participations</H2><table width='100%' border='0' cellpadding='0' cellspacing='0'>";
+    let vRank = 1;
+    let vGuild = LPBot.mClient().guilds.cache.find(
+        vGuildFound => vGuildFound.name === "Logique & Programmation"
     );
-    if (vMember) {
-      const vUser = vMember.user;
-      vHTML +=
-        "<tr><td>" +
-        vRank +
-        "</td><td>&nbsp;</td><td>" +
-        "<img valign='middle' src='" +
-        vUser.displayAvatarURL() +
-        "' width='80' height='80' border='0'>" +
-        "</td><td>&nbsp;</td><td width='100%'>" +
-        vUser.username +
-        " (@" +
-        vUser.tag +
-        ")" +
-        "</BR>" +
-        vData.Points +
-        " points : Niveau " +
-        vData.Level +
-        ". </BR> Prochain niveau (" +
-        (vData.Level + 1) +
-        ") : " +
-        (vData.Level + 1) * (vData.Level + 1) +
-        " points." +
-        "</td></tr><tr><td></td><td></td><td colspan='3'>" +
-        "<table width='100%' height='4px' border='0' cellpading='0' cellspacing='0'><tr><td class='barleft' bgcolor='" +
-        LPBot.mConfig().Good +
-        "' width='" +
-        (vData.Points / ((vData.Level + 1) * (vData.Level + 1))) * 100 +
-        "%'></td><td class='barright' bgcolor='#005500'></td></tr></table></td></tr><tr><td colspan='5' height='8px'></td></tr>";
-      vRank++;
-    }
-  });
+    const vTop = LPBot.mSQL()
+        .prepare(
+            "SELECT * FROM participations WHERE GuildID = ? ORDER BY Points DESC, MemberTag ASC;"
+        )
+        .all(vGuild.id);
+    vTop.forEach(vData => 
+    {
+        const vUserID = vData.MemberID;
+        
+        const vMember = vGuild.members.cache.find(vMemberFound => vMemberFound.user.id === vUserID);
+        if (vMember) 
+        {
+            const vUser = vMember.user;
+            vHTML +=
+                "<tr><td>" +
+                vRank +
+                "</td><td>&nbsp;</td><td>" +
+                "<img valign='middle' src='" +
+                vUser.displayAvatarURL() +
+                "' width='80' height='80' border='0'>" +
+                "</td><td>&nbsp;</td><td width='100%'>" +
+                vUser.username +
+                " (@" +
+                vUser.tag +
+                ")" +
+                "</BR>Actuel : " +
+                vData.Points + 
+                " points (Niveau " +
+                Math.floor(Math.log2(vData.Points) + 1) +
+                "). </BR>Prochain niveau : " +
+                (Math.pow(2, Math.floor(Math.log2(vData.Points)) + 1)) +                
+                " points (Niveau"+
+                (Math.floor(Math.log2(vData.Points)) + 2) + 
+                ")." +
+                "</td></tr><tr><td></td><td></td><td colspan='3'>" +
+                "<table width='100%' height='4px' border='0' cellpading='0' cellspacing='0'><tr><td class='barleft' bgcolor='" +
+                LPBot.mConfig().Good +
+                "' width='" +
+                ((vData.Points * 100) / (Math.pow(2, Math.floor(Math.log2(vData.Points)+1))) ) +
+                "%'></td><td class='barright' bgcolor='#005500'></td></tr></table></td></tr><tr><td colspan='5' height='8px'></td></tr>";
+                console.log(">User : " + vUser.tag);
+                console.log("Level : " + Math.floor(Math.log2(vData.Points)+1) );
+                console.log("Points :" + vData.Points);
+                console.log("NextLvl :" + Math.floor(Math.log2(vData.Points)+2));
+                console.log("NextPoints :" + Math.pow(2, Math.floor(Math.log2(vData.Points)+1)));
+                console.log(" / : " + ((vData.Points * 100) / (Math.pow(2, Math.floor(Math.log2(vData.Points)+2))) ));
+            vRank++;
+        }
+        
+    });
 
-  vHTML += mHTMLFooter();
-  response.send(vHTML);
+    vHTML += mHTMLFooter();
+    response.send(vHTML);
 });

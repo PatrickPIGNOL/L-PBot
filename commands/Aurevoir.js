@@ -28,15 +28,17 @@ class Aurevoir extends Command {
           message.delete();
           return;
         }
-        if (!message.mentions.members.first()) {
-          message.reply("Vous devez citer au moins une personne");
-          message.delete();
-          return;
-        }
-
+        console.log(message.content);
+		console.log(message.mentions.members.size);
+		console.log(message.mentions.users.size);
         message.mentions.members.forEach(member => {
-          const vOnGuildMemberRemove = require("../events/OnGuildMemberRemove.js");
           console.log(member);
+          const vOnGuildMemberRemove = require("../events/OnGuildMemberRemove.js");
+          vOnGuildMemberRemove.mExecute(pDiscordBot, member);
+        });
+		message.mentions.users.forEach(member => {
+          console.log(member);
+          const vOnGuildMemberRemove = require("../events/OnGuildMemberRemove.js");
           vOnGuildMemberRemove.mExecute(pDiscordBot, member);
         });
         message.delete();

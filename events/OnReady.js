@@ -62,55 +62,56 @@ class OnReady extends OnEvent {
     });
   }
 
-  async mOnReady(pDiscordBot) {
-    this.mChange(pDiscordBot);
-    setInterval(() => {
-      this.mChange(pDiscordBot);
-    }, 900000);
+    async mOnReady(pDiscordBot) 
+    {
+        this.mChange(pDiscordBot);
+        setInterval(() => {
+            this.mChange(pDiscordBot);
+        }, 900000);
 
-    console.log(`${pDiscordBot.aClient.user.tag} - Je suis en ligne ...`);
+        console.log(`${pDiscordBot.aClient.user.tag} - Je suis en ligne ...`);
 
-    let vMembers = 0;
-    let vChannels = 0;
-    pDiscordBot.aClient.guilds.cache.forEach(vGuildFound => {
-      vMembers += vGuildFound.members.cache.size;
-      vChannels += vGuildFound.channels.cache.size;
-    });
+        let vMembers = 0;
+        let vChannels = 0;
+        pDiscordBot.aClient.guilds.cache.forEach(vGuildFound => {
+            vMembers += vGuildFound.members.cache.size;
+            vChannels += vGuildFound.channels.cache.size;
+        });
 
-    console.log(
-      `${vMembers} Members, in ${vChannels} channels of ${pDiscordBot.aClient.guilds.cache.size} guilds.`
-    );
+        console.log(
+            `${vMembers} Members, in ${vChannels} channels of ${pDiscordBot.aClient.guilds.cache.size} guilds.`
+        );
+        
+        pDiscordBot
+            .mSQL()
+            .prepare(
+                "CREATE TABLE IF NOT EXISTS RoleGroup (GuildID TEXT, GuildName TEXT, GroupName TEXT, Mode TEXT, RequiredRoles TEXT, IgnoredRoles TEXT, Require1Role BOOLEAN, RemoveExistingOtherRoles BOOLEAN, MinimumRoles INTEGER, MaximumRoles Integer, PRIMARY KEY (GuildID, GroupName));"
+            )
+            .run();
+        pDiscordBot
+            .mSQL()
+            .prepare(
+                "CREATE TABLE IF NOT EXISTS RoleCommand (GuildID TEXT, GuildName TEXT, RoleGroupID INTEGER REFERENCES RoleGroup(rowid) ON UPDATE CASCADE ON DELETE CASCADE, CommandName TEXT, Role TEXT, PRIMARY KEY (GuildID, RoleGroupID, CommandName));"
+            )
+        .run();
+        pDiscordBot
+            .mSQL()
+            .prepare(
+                "CREATE TABLE IF NOT EXISTS RoleMenu (GuildID TEXT, GuildName TEXT, RoleGroupID INTEGER REFERENCES RoleGroup(rowid) ON UPDATE CASCADE ON DELETE CASCADE, MessageID TEXT, RemoveRole BOOLEAN, DMConfirmRole BOOLEAN, PRIMARY KEY (GuildID, MessageID));"
+            )
+            .run();
+        pDiscordBot
+            .mSQL()
+            .prepare(
+                "CREATE TABLE IF NOT EXISTS RoleMenuCommand (GuildID TEXT, GuildName TEXT, RoleMenuID INTEGER REFERENCES RoleMenu(rowid) ON UPDATE CASCADE ON DELETE CASCADE, RoleCommandID INTEGER REFERENCES RoleCommand(rowid) ON UPDATE CASCADE ON DELETE CASCADE, Emoji TEXT, PRIMARY KEY (GuildID, RoleMenuID, RoleCommandID));"
+            )
+            .run();
     
-    pDiscordBot
-      .mSQL()
-      .prepare(
-        "CREATE TABLE IF NOT EXISTS RoleGroup (GuildID TEXT, GuildName TEXT, GroupName TEXT, Mode TEXT, RequiredRoles TEXT, IgnoredRoles TEXT, Require1Role BOOLEAN, RemoveExistingOtherRoles BOOLEAN, MinimumRoles INTEGER, MaximumRoles Integer, PRIMARY KEY (GuildID, GroupName));"
-      )
-      .run();
-    pDiscordBot
-      .mSQL()
-      .prepare(
-        "CREATE TABLE IF NOT EXISTS RoleCommand (GuildID TEXT, GuildName TEXT, RoleGroupID INTEGER REFERENCES RoleGroup(rowid) ON UPDATE CASCADE ON DELETE CASCADE, CommandName TEXT, Role TEXT, PRIMARY KEY (GuildID, RoleGroupID, CommandName));"
-      )
-      .run();
-    pDiscordBot
-      .mSQL()
-      .prepare(
-        "CREATE TABLE IF NOT EXISTS RoleMenu (GuildID TEXT, GuildName TEXT, RoleGroupID INTEGER REFERENCES RoleGroup(rowid) ON UPDATE CASCADE ON DELETE CASCADE, MessageID TEXT, RemoveRole BOOLEAN, DMConfirmRole BOOLEAN, PRIMARY KEY (GuildID, MessageID));"
-      )
-      .run();
-    pDiscordBot
-      .mSQL()
-      .prepare(
-        "CREATE TABLE IF NOT EXISTS RoleMenuCommand (GuildID TEXT, GuildName TEXT, RoleMenuID INTEGER REFERENCES RoleMenu(rowid) ON UPDATE CASCADE ON DELETE CASCADE, RoleCommandID INTEGER REFERENCES RoleCommand(rowid) ON UPDATE CASCADE ON DELETE CASCADE, Emoji TEXT, PRIMARY KEY (GuildID, RoleMenuID, RoleCommandID));"
-      )
-      .run();
-   
-    
-    pDiscordBot.mSQL().pragma("synchronous = 1");
-    pDiscordBot.mSQL().pragma("journal_mode = persist");
-    pDiscordBot.mSQL().pragma("foreign_keys = ON");
-  }
+        
+        pDiscordBot.mSQL().pragma("synchronous = 1");
+        pDiscordBot.mSQL().pragma("journal_mode = persist");
+        pDiscordBot.mSQL().pragma("foreign_keys = ON");
+    }
 }
 
 module.exports = new OnReady();

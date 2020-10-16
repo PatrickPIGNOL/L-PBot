@@ -44,9 +44,7 @@ class Reconnaissance extends Command {
 				message.mentions.members.forEach(vMember => 
 				{
 					let vUser = vMember.user;
-					let vParticipation = pDiscordBot
-						.mSQL()
-						.getParticipations.get(message.guild.id, vUser.id);
+					let vParticipation = pDiscordBot.mSQL().Database.Participations.mGetParticipations(message.guild.id, vUser.id);
 					if (!vParticipation) 
 					{
 						vParticipation = {
@@ -61,8 +59,8 @@ class Reconnaissance extends Command {
 					else
 					{
 						vParticipation.MemberTag = vUser.tag;
+					    vParticipation.GuildName = message.guild.name;
 					}
-					vParticipation.GuildName = message.guild.name;
 					let vColor;
 					if (vPoints < 0) 
 					{
@@ -74,7 +72,7 @@ class Reconnaissance extends Command {
 					}
 					vParticipation.Points += vPoints;
 					let vMessage = `${message.author} a donné à ${vMember} ${vPoints} point de Participation soit un total de ${vParticipation.Points}.\n`;
-					const vLevel = Math.floor(Math.sqrt(vParticipation.Points));
+					const vLevel = Math.floor(Math.log2(vParticipation.Points)) + 1;
 					if (vParticipation.Level != vLevel) 
 					{
 						vMessage += `${vUser} est passé au niveau ${vLevel}.\n`;
@@ -88,7 +86,7 @@ class Reconnaissance extends Command {
 						}
 					}
 					vParticipation.Level = vLevel;
-					pDiscordBot.aSQL.setParticipations.run(vParticipation);
+					pDiscordBot.mSQL().Database.Participations.mSetParticipations(vParticipation);
 					const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
 						.setColor(vColor)
 						.setAuthor

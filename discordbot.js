@@ -21,9 +21,11 @@ class DiscordBot
 		this.aSQLite = require("better-sqlite3");
 		this.aSQL = new this.aSQLite("./discordbot.sqlite");
 	}
-	mLogin() 
+	async mLogin() 
 	{
-		this.aClient.login(this.aConfig.TOKEN);
+		this.aClient.login(this.aConfig.TOKEN).then(token => {
+			//console.log(`token : ${token}`);
+		});
 
 		this.aClient.clearImmediate();
 		this.aClient.removeAllListeners();

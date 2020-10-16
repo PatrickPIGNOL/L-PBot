@@ -147,7 +147,8 @@ class Command
 			);
 		throw vEmbed;
 		}
-		if (this.aMemberMentions > message.mentions.members.size) 
+		/*
+		if (this.aMemberMentions > message.mentions.members.size && this.aMemberMentions > message.mentions.users.size) 
 		{
 			const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
 				.setAuthor(
@@ -163,6 +164,7 @@ class Command
 				);
 			throw vEmbed;
 		}
+		*/
 		if (this.aRoleMentions > message.mentions.roles.length) 
 		{
 			const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()

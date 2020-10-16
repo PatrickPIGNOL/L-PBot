@@ -14,7 +14,7 @@ class OnGuildMemberRemove extends OnEvent {
     const vGuild = member.guild;
     const vCache = vGuild.channels.cache;
     const vAccueil = vCache.find(
-      vChannelFound => vChannelFound.name === "accueil-et-départs"
+      vChannelFound => vChannelFound.name === "🤝accueil-et-départs"
     );
     const vLogs = vCache.find(vChannelFound => vChannelFound.name === "logs");
     if (!vLogs) {
@@ -41,7 +41,7 @@ class OnGuildMemberRemove extends OnEvent {
     }
     vSystem.send(vEmbed);
     if (!vAccueil) {
-      console.log('channel "accueil-et-départs" not found');
+      console.log('channel "🤝accueil-et-départs" not found');
       return;
     }
     const vMessageRandom = Math.floor(Math.random() * 4);

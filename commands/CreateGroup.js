@@ -61,8 +61,7 @@ class CreateGroup extends Command {
           this.mStep2(pDiscordBot, message, args, vFilter, vGroupName);
         })
         .catch(() => {
-          const vError = new pDiscordBot.aDiscord
-            .MessageEmbed()
+          const vError = new pDiscordBot.aDiscord.MessageEmbed()
             .setAuthor(
               pDiscordBot.aClient.user.username,
               pDiscordBot.aClient.user.displayAvatarURL(),
