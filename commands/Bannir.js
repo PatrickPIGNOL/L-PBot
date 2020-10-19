@@ -46,21 +46,12 @@ class Bannir extends Command {
           vChannelFound => vChannelFound.name === "system"
         );
         vSysteme.send(vLogsEmbed);
-        if (message.author !== message.guild.owner.user) {
-          message.reply(
-            "Vous n'avez pas la permission d'executer cette commande"
-          );
-          message.delete();
-          return;
-        }
-        if (!message.mentions.members.first()) {
-          message.reply("Vous devez mentionner un membre.");
-          message.delete();
-          return;
-        }
+        
         console.log(message.content);
-        message.mentions.members.forEach(vMember => {
-          if (vMember !== message.guild.owner) {
+        message.mentions.members.forEach(vMember => 
+        {
+          if (vMember !== message.guild.owner) 
+          {
             var vArgs = message.content.split(" ");
             vArgs.shift();
             const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()

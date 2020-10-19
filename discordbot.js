@@ -39,7 +39,7 @@ class DiscordBot
 				vEvent.mExecute(this, ...args);
 			});
 		}
-		this.aSQL.Database = new Database(this.aSQL);
+		this.mSQL().Database = new Database(this.aSQL);
 	}
 	get Discord() 
 	{

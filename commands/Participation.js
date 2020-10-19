@@ -46,7 +46,7 @@ class Reconnaissance extends Command {
 					let vUser = vMember.user;
 					let vParticipation = pDiscordBot
 						.mSQL()
-						.getParticipations.get(message.guild.id, vUser.id);
+						.Database.Participations.mGetParticipations(message.guild.id, vUser.id);
 					if (!vParticipation) 
 					{
 						vParticipation = {
@@ -88,7 +88,7 @@ class Reconnaissance extends Command {
 						}
 					}
 					vParticipation.Level = vLevel;
-					pDiscordBot.aSQL.setParticipations.run(vParticipation);
+					pDiscordBot.aSQL.Database.Participations.mSetParticipations(vParticipation);
 					const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
 						.setColor(vColor)
 						.setAuthor

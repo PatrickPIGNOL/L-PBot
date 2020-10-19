@@ -25,7 +25,7 @@ class WarnsTable extends Table
     
     mGetWarns(pGuildMember, pMemberID)
 	{
-		return this.mSQL().prepare
+		return this.SQL.prepare
 		(
         	"SELECT * FROM warns WHERE GuildID = ? AND MemberID = ? ORDER BY Date ASC"
       	).get(pGuildMember, pMemberID);
@@ -33,7 +33,7 @@ class WarnsTable extends Table
 
     mSetWarns(pValues)
 	{
-    	this.mSQL().prepare
+    	this.SQL.prepare
 		(
         	"INSERT OR REPLACE INTO warns (GuildID, GuildName, MemberID, MemberTag, Date, Reason) VALUES (@GuildID, @GuildName, @MemberID, @MemberTag, @Date, @Reason)"
 		).run(pValues);
