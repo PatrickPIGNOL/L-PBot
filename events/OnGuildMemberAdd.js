@@ -61,16 +61,16 @@ class OnGuildMemberAdd extends OnEvent
 			vChannelFound => vChannelFound.name === "system"
 		);
 		const vAccueil = vCache.find(
-			vChannelFound => vChannelFound.name === "accueil-et-départs"
+			vChannelFound => vChannelFound.name === "🤝accueil-et-départs"
 		);
 		const vReglement = vCache.find(
-			vChannelFound => vChannelFound.name === "règlement"
+			vChannelFound => vChannelFound.name === "🗹règlement"
 		);
-		const vRoles = vCache.find(vChannelFound => vChannelFound.name === "rôles");
+		const vRoles = vCache.find(vChannelFound => vChannelFound.name === "🎭rôles");
 		const vBlabla = vCache.find(
-			vChannelFound => vChannelFound.name === "bla-bla-bla"
+			vChannelFound => vChannelFound.name === "😃bla-bla-bla"
 		);
-		const vFaq = vCache.find(vChannelFound => vChannelFound.name === "faq");
+		const vFaq = vCache.find(vChannelFound => vChannelFound.name === "❓faq");
 		// Send the message, mentioning the member
 		const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
 			.setAuthor(

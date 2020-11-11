@@ -147,7 +147,17 @@ class Command
 			);
 		throw vEmbed;
 		}
-		if (this.aMemberMentions > message.mentions.members.size) 
+        console.log("member mentions: "+this.aMemberMentions);
+        console.log("member mentions: "+message.mentions.has(""));
+        console.log("message users: " + message.mentions.users.size)
+        console.log("message members: " + message.mentions.members.size)
+        console.log("message user:\n"+message.mentions.users.first());
+        console.log("message member:\n"+message.mentions.members.first());
+		if (this.aMemberMentions <= message.mentions.users.size || this.aMemberMentions <= message.mentions.members.size) 
+        {
+            
+        }
+        else
 		{
 			const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
 				.setAuthor(

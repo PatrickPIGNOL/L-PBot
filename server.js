@@ -44,9 +44,20 @@ function mHTMLHeader()
   return vHTML;
 }
 
-function mHTMLFooter() {
+function mHTMLFooter() 
+{
   var vHTML = "</table></body></html>";
   return vHTML;
+}
+
+function mPointsToLevel(pPoints)
+{
+    return Math.floor(Math.log2(pPoints));
+}
+
+function mLevelToPoints(pLevel)
+{
+    return Math.floor(Math.pow(2, pLevel));
 }
 
 app.get("/", (request, response) => {
@@ -116,17 +127,17 @@ app.get("/reconnaissance", (request, response) => {
         "</BR>" +
         vData.Points +
         " points : Niveau " +
-        vData.Level +
+        mPointsToLevel(vData.Points) +
         ". </BR> Prochain niveau (" +
-        (vData.Level + 1) +
+        (mPointsToLevel(vData.Points) + 1) +
         ") : " +
-        (vData.Level + 1) * (vData.Level + 1) +
+        mLevelToPoints((mPointsToLevel(vData.Points) + 1)) +
         " points." +
         "</td></tr><tr><td></td><td></td><td colspan='3'>" +
         "<table width='100%' height='4px' border='0' cellpading='0' cellspacing='0'><tr><td class='barleft' bgcolor='" +
         LPBot.mConfig().Good +
         "' width='" +
-        (vData.Points / ((vData.Level + 1) * (vData.Level + 1))) * 100 +
+        (vData.Points / (mLevelToPoints(mPointsToLevel(vData.Points) + 1))) * 100 +
         "%'></td><td class='barright' bgcolor='#005500'></td></tr></table></td></tr><tr><td colspan='5' height='8px'></td></tr>";
       vRank++;
     }
@@ -177,17 +188,17 @@ app.get("/participation", (request, response) => {
         "</BR>" +
         vData.Points +
         " points : Niveau " +
-        vData.Level +
+        mPointsToLevel(vData.Points) +
         ". </BR> Prochain niveau (" +
-        (vData.Level + 1) +
+        (mPointsToLevel(vData.Points) + 1) +
         ") : " +
-        (vData.Level + 1) * (vData.Level + 1) +
+        mLevelToPoints(mPointsToLevel(vData.Points) + 1) +
         " points." +
         "</td></tr><tr><td></td><td></td><td colspan='3'>" +
         "<table width='100%' height='4px' border='0' cellpading='0' cellspacing='0'><tr><td class='barleft' bgcolor='" +
         LPBot.mConfig().Good +
         "' width='" +
-        (vData.Points / ((vData.Level + 1) * (vData.Level + 1))) * 100 +
+        (vData.Points / (mLevelToPoints(mPointsToLevel(vData.Points) + 1))) * 100 +
         "%'></td><td class='barright' bgcolor='#005500'></td></tr></table></td></tr><tr><td colspan='5' height='8px'></td></tr>";
       vRank++;
     }

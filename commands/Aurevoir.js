@@ -8,7 +8,7 @@ class Aurevoir extends Command {
         "ADMINISTRATOR" // (implicitly has all permissions, and bypasses all channel overwrites)
       ],
       0,
-      1,
+      0,
       0,
       0,
       "Aurevoir @IDPersonne1 [@IDPersonne2 [...]]",
@@ -20,26 +20,37 @@ class Aurevoir extends Command {
   mExecute(pDiscordBot, message, args) {
     super
       .mExecute(pDiscordBot, message, args)
-      .then(() => {
-        if (message.author !== message.guild.owner.user) {
-          message.reply(
-            "Vous n'avez pas la permission d'executer cette commande"
-          );
-          message.delete();
-          return;
+      .then(() => 
+      {
+        
+        if(message.mentions.members.size > 0)
+        {
+            message.mentions.members.forEach(member => 
+            {
+                const vOnGuildMemberRemove = require("../events/OnGuildMemberRemove.js");
+                console.log(member);
+                vOnGuildMemberRemove.mExecute(pDiscordBot, member);
+            });
         }
-        if (!message.mentions.members.first()) {
-          message.reply("Vous devez citer au moins une personne");
-          message.delete();
-          return;
+        if(message.mentions.users.size > 0)
+        {
+            message.mentions.users.forEach(user => 
+            {
+                const vOnGuildMemberRemove = require("../events/OnGuildMemberRemove.js");
+                console.log(user);
+                vOnGuildMemberRemove.mExecute(pDiscordBot, user);
+            });
         }
-
-        message.mentions.members.forEach(member => {
-          const vOnGuildMemberRemove = require("../events/OnGuildMemberRemove.js");
-          console.log(member);
-          vOnGuildMemberRemove.mExecute(pDiscordBot, member);
-        });
-        message.delete();
+        args.forEach((pUser)=>{
+            vUser = pDiscordBot.mClient().users.resolve(pUser);
+            if(vUser)
+            {
+                const vOnGuildMemberRemove = require("../events/OnGuildMemberRemove.js");
+                console.log(vUser);
+                vOnGuildMemberRemove.mExecute(pDiscordBot, vUser);
+            }
+        })
+            message.delete();
       })
       .catch(e => {
         console.error(e);
