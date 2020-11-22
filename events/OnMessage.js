@@ -150,7 +150,7 @@ class OnMessage extends OnEvent
 				};
 			}
 			vParticipation.Points++;
-			const vLevel = Math.floor(Math.log2(vParticipation.Points));
+			const vLevel = Math.floor(Math.log2(vParticipation.Points)+1);
 			if (vParticipation.Level < vLevel) 
 			{
 				vParticipation.Level = vLevel;
@@ -206,7 +206,7 @@ class OnMessage extends OnEvent
               }
               vReconnaissance.Points++;
               var vMessage = `${message.author} a donné à ${vUser} +1 point de Reconnaissance soit un total de ${vReconnaissance.Points}.\n`;
-              const vLevel = Math.floor(Math.log2(vReconnaissance.Points));
+              const vLevel = Math.floor(Math.log2(vReconnaissance.Points)+1);
               if (vReconnaissance.Level < vLevel) {
                 vReconnaissance.Level = vLevel;
                 vMessage += `${vUser} est passé au niveau supérieur soit le niveau ${vReconnaissance.Level}.\n:tada::confetti_ball: Félicitations ! :confetti_ball::tada:\n`;

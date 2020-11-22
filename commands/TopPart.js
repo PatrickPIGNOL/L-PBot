@@ -51,7 +51,7 @@ class TopPart extends Command {
 						console.log("user " + vUser.tag + " fetched");
 						vEmbed.addField
 						(
-							`#${vRank} - ${vData.Points} points (Niv. ${vData.Level})`,
+							`#${vRank} - ${vData.Points} points (Niv. ${Math.floor(Math.log2(vData.Points))})`,
 							`@${vUser.tag}`
 						);
 						console.log("Field added !");

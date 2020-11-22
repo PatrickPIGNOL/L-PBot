@@ -97,27 +97,27 @@ class OnGuildMemberAdd extends OnEvent
 		vSystem.send(vEmbed);
 		if (!vAccueil) 
 		{
-			console.error('channel "accueil-et-départs" not found');
+			console.error('channel "🤝accueil-et-départs" not found');
 			return;
 		}
 		if (!vReglement) 
 		{
-			console.error('channel "règlement" not found');
+			console.error('channel "🗹règlement" not found');
 			return;
 		}
 		if (!vRoles) 
 		{
-			console.error('channel "rôles" not found');
+			console.error('channel "🎭rôles" not found');
 			return;
 		}
 		if (!vBlabla) 
 		{
-			console.error('channel "faq" not found');
+			console.error('channel "❓faq" not found');
 			return;
 		}
 		if (!vFaq) 
 		{
-			console.error('channel "bla-bla-bla" not found');
+			console.error('channel "😃bla-bla-bla" not found');
 			return;
 		}
 		const vNewcomer = new pDiscordBot.aDiscord.MessageEmbed()

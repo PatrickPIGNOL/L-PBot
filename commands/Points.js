@@ -1,28 +1,27 @@
 const Command = require("../Command.js");
 class Points extends Command {
-  constructor() {
-    super(
-      "points",
-      [],
-      [],
-      0,
-      0,
-      0,
-      0,
-      "points",
-      "Retourne les points de reconnaissances et de participations de l'utilisateur",
-      true,
-      0
-    );
-  }
+    constructor() {
+        super(
+            "points",
+            [],
+            [],
+            0,
+            0,
+            0,
+            0,
+            "points",
+            "Retourne les points de reconnaissances et de participations de l'utilisateur",
+            true,
+            0
+        );
+    }
   mExecute(pDiscordBot, message, args) {
     super
       .mExecute(pDiscordBot, message, args)
-      .then(() => {
+      .then(() => 
+      {
         const vUser = message.author;
-        let vReconnaissance = pDiscordBot
-          .mSQL()
-          .getReconnaissances.get(message.guild.id, vUser.id);
+        let vReconnaissance = pDiscordBot.mSQL().Database.Reconnaissances.mGetReconnaissances(message.guild.id, vUser.id);
         if (!vReconnaissance) {
           vReconnaissance = {
             GuildID: message.guild.id,
@@ -34,10 +33,11 @@ class Points extends Command {
           };
         }
         let vParticipation = pDiscordBot
-          .mSQL()
-          .getParticipations.get(message.guild.id, vUser.id);
-        if (!vParticipation) {
-          vParticipation = {
+          .mSQL().Database.Participations.mGetParticipations(message.guild.id, vUser.id);
+        if (!vParticipation) 
+        {
+          vParticipation = 
+          {
             GuildID: message.guild.id,
             GuildName: message.guild.name,
             MemberID: vUser.id,
@@ -68,14 +68,14 @@ class Points extends Command {
               value:
                 vReconnaissance.Points +
                 " points (Niv. " +
-                vReconnaissance.Level +
+                Math.floor(Math.log2(vReconnaissance.Points) + 1) +
                 ")",
               inline: false
             },
             {
-              name: "*Prochain Niveau (" + (vReconnaissance.Level + 1) + ") :*",
+              name: "*Prochain Niveau (" + (Math.floor(Math.log2(vReconnaissance.Points) + 1) + 1) + ") :*",
               value:
-                (vReconnaissance.Level + 1) * (vReconnaissance.Level + 1) +
+                Math.pow(2, Math.floor(Math.log2(vReconnaissance.Points) + 1)) +
                 " points.",
               inline: false
             },
@@ -84,14 +84,14 @@ class Points extends Command {
               value:
                 vParticipation.Points +
                 " points (Niv. " +
-                vParticipation.Level +
+                Math.floor(Math.log2(vParticipation.Points) + 1) +
                 ")",
               inline: false
             },
             {
-              name: "*Prochain Niveau (" + (vParticipation.Level + 1) + ") :*",
+              name: "*Prochain Niveau (" + (Math.floor(Math.log2(vParticipation.Points) + 1) + 1) + ") :*",
               value:
-                (vParticipation.Level + 1) * (vParticipation.Level + 1) +
+                Math.pow(2, (Math.floor(Math.log2(vParticipation.Points) + 1))) +
                 " points.",
               inline: false
             },

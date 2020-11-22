@@ -52,7 +52,7 @@ function mHTMLFooter()
 
 function mPointsToLevel(pPoints)
 {
-    return Math.floor(Math.log2(pPoints));
+    return Math.floor(Math.log2(pPoints) + 1);
 }
 
 function mLevelToPoints(pLevel)
@@ -131,7 +131,7 @@ app.get("/reconnaissance", (request, response) => {
         ". </BR> Prochain niveau (" +
         (mPointsToLevel(vData.Points) + 1) +
         ") : " +
-        mLevelToPoints((mPointsToLevel(vData.Points) + 1)) +
+        mLevelToPoints((mPointsToLevel(vData.Points))) +
         " points." +
         "</td></tr><tr><td></td><td></td><td colspan='3'>" +
         "<table width='100%' height='4px' border='0' cellpading='0' cellspacing='0'><tr><td class='barleft' bgcolor='" +
@@ -192,7 +192,7 @@ app.get("/participation", (request, response) => {
         ". </BR> Prochain niveau (" +
         (mPointsToLevel(vData.Points) + 1) +
         ") : " +
-        mLevelToPoints(mPointsToLevel(vData.Points) + 1) +
+        mLevelToPoints(mPointsToLevel(vData.Points)) +
         " points." +
         "</td></tr><tr><td></td><td></td><td colspan='3'>" +
         "<table width='100%' height='4px' border='0' cellpading='0' cellspacing='0'><tr><td class='barleft' bgcolor='" +

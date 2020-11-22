@@ -131,21 +131,23 @@ class Command
 	{
 		return this.aCooldown();
 	}
-	async mExecute(pDiscordBot, message, args) {
-		if (!this.mHavePermission(pDiscordBot, message)) {
-		const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
-			.setAuthor(
-			pDiscordBot.aClient.user.username,
-			pDiscordBot.aClient.user.displayAvatarURL(),
-			pDiscordBot.aConfig.URL
-			)
-			.setTitle("**Erreur**")
-			.setColor(pDiscordBot.aConfig.Bad)
-			.setThumbnail(message.author.displayAvatarURL())
-			.setDescription(
-			"Vous n'avez pas la permission d'executer cette commande."
-			);
-		throw vEmbed;
+	async mExecute(pDiscordBot, message, args) 
+    {
+		if (!this.mHavePermission(pDiscordBot, message)) 
+        {
+		    const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
+			    .setAuthor(
+			        pDiscordBot.aClient.user.username,
+			        pDiscordBot.aClient.user.displayAvatarURL(),
+			        pDiscordBot.aConfig.URL
+			    )
+                .setTitle("**Erreur**")
+                .setColor(pDiscordBot.aConfig.Bad)
+                .setThumbnail(message.author.displayAvatarURL())
+                .setDescription(
+                "Vous n'avez pas la permission d'executer cette commande."
+                );
+		    throw vEmbed;
 		}
         console.log("member mentions: "+this.aMemberMentions);
         console.log("member mentions: "+message.mentions.has(""));
