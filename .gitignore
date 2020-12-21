@@ -1,4 +1,7 @@
 # comment
-**/*.sqlite
+discordbot.sqlite
+discordbot.sqlite*
+*discordbot.sqlite*
+**/*discordbot.sqlite*
 **/*.sqlite*
 !.gitignore
