@@ -1,3 +1,4 @@
 # comment
+**/*.sqlite
 **/*.sqlite*
 !.gitignore
