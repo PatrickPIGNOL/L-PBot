@@ -168,6 +168,7 @@ class OnMessage extends OnEvent
 					.setThumbnail(message.author.displayAvatarURL());
 				message.channel.send(vEmbed);
 			}     
+            console.log(vParticipation);
       		pDiscordBot.mSQL().Database.Participations.mSetParticipations(vParticipation);
     	}
 	}
