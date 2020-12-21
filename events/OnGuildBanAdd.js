@@ -16,6 +16,7 @@ class OnGuildBanAdd extends OnEvent
 	async mOnGuildBanAdd(pDiscordBot, guild, user) 
 	{
 		console.log(`Guild ${guild} has banned user ${user}`);
+        guild.owner.send(`Guild ${guild} has banned user ${user}`);
 	}
 }
 

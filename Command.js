@@ -149,49 +149,55 @@ class Command
                 );
 		    throw vEmbed;
 		}
+        /*
         console.log("member mentions: "+this.aMemberMentions);
         console.log("member mentions: "+message.mentions.has(""));
         console.log("message users: " + message.mentions.users.size)
         console.log("message members: " + message.mentions.members.size)
         console.log("message user:\n"+message.mentions.users.first());
         console.log("message member:\n"+message.mentions.members.first());
-		if (this.aMemberMentions <= message.mentions.users.size || this.aMemberMentions <= message.mentions.members.size) 
-        {
-            
-        }
-        else
+        */
+        console.log("members = " + message.mentions.members.size)
+        console.log("users = " + message.mentions.users.size)
+		if 
+        (
+            this.mMemberMentions() <= message.mentions.users.size 
+            &&
+            this.mMemberMentions() <= message.mentions.members.size    
+        )
 		{
 			const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
-				.setAuthor(
-				pDiscordBot.aClient.user.username,
-				pDiscordBot.aClient.user.displayAvatarURL(),
-				pDiscordBot.aConfig.URL
+				.setAuthor
+                (
+                    pDiscordBot.aClient.user.username,
+                    pDiscordBot.aClient.user.displayAvatarURL(),
+                    pDiscordBot.aConfig.URL
 				)
 				.setTitle("**Erreur**")
 				.setColor(pDiscordBot.aConfig.Bad)
 				.setThumbnail(message.author.displayAvatarURL())
 				.setDescription(
-				`Vous devez mentionner au moins ${this.aMemberMentions} membre(s).`
+				    `Vous devez mentionner au moins ${this.aMemberMentions} membre(s).`
 				);
 			throw vEmbed;
 		}
-		if (this.aRoleMentions > message.mentions.roles.length) 
+		if (this.aRoleMentions > message.mentions.roles.size) 
 		{
 			const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
 				.setAuthor(
-				pDiscordBot.aClient.user.username,
-				pDiscordBot.aClient.user.displayAvatarURL(),
-				pDiscordBot.aConfig.URL
+                    pDiscordBot.aClient.user.username,
+                    pDiscordBot.aClient.user.displayAvatarURL(),
+                    pDiscordBot.aConfig.URL
 				)
 				.setTitle("**Erreur**")
 				.setColor(pDiscordBot.aConfig.Bad)
 				.setThumbnail(message.author.displayAvatarURL())
 				.setDescription(
-				`Vous devez mentionner au moins ${this.aRoleMentions} rôle(s).`
+				    `Vous devez mentionner au moins ${this.aRoleMentions} rôle(s).`
 				);
 			throw vEmbed;
 		}
-		if (this.aChannelMentions > message.mentions.channels.length) 
+		if (this.aChannelMentions > message.mentions.channels.size) 
 		{
 			const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
 				.setAuthor(
@@ -211,15 +217,15 @@ class Command
 		{
 			const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
 				.setAuthor(
-				pDiscordBot.aClient.user.username,
-				pDiscordBot.aClient.user.displayAvatarURL(),
-				pDiscordBot.aConfig.URL
+                    pDiscordBot.aClient.user.username,
+                    pDiscordBot.aClient.user.displayAvatarURL(),
+                    pDiscordBot.aConfig.URL
 				)
 				.setTitle("**Erreur**")
 				.setColor(pDiscordBot.aConfig.Bad)
 				.setThumbnail(message.author.displayAvatarURL())
 				.setDescription(
-				`Vous devez fournir au moins ${this.aArgs} paramètres !`
+				    `Vous devez fournir au moins ${this.aArgs} paramètres !`
 				);
 			throw vEmbed;
 		}
@@ -227,15 +233,15 @@ class Command
 		{
 			const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
 				.setAuthor(
-				pDiscordBot.aClient.user.username,
-				pDiscordBot.aClient.user.displayAvatarURL(),
-				pDiscordBot.aConfig.URL
+                    pDiscordBot.aClient.user.username,
+                    pDiscordBot.aClient.user.displayAvatarURL(),
+                    pDiscordBot.aConfig.URL
 				)
 				.setTitle("**Erreur**")
 				.setColor(pDiscordBot.aConfig.Bad)
 				.setThumbnail(message.author.displayAvatarURL())
 				.setDescription(
-				"Je ne peux pas executer cette commande dans un cannal privé !"
+				    "Je ne peux pas executer cette commande dans un cannal privé !"
 				);
 			throw vEmbed;
 		}

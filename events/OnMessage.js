@@ -138,6 +138,7 @@ class OnMessage extends OnEvent
 				message.guild.id,
 				message.author.id
 			);
+            console.log(vParticipation);
 			if (!vParticipation) 
 			{
 				vParticipation = {

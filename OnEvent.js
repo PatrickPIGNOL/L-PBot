@@ -1,11 +1,14 @@
-class OnEvent {
-  constructor(pEventName) {
-    this.aEventName = pEventName;
-  }
+class OnEvent
+{
+    constructor(pEventName) 
+    {
+        this.aEventName = pEventName;
+    }
 
-  mEventName() {
-    return this.aEventName;
-  }
+    mEventName() 
+    {
+        return this.aEventName;
+    }
 }
 
 module.exports = OnEvent;

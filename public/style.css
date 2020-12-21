@@ -65,6 +65,11 @@ h1 {
   text-align: left;
 }
   
+h3
+{
+  font-style: italic;
+}
+
 img
 {
    border-radius: 50%;

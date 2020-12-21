@@ -6,8 +6,10 @@ L&PBot Page
 
 [/](https://L-PBot.patrickpignol.repl.co/) An activity page to know if L&PBot is available designed to be used by [uptimerobot.com](https://uptimerobot.com). 
 
-[/reconnaissance](https://L-PBot.patrickpignol.repl.co//reconnaissance) A page that show members's graceness classment.
+[/reconnaissance](https://L-PBot.patrickpignol.repl.co/reconnaissance) A page that show members's graceness classment.
 
-[/participation](https://L-PBot.patrickpignol.repl.co//participation) A page that show members's participation classment.
+[/participation](https://L-PBot.patrickpignol.repl.co/participation) A page that show members's participation classment.
+
+[/clcs](https://L-PBot.patrickpignol.repl.co/clcccs) A page that show Cross-Language CheatSheet référence.
 
 [![Run on Repl.it](https://repl.it/badge/github/PatrickPIGNOL/L-PBot)](https://repl.it/github/PatrickPIGNOL/L-PBot)

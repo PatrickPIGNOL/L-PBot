@@ -84,7 +84,7 @@ class Boule8 extends Command {
               " »***"
           );
         message.guild.channels.cache
-          .find(vChannelFound => vChannelFound.name === "boule🎱")
+          .find(vChannelFound => vChannelFound.name === "🎱boule-8")
           .send(vEmbed);
         message.delete();
       })
