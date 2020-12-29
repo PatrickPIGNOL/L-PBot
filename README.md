@@ -10,6 +10,6 @@ L&PBot Page
 
 [/participation](https://L-PBot.patrickpignol.repl.co/participation) A page that show members's participation classment.
 
-[/clcs](https://L-PBot.patrickpignol.repl.co/clcccs) A page that show Cross-Language CheatSheet référence.
+[/clccs](https://L-PBot.patrickpignol.repl.co/clccs) A page that show Cross-Language CheatSheet référence.
 
 [![Run on Repl.it](https://repl.it/badge/github/PatrickPIGNOL/L-PBot)](https://repl.it/github/PatrickPIGNOL/L-PBot)

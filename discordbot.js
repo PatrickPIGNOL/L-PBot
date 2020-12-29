@@ -25,7 +25,7 @@ class DiscordBot
 	{
 		this.aClient.login(this.aConfig.TOKEN);
 
-		this.aClient.clearImmediate();
+		//this.aClient.clearImmediate();
 		this.aClient.removeAllListeners();
 
 		const vEventsFiles = this.aFS
