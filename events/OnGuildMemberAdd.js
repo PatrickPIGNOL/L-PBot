@@ -56,21 +56,37 @@ class OnGuildMemberAdd extends OnEvent
 		const vUser = member.user;
 		const vGuild = member.guild;
 		const vCache = vGuild.channels.cache;
-		const vLogs = vCache.find(vChannelFound => vChannelFound.name === "logs");
-		const vSystem = vCache.find(
+        const vChannels = vGuild.channels;
+        const vLogs = vChannels.resolve("701309571292987457");
+		//const vLogs = vCache.find(vChannelFound => vChannelFound.name === "logs");
+        const vSystem = vChannels.resolve("697190165034041434");
+		/*
+        const vSystem = vCache.find(
 			vChannelFound => vChannelFound.name === "system"
 		);
-		const vAccueil = vCache.find(
+        */
+        const vAccueil = vChannels.resolve("641367048412463138");
+		/*
+        const vAccueil = vCache.find(
 			vChannelFound => vChannelFound.name === "🤝accueil-et-départs"
 		);
+        */
+        const vReglement = vChannels.resolve("683937090425192467");
+        /*
 		const vReglement = vCache.find(
 			vChannelFound => vChannelFound.name === "🗹règlement"
 		);
-		const vRoles = vCache.find(vChannelFound => vChannelFound.name === "🎭rôles");
-		const vBlabla = vCache.find(
+        */
+        const vRoles = vChannels.resolve("683943564534743073");
+		//const vRoles = vCache.find(vChannelFound => vChannelFound.name === "🎭rôles");
+		const vBlabla = vChannels.resolve("641370649771769907");
+        /*
+        const vBlabla = vCache.find(
 			vChannelFound => vChannelFound.name === "😃bla-bla-bla"
 		);
-		const vFaq = vCache.find(vChannelFound => vChannelFound.name === "❓faq");
+        */
+        const vFaq = vChannels.resolve("689848376891539459");
+		//const vFaq = vCache.find(vChannelFound => vChannelFound.id === "689848376891539459");
 		// Send the message, mentioning the member
 		const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
 			.setAuthor(
@@ -112,12 +128,12 @@ class OnGuildMemberAdd extends OnEvent
 		}
 		if (!vBlabla) 
 		{
-			console.error('channel "❓faq" not found');
+			console.error('channel "😃bla-bla-bla" not found');
 			return;
 		}
 		if (!vFaq) 
 		{
-			console.error('channel "😃bla-bla-bla" not found');
+			console.error('channel "❓faq" not found');
 			return;
 		}
 		const vNewcomer = new pDiscordBot.aDiscord.MessageEmbed()
@@ -127,7 +143,7 @@ class OnGuildMemberAdd extends OnEvent
 			)
 			.setColor(pDiscordBot.aConfig.Good)
 			.setDescription(
-				`Bienvenu à toi, ${vUser}.\nValide le règlement dans ${vReglement} svp.\nPuis attribue toi des rôles dans ${vRoles}.\nEnfin dis "Bonjour" dans ${vBlabla}.\nSi tu ne sais pas où aller, la ${vFaq} te guidera.`
+				`Bienvenu à toi, ${vUser}.\n1/ Valide le règlement dans ${vReglement} svp. Tu aura alors accès à tous les salons du serveur.\n2/ Puis attribue toi des rôles dans ${vRoles}.\n3/ Enfin dis "Bonjour" dans ${vBlabla}.\nSi tu ne sais pas où aller, la ${vFaq} te guidera.`
 			)
 			.setThumbnail(vUser.displayAvatarURL());
 		vAccueil.send

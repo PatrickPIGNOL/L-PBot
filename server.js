@@ -381,57 +381,35 @@ app.get("/clccs", (request, response) =>
             vTabs + vTabs + "sur plusieurs" + vBR +
             vTabs + vTabs + "lignes." + vBR +
             vTabs + "]]" +
-        "</code></td></tr>"+
+        "</code></td></tr>" +
         "<tr><td style='text-align: center; vertical-align: middle;'>Python</td><td><code class=''>"+
-           vTabs + "# Commentaire sur une seule ligne." + vBR +
+            vTabs + "# Commentaire sur une seule ligne." + vBR +
             vTabs + "# --------------" + vBR +
             vTabs + "'''" + vBR +
             vTabs + vTabs + "Commentaire " + vBR +
             vTabs + vTabs + "sur plusieurs" + vBR +
             vTabs + vTabs + "lignes." + vBR +
             vTabs + "'''" +
-        "</code></td></tr>"+ 
-        "<tr><td rowspan=7 style='text-align: center; vertical-align: middle;'>Soustractions</td><td style='text-align: center; vertical-align: middle;'>ASM</td><td><pre><code class='c'>"+
-            vTabs + "MOV AX,0003h ; AX = 3" + vBR +
-            vTabs + "SBB AX,0002h ; AX = AX - 2 = 1" +
-        "</code></pre></td></tr>"+
-        "<tr><td style='text-align: center; vertical-align: middle;'>C</td><td><code class=''>"+
-            vTabs + "int vVariable = 3 - 2;"+
-        "</code></td></tr>"+
-        "<tr><td style='text-align: center; vertical-align: middle;'>C++</td><td><code class=''>"+
-            vTabs + "int vVariable = 3 - 2;"+
-        "</code></td></tr>"+
-        "<tr><td style='text-align: center; vertical-align: middle;'>JAVA</td><td><code class=''>"+
-            vTabs + "int vVariable = 3 - 2;"+
-        "</code></td></tr>"+
-        "<tr><td style='text-align: center; vertical-align: middle;'>JavaScript</td><td><code class=''>"+
-            vTabs + "let vVariable = 3 - 2;"+
-        "</code></td></tr>"+
-        "<tr><td style='text-align: center; vertical-align: middle;'>Lua</td><td><code class=''>"+
-            vTabs + "local vVariable = 3 - 2"+
-        "</code></td></tr>"+
-        "<tr><td style='text-align: center; vertical-align: middle;'>Python</td><td><code class=''>"+
-            vTabs + "vVariable = 3 - 2"+
-        "</code></td></tr>"+
+        "</code></td></tr>" + 
         "<tr><td rowspan=7 style='text-align: center; vertical-align: middle;'>Additions</td><td style='text-align: center; vertical-align: middle;'>ASM</td><td><pre><code class='c'>"+
             vTabs + "MOV AX,0002h ; AX = 2" + vBR +
             vTabs + "ADD AX,0003h ; AX = AX + 3 = 5" +
-        "</code></pre></td></tr>"+
+        "</code></pre></td></tr>" +
         "<tr><td style='text-align: center; vertical-align: middle;'>C</td><td><code class=''>"+
             vTabs + "int vVariable = 2 + 3;" +
-        "</code></td></tr>"+
+        "</code></td></tr>" +
         "<tr><td style='text-align: center; vertical-align: middle;'>C++</td><td><code class=''>"+
             vTabs + "int vVariable = 2 + 3;" +
-        "</code></td></tr>"+
+        "</code></td></tr>" +
         "<tr><td style='text-align: center; vertical-align: middle;'>JAVA</td><td><code class=''>"+
             vTabs + "int vVariable = 2 + 3;" +
-        "</code></td></tr>"+
+        "</code></td></tr>" +
         "<tr><td style='text-align: center; vertical-align: middle;'>JavaScript</td><td><code class=''>"+
             vTabs + "let vVariable = 2 + 3;" +
-        "</code></td></tr>"+
+        "</code></td></tr>" +
         "<tr><td style='text-align: center; vertical-align: middle;'>Lua</td><td><code class=''>"+
             vTabs + "local vVariable = 2 + 3" +
-        "</code></td></tr>"+
+        "</code></td></tr>" +
         "<tr><td style='text-align: center; vertical-align: middle;'>Python</td><td><code class=''>"+
             vTabs + "vVariable = 2 + 3" +
         "</code></td></tr>" +
@@ -456,6 +434,52 @@ app.get("/clccs", (request, response) =>
         "</code></td></tr>"+
         "<tr><td style='text-align: center; vertical-align: middle;'>Python</td><td><code class=''>"+
             vTabs + "vVariable = 3 - 2" +
+        "</code></td></tr>"+
+        "<tr><td rowspan=7 style='text-align: center; vertical-align: middle;'>Division</td><td style='text-align: center; vertical-align: middle;'>ASM</td><td><pre><code class='c'>"+
+            vTabs + "MOV AX,0008h ; AX = 8" + vBR +
+            vTabs + "MOV BL,0002h ; BL = 2" + vBR +
+            vTabs + "DIV BL ; AX = AX / BL = 4" +
+        "</code></pre></td></tr>"+
+        "<tr><td style='text-align: center; vertical-align: middle;'>C</td><td><code class=''>"+
+            vTabs + "int vVariable = 8 / 2;"+
+        "</code></td></tr>"+
+        "<tr><td style='text-align: center; vertical-align: middle;'>C++</td><td><code class=''>"+
+            vTabs + "int vVariable = 8 / 2;"+
+        "</code></td></tr>"+
+        "<tr><td style='text-align: center; vertical-align: middle;'>JAVA</td><td><code class=''>"+
+            vTabs + "int vVariable = 8 / 2;"+
+        "</code></td></tr>"+
+        "<tr><td style='text-align: center; vertical-align: middle;'>JavaScript</td><td><code class=''>"+
+            vTabs + "let vVariable = 8 / 2;"+
+        "</code></td></tr>"+
+        "<tr><td style='text-align: center; vertical-align: middle;'>Lua</td><td><code class=''>"+
+            vTabs + "local vVariable = 8 / 2"+
+        "</code></td></tr>"+
+        "<tr><td style='text-align: center; vertical-align: middle;'>Python</td><td><code class=''>"+
+            vTabs + "vVariable = 8 / 2"+
+        "</code></td></tr>"+
+        "<tr><td rowspan=7 style='text-align: center; vertical-align: middle;'>Division</td><td style='text-align: center; vertical-align: middle;'>ASM</td><td><pre><code class='c'>"+
+            vTabs + "MOV AX,0008h ; AX = 8" + vBR +
+            vTabs + "MOV BL,0002h ; BL = 2" + vBR +
+            vTabs + "DIV BL ; AX = AX / BL = 4" +
+        "</code></pre></td></tr>"+
+        "<tr><td style='text-align: center; vertical-align: middle;'>C</td><td><code class=''>"+
+            vTabs + "int vVariable = 8 / 2;"+
+        "</code></td></tr>"+
+        "<tr><td style='text-align: center; vertical-align: middle;'>C++</td><td><code class=''>"+
+            vTabs + "int vVariable = 8 / 2;"+
+        "</code></td></tr>"+
+        "<tr><td style='text-align: center; vertical-align: middle;'>JAVA</td><td><code class=''>"+
+            vTabs + "int vVariable = 8 / 2;"+
+        "</code></td></tr>"+
+        "<tr><td style='text-align: center; vertical-align: middle;'>JavaScript</td><td><code class=''>"+
+            vTabs + "let vVariable = 8 / 2;"+
+        "</code></td></tr>"+
+        "<tr><td style='text-align: center; vertical-align: middle;'>Lua</td><td><code class=''>"+
+            vTabs + "local vVariable = 8 / 2"+
+        "</code></td></tr>"+
+        "<tr><td style='text-align: center; vertical-align: middle;'>Python</td><td><code class=''>"+
+            vTabs + "vVariable = 8 / 2"+
         "</code></td></tr>"+
 
     //-------
@@ -522,7 +546,7 @@ app.get("/clccs", (request, response) =>
         vTabs + "end"+
     "</code></pre></td></tr>"+
     "<tr><td style='text-align: center; vertical-align: middle;'>Python</td><td><pre><code class=''>"+
-        vTabs + "if ¹¹¹ &lt;condition&gt; ¹¹¹ :" + vBR +
+        vTabs + "if ''' &lt;condition&gt; ''' :" + vBR +
         vTabs + vTabs + "#&lt;expression&gt;" + vBR +
         vTabs + "else" + vBR +
         vTabs + vTabs + "#&lt;expression&gt;" + 

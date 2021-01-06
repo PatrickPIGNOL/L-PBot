@@ -41,7 +41,6 @@ class DiscordJS extends Command
                         );
                     }
                     console.log(args);
-                    const vIntrosRandom = Math.floor(Math.random() * 18);
                     let vIntros = [
                         "Lire la documentation et trouver la réponse par sois-même est le meilleur moyen d'apprendre...\n",
                         "L'informatique c'est pas magique ... c'est de la recherche et de l'apprentissage avant tout...\n",
@@ -62,6 +61,7 @@ class DiscordJS extends Command
                         "Un grand homme est dur avec lui-même ; un petit homme est dur avec les autres...(confucius)\n",
                         "Toute l'obscurité du monde ne peut pas éteindre la lumière d'une bougie...(confucius)\n"
                     ];
+                    const vIntrosRandom = Math.floor(Math.random() * vIntros.length);
                     let vMessage = vIntros[vIntrosRandom];
                     vMembers.forEach
                     (
@@ -97,6 +97,7 @@ class DiscordJS extends Command
                         vLink = `https://discord.js.org/#/docs/main/stable/search?q=${args.join(" ")}`;          
                         vMessage += `exploiter la recherche suivante :\n${vLink}`;
                     }
+                    vMessage += "\nD'avance, merci ..."
                     let vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
                         .setAuthor(
                             message.author.username,
@@ -105,7 +106,7 @@ class DiscordJS extends Command
                         .setTitle("DOCUMENTATION")
                         .setColor(pDiscordBot.aConfig.Good)
                         .setDescription(vMessage);  
-                    if(vMembersLength === 1)
+                    if(vMembers.length === 1)
                     {          
                         vEmbed.setThumbnail(vMembers[0].user.displayAvatarURL());
                     }

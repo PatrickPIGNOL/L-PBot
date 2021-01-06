@@ -54,7 +54,7 @@ class TopReco extends Command {
 
 					vEmbed.addField
 					(
-						`#${vRank} - ${vData.Points} points (Niv. ${Math.floor(Math.log2(vData.Points))})`,
+						`#${vRank} - ${vData.Points} points (Niv. ${Math.floor(Math.log2(vData.Points)+1)})`,
 						`@${vUser.tag}`
 					);
 					vRank++;

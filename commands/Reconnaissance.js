@@ -78,7 +78,7 @@ class Reconnaissance extends Command
                             }
                             vReconnaissance.Points += vPoints;
                             let vMessage = `${message.author} a donné à ${vMember} ${vPoints} point de Reconnaissance soit un total de ${vReconnaissance.Points}.\n`;
-                            const vLevel = Math.floor(Math.log2(vReconnaissance.Points));
+                            const vLevel = Math.floor(Math.log2(vReconnaissance.Points)+1);
                             if (vReconnaissance.Level != vLevel) 
                             {
                                 vMessage += `${vUser} est passé au niveau ${vLevel}.\n`;
