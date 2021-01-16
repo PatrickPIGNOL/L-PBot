@@ -28,7 +28,6 @@ class DiscordJS extends Command
                 {
                     let vLink;
                     let vMembers = new Array();
-                    console.log(args);
                     if(message.mentions.members.size > 0)
                     {
                         message.mentions.members.forEach
@@ -40,7 +39,6 @@ class DiscordJS extends Command
                             }
                         );
                     }
-                    console.log(args);
                     let vIntros = [
                         "Lire la documentation et trouver la réponse par sois-même est le meilleur moyen d'apprendre...\n",
                         "L'informatique c'est pas magique ... c'est de la recherche et de l'apprentissage avant tout...\n",

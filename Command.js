@@ -156,9 +156,10 @@ class Command
         console.log("message members: " + message.mentions.members.size)
         console.log("message user:\n"+message.mentions.users.first());
         console.log("message member:\n"+message.mentions.members.first());
-        */
+        
         console.log("members = " + message.mentions.members.size)
         console.log("users = " + message.mentions.users.size)
+        */
 		if 
         (
             this.mMemberMentions() <= message.mentions.users.size 

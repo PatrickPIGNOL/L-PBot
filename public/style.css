@@ -4,12 +4,24 @@
   box-sizing: border-box;
 }
 
+a
+{
+	color: #FFFFFF;	
+}
+a:visited {
+  color: #AFAfAf;
+}
 body {
   bgcolor: #303030;
   color: #FFFFFF;
   font-family: sans-serif;
   margin: 2em 1em;
   line-height: 1.5em;
+}
+
+h3
+{
+  text-align: center;    
 }
 
 table
@@ -73,4 +85,8 @@ h3
 img
 {
    border-radius: 50%;
+}
+img.cc
+{
+   border-radius: 0%;
 }

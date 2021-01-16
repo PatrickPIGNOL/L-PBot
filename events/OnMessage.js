@@ -169,7 +169,6 @@ class OnMessage extends OnEvent
 				message.guild.id,
 				message.author.id
 			);
-            console.log(vParticipation);
 			if (!vParticipation) 
 			{
 				vParticipation = 
@@ -201,7 +200,6 @@ class OnMessage extends OnEvent
 					.setThumbnail(message.author.displayAvatarURL());
 				message.channel.send(vEmbed);
 			}     
-            console.log(vParticipation);
       		pDiscordBot.mSQL().Database.Participations.mSetParticipations(vParticipation);
             this.mActualizeClassment(pDiscordBot, message);
         }
@@ -483,7 +481,7 @@ class OnMessage extends OnEvent
                         (
                             err=>
                             {
-                                console.log(err);
+                                console.error(err);
                             }
                         );
                 }

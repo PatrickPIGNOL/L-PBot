@@ -5,6 +5,8 @@ const ParticipationsTable = require("./ParticipationsTable.js");
 const EconomyTable = require("./EconomyTable.js");
 const ReconnaissancesTable = require("./ReconnaissancesTable.js");
 const WarnsTable = require("./WarnsTable.js");
+const ReactRolesTable = require("./ReactRolesTable.js");
+const TracksTable = require("./TracksTable.js");
 
 class Database
 {
@@ -17,7 +19,13 @@ class Database
 		this.aEconomy = new EconomyTable(pSQL);
 		this.aReconnaissances = new ReconnaissancesTable(pSQL);
 		this.aWarns = new WarnsTable(pSQL);
+        this.aReactRoles = new ReactRolesTable(pSQL);
+        this.aTracks = new TracksTable(pSQL);
 	}
+    get Tracks()
+    {
+        return this.aTracks;
+    }
 	get Autoroles()
 	{
 		return this.aAutoroles;
@@ -38,6 +46,10 @@ class Database
 	{
 		return this.aEconomy;
 	}
+    get ReactRoles()
+    {
+        return this.aReactRoles;
+    }
 	get Reconnaissances()
 	{
 		return this.aReconnaissances;

@@ -63,33 +63,38 @@ function mLevelToPoints(pLevel)
     return Math.floor(Math.pow(2, pLevel));
 }
 
-app.get("/", (request, response) => {
-//  while (!LPBot.status === 4) {}
+app.get
+(
+    "/", 
+    (request, response) => 
+    {
+        //  while (!LPBot.status === 4) {}
 
-    let vTitle = "";
-    if (LPBot.mClient().user) 
-    {
-        vTitle += LPBot.mClient().user.username;
-    } 
-    else
-    {
-        vTitle += "LPBot";
+        let vTitle = "";
+        if (LPBot.mClient().user) 
+        {
+            vTitle += LPBot.mClient().user.username;
+        } 
+        else
+        {
+            vTitle += "LPBot";
+        }
+        let vHTML = mHTMLHeader(vTitle);
+        if 
+        (
+            LPBot && LPBot.mClient() && LPBot.mClient().user
+        ) 
+        {
+            vHTML += `</H1><img src='${LPBot.mClient().user.displayAvatarURL()}' width='50'>${LPBot.mClient().user.username} : en ligne ...</H1>`;
+        } 
+        else
+        {
+            vHTML += `</H1><img src='https://cdn.discordapp.com/avatars/699652839361872002/ffa4f7a78064cf9047c709e48357e495.webp' width='50'>L&PBot : Hors service ...</H1>`;
+        }
+        vHTML += mHTMLFooter();
+        response.send(vHTML);
     }
-    let vHTML = mHTMLHeader(vTitle);
-    if 
-    (
-        LPBot && LPBot.mClient() && LPBot.mClient().user
-    ) 
-    {
-        vHTML += `</H1><img src='${LPBot.mClient().user.displayAvatarURL()}' width='50'>${LPBot.mClient().user.username} : en ligne ...</H1>`;
-    } 
-    else
-    {
-        vHTML += `</H1><img src='https://cdn.discordapp.com/avatars/699652839361872002/ffa4f7a78064cf9047c709e48357e495.webp' width='50'>L&PBot : Hors service ...</H1>`;
-    }
-    vHTML += mHTMLFooter();
-    response.send(vHTML);
-});
+);
 /*
 app.get("/monitor", async (request, response) => {
   let vRandom = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
@@ -385,11 +390,11 @@ app.get("/clccs", (request, response) =>
         "<tr><td style='text-align: center; vertical-align: middle;'>Python</td><td><code class=''>"+
             vTabs + "# Commentaire sur une seule ligne." + vBR +
             vTabs + "# --------------" + vBR +
-            vTabs + "'''" + vBR +
+            vTabs + "\"\"\"" + vBR +
             vTabs + vTabs + "Commentaire " + vBR +
             vTabs + vTabs + "sur plusieurs" + vBR +
             vTabs + vTabs + "lignes." + vBR +
-            vTabs + "'''" +
+            vTabs + "\"\"\"" +
         "</code></td></tr>" + 
         "<tr><td rowspan=7 style='text-align: center; vertical-align: middle;'>Additions</td><td style='text-align: center; vertical-align: middle;'>ASM</td><td><pre><code class='c'>"+
             vTabs + "MOV AX,0002h ; AX = 2" + vBR +
@@ -556,3 +561,89 @@ app.get("/clccs", (request, response) =>
     vHTML += mHTMLFooter();
     response.send(vHTML);
 });
+
+
+app.get
+(
+    "/musics",
+    (request, response) => 
+    {
+        let vHTML = mHTMLHeader("Musics on Stream");
+        vHTML += `<H1>Musics on Stream :</H1>
+        <H2>Following titles may be played on stream randomly at anytime :</H2>
+        <TABLE width='100%' border="1">
+            <TR width='100%'>
+                <TD><H3>Title</H3></TD>
+                <TD><H3>Artist</H3></TD>
+                <TD><H3>Licence</H3></TD>
+                <TD><H3>Links</H3></TD>
+            </TR>`;
+        const vData = LPBot.mSQL().Database.Tracks.mSelectAll()
+        vData.forEach
+        (
+            vLine =>
+            {
+                const vLinks = vLine.Links.split(" ");
+                vHTML += `<TR width='100%'>
+                    <TD>${vLine.Title}</TD>
+                    <TD>${vLine.Artist}</TD>
+                    <TD><a href='${vLine.LicenceURL}'><img class='cc' src='${vLine.LicenceImageURL}'></a></TD>
+                    <TD>`
+                vLinks.forEach
+                (
+                    vLink=>
+                    {
+                        vHTML += `<a href='${vLink}'>${vLink}</a><BR/>`
+                    }
+                )
+                vHTML += `</TD>
+                </TR>`    
+            }
+        )
+        vHTML += `</TABLE>`
+
+        vHTML += mHTMLFooter();
+        response.send(vHTML);
+    }
+);
+/*
+app.get
+(
+    "/backmusics",
+    (request, response) => 
+    {
+        let vHTML = mHTMLHeader("Musics on Stream");
+        vHTML += `<H1>Musics on Stream :</H1>
+        <H2>Following titles may be played on stream randomly at anytime :</H2>
+        <TABLE width='100%' border="1">
+            <TR width='100%'>
+                <TD><H3>ID</H3></TD>
+                <TD><H3>Title</H3></TD>
+                <TD><H3>Artist</H3></TD>
+                <TD><H3>Licence</H3></TD>
+                <TD><H3>Links</H3></TD>
+            </TR>`;
+        const vData = LPBot.mSQL().Database.Tracks.mSelectAll()
+        vData.forEach
+        (
+            vLine =>
+            {
+                const vLinks = vLine.Links.split(" ");
+                vHTML += `<TR width='100%'>
+                    <TD>${vLine.rowid}</TD>
+                    <TD>${vLine.Title}</TD>
+                    <TD>${vLine.Artist}</TD>
+                    <TD>${vLine.LicenceImageURL} ${vLine.LicenceURL} </TD>
+                    <TD>${vLinks}`
+                
+                vHTML += `</TD>
+                </TR>`    
+            }
+        )
+        vHTML += `</TABLE>`
+
+        vHTML += mHTMLFooter();
+        response.send(vHTML);
+    }
+);
+*/

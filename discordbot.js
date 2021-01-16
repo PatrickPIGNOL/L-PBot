@@ -1,8 +1,9 @@
 const fetch = require('node-fetch');
 const Database = require("./tables/Database.js");
+const SQLite = require("better-sqlite3");
 class DiscordBot 
 {
-	constructor() 
+	constructor()
 	{
 		this.aFS = require("fs");
 		this.aDiscord = require("discord.js");
@@ -17,15 +18,16 @@ class DiscordBot
 			this.aClient.commands.set(vCommand.mName(), vCommand);
 		}
 		this.aConfig = require("./config.json");
-		this.aConfig.TOKEN = process.env.TOKEN;
-		this.aSQLite = require("better-sqlite3");
-		this.aSQL = new this.aSQLite("./discordbot.sqlite");
+		this.aTOKEN = process.env.TOKEN;
+		this.aSQL = new SQLite("./discordbot.sqlite");
+		this.aSQL.pragma("synchronous = FULL");
+    	this.aSQL.pragma("journal_mode = WAL");
+		this.aSQL.pragma("auto_vacuum = FULL");
 	}
-	mLogin() 
+	async mLogin() 
 	{
-		this.aClient.login(this.aConfig.TOKEN);
+		await this.aClient.login(this.aTOKEN);
 
-		//this.aClient.clearImmediate();
 		this.aClient.removeAllListeners();
 
 		const vEventsFiles = this.aFS
@@ -39,7 +41,7 @@ class DiscordBot
 				vEvent.mExecute(this, ...args);
 			});
 		}
-		this.mSQL().Database = new Database(this.aSQL);
+		this.mSQL().Database = new Database(this.mSQL());
 	}
 	get Discord() 
 	{

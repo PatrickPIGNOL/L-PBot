@@ -9,7 +9,7 @@ class OnMessageUpdate extends OnEvent {
     {
         const oldMessage = args[0];
         const newMessage = args[1];
-        await this.mOnMessageUpdate(pDiscordBot, oldMessage, newMessage);
+        //await this.mOnMessageUpdate(pDiscordBot, oldMessage, newMessage);
     }
 
     async mOnMessageUpdate(pDiscordBot, oldMessage, newMessage) 

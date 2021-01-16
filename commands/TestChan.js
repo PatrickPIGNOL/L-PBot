@@ -6,7 +6,7 @@ class Ping extends Command {
         (
             "testchan",
             [],
-            [],
+            ["ADMINISTRATOR"],
             0,
             0,
             0,

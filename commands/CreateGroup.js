@@ -235,3 +235,4 @@ class CreateGroup extends Command {
 }
 
 module.exports = new CreateGroup();
+

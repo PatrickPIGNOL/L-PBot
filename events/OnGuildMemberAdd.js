@@ -55,39 +55,15 @@ class OnGuildMemberAdd extends OnEvent
 
 		const vUser = member.user;
 		const vGuild = member.guild;
-		const vCache = vGuild.channels.cache;
         const vChannels = vGuild.channels;
         const vLogs = vChannels.resolve("701309571292987457");
-		//const vLogs = vCache.find(vChannelFound => vChannelFound.name === "logs");
         const vSystem = vChannels.resolve("697190165034041434");
-		/*
-        const vSystem = vCache.find(
-			vChannelFound => vChannelFound.name === "system"
-		);
-        */
         const vAccueil = vChannels.resolve("641367048412463138");
-		/*
-        const vAccueil = vCache.find(
-			vChannelFound => vChannelFound.name === "🤝accueil-et-départs"
-		);
-        */
         const vReglement = vChannels.resolve("683937090425192467");
-        /*
-		const vReglement = vCache.find(
-			vChannelFound => vChannelFound.name === "🗹règlement"
-		);
-        */
         const vRoles = vChannels.resolve("683943564534743073");
-		//const vRoles = vCache.find(vChannelFound => vChannelFound.name === "🎭rôles");
 		const vBlabla = vChannels.resolve("641370649771769907");
-        /*
-        const vBlabla = vCache.find(
-			vChannelFound => vChannelFound.name === "😃bla-bla-bla"
-		);
-        */
         const vFaq = vChannels.resolve("689848376891539459");
-		//const vFaq = vCache.find(vChannelFound => vChannelFound.id === "689848376891539459");
-		// Send the message, mentioning the member
+
 		const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
 			.setAuthor(
 				pDiscordBot.aClient.user.username,
@@ -97,7 +73,6 @@ class OnGuildMemberAdd extends OnEvent
 			.setColor(pDiscordBot.aConfig.Good)
 			.setDescription(`Nouvel arrivant sur le serveur : ${vUser}.`)
 			.setThumbnail(vUser.displayAvatarURL());
-			//vGuild.owner.send(vEmbed);
 		if (!vLogs) 
 		{
 			console.error('channel "logs" not found');
