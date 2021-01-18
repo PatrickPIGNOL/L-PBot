@@ -125,6 +125,37 @@ class Tracks extends Command
 				message.delete();
 				return;
 			}
+			else if(vCommand == "update")
+			{
+				const vID = args.shift();
+				const vField = args.shift().toLowerCase();
+				if(vData)
+				{
+					if(vField == "title")
+					{
+						vData.Title = args.join(" ");
+					}
+					else if(vField == "artist")
+					{
+						vData.Artist = args.join(" ");
+					}
+					else if(vField == "licenceimageurl")
+					{
+						vData.LicenceImageURL = args.shift();
+					}
+					else if(vField == "licenceurl")
+					{
+						vData.LicenceURL = args.shift();
+					}
+					else if(vField == "links")
+					{
+						vData.Links = args.join(" ");
+					}
+					pDiscordBot.mSQL().Database.Tracks.mUpdate(vData);
+					message.delete();
+					return;
+				}
+			}
             const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
                 .setTitle(vTitle)
                 .setAuthor(
