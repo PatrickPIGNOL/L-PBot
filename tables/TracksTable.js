@@ -22,7 +22,14 @@ class TracksTable extends Table
         return this.SQL.prepare
         (
             "SELECT rowid, * FROM Tracks ORDER BY Title ASC,Artist ASC"
-        ).all()
+        ).all();
+    }
+	mSelectID(pID)
+    {
+        return this.SQL.prepare
+        (
+            "SELECT rowid, * FROM Tracks WHERE rowid = ?"
+        ).get(pID);
     }
     mInsert(pValues)
     {
@@ -44,6 +51,28 @@ class TracksTable extends Table
                 @LicenceURL      ,
                 @Links           
             )`
+        ).run(pValues);
+    }
+	mUpdate(pValues)
+    {
+        this.SQL.prepare
+        (
+            `UPDATE Tracks SET
+            (
+                Title           , 
+                Artist          , 
+                LicenceImageURL , 
+                LicenceURL      ,
+                Links           
+            )
+            =
+            (
+                @Title           ,
+                @Artist          ,
+                @LicenceImageURL ,
+                @LicenceURL      ,
+                @Links           
+            ) WHERE rowid = @rowid`
         ).run(pValues);
     }
     mRemove(pRowID)

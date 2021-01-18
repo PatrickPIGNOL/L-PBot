@@ -74,10 +74,15 @@ class Tracks extends Command
             }
             else if(vCommand === "add")
             {
+				const vRegExp = new RegExp("_", "gi");
+				let vTitle = args.shift()
+				vTitle = vTitle.replace(vRegExp, " ");
+				let vArtist = args.shift();
+				vArtist = vArtist.replace(vRegExp, " ");
                 const vValues = 
                 {
-                    Title: args.shift(), 
-                    Artist: args.shift(), 
+                    Title: vTitle, 
+                    Artist: vArtist, 
                     LicenceImageURL: args.shift(), 
                     LicenceURL: args.shift(),
                     Links: args.join(" ")
@@ -100,6 +105,26 @@ class Tracks extends Command
                 );
                 message.delete();
             }
+			else if(vCommand == "replace")
+			{
+				const vData = pDiscordBot.mSQL().Database.Tracks.mSelectAll();
+				const vRegExp = new RegExp("_", "gi");				
+				vData.forEach
+				(
+					vLine=>
+					{
+						let vTitle = vLine.Title;
+						let vArtist = vLine.Artist;
+						vTitle = vTitle.replace(vRegExp, " ");
+						vArtist = vArtist.replace(vRegExp, " ");
+						vLine.Title = vTitle;
+						vLine.Artist = vArtist;
+						pDiscordBot.mSQL().Database.Tracks.mUpdate(vLine);
+					}
+				)
+				message.delete();
+				return;
+			}
             const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
                 .setTitle(vTitle)
                 .setAuthor(

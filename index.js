@@ -606,7 +606,7 @@ app.get
         response.send(vHTML);
     }
 );
-/*
+
 app.get
 (
     "/backmusics",
@@ -624,6 +624,13 @@ app.get
                 <TD><H3>Links</H3></TD>
             </TR>`;
         const vData = LPBot.mSQL().Database.Tracks.mSelectAll()
+		vData.sort
+		(
+			(a, b)=>
+			{
+				return a.rowid - b.rowid
+			}
+		);
         vData.forEach
         (
             vLine =>
@@ -633,8 +640,15 @@ app.get
                     <TD>${vLine.rowid}</TD>
                     <TD>${vLine.Title}</TD>
                     <TD>${vLine.Artist}</TD>
-                    <TD>${vLine.LicenceImageURL} ${vLine.LicenceURL} </TD>
-                    <TD>${vLinks}`
+                    <TD>${vLine.LicenceImageURL} ${vLine.LicenceURL}</TD>
+                    <TD>`;
+					vLinks.forEach
+					(
+						vLink=>
+						{
+							vHTML += ` ${vLink}`;
+						}
+					);
                 
                 vHTML += `</TD>
                 </TR>`    
@@ -646,4 +660,41 @@ app.get
         response.send(vHTML);
     }
 );
-*/
+
+app.get
+(
+    "/savemusics",
+    (request, response) => 
+    {
+        let vHTML = mHTMLHeader("Musics on Stream");
+        vHTML += ``;
+        const vData = LPBot.mSQL().Database.Tracks.mSelectAll()
+		vData.sort
+		(
+			(a, b)=>
+			{
+				return a.rowid - b.rowid
+			}
+		);
+		const vRegExp = new RegExp(" ", "gi")
+        vData.forEach
+        (
+            vLine =>
+            {
+                const vLinks = vLine.Links.split(" ");
+                vHTML += `+tracks add ${vLine.Title.replace(vRegExp, "_")} ${vLine.Artist.replace(vRegExp, "_")} ${vLine.LicenceImageURL} ${vLine.LicenceURL}`;
+				vLinks.forEach
+				(
+					vLink=>
+					{
+						vHTML+= ` vLink`;
+					}
+				);                 
+				vHTML +=`<BR/>`   
+            }
+        )
+
+        vHTML += mHTMLFooter();
+        response.send(vHTML);
+    }
+);
