@@ -129,6 +129,7 @@ class Tracks extends Command
 			{
 				const vID = args.shift();
 				const vField = args.shift().toLowerCase();
+				const vData = pDiscordBot.mSQL().Database.Tracks.mSelectID(vID);
 				if(vData)
 				{
 					if(vField == "title")

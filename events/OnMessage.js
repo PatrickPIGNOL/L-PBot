@@ -285,7 +285,7 @@ class OnMessage extends OnEvent
             ChannelFound => ChannelFound.id === "692550920399093870"
         );
         
-        vChannel.messages.fetch({ limit: 3})
+        vChannel.messages.fetch({ limit: 6})
             .then
             (
                 MessagesFound =>

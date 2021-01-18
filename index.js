@@ -174,7 +174,7 @@ app.get("/reconnaissance", (request, response) =>
                                 vUser.tag +
                                 ")" +
                                 "</BR>" +
-                                vData.Points +
+                                vData.Points +								
                                 " points : Niveau " +
                                 mPointsToLevel(vData.Points) +
                                 ". </BR> Prochain niveau (" +
@@ -193,7 +193,7 @@ app.get("/reconnaissance", (request, response) =>
                                         "<td class='barleft' bgcolor='" +
                                         LPBot.mConfig().Good +
                                         "' width='" +
-                                        (vData.Points / (mLevelToPoints(mPointsToLevel(vData.Points) + 1))) * 100 +
+                                        (vData.Points / (mLevelToPoints(mPointsToLevel(vData.Points)))) * 100 +
                                         "%'>"+
                                         "</td>"+
                                         "<td class='barright' bgcolor='#005500'>"+
@@ -307,7 +307,7 @@ app.get
                                         "<td class='barleft' bgcolor='" +
                                         LPBot.mConfig().Good +
                                         "' width='" +
-                                        (vData.Points / (mLevelToPoints(mPointsToLevel(vData.Points) + 1))) * 100 +
+                                        (vData.Points / (mLevelToPoints(mPointsToLevel(vData.Points)))) * 100 +
                                         "%'></td>"+
                                         "<td class='barright' bgcolor='#005500'></td>"+
                                     "</tr>"+

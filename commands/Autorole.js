@@ -14,7 +14,7 @@ class Autorole extends Command
             0,
             0,
             0,
-            "Autorole [<list>|<type[bot|user]> <@Role>[<@Role>[...]]]",
+            "autorole [<list>|<type[bot|user]> <@Role>[<@Role>[...]]]",
             "",
             true,
             0

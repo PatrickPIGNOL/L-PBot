@@ -61,7 +61,6 @@ class Bienvenue extends Command
                             console.log("bienvenue : " +member.user.tag)
                             const vOnGuildMemeberAdd = require("../events/OnGuildMemberAdd.js");
                             vOnGuildMemeberAdd.mExecute(pDiscordBot, member);
-                            //pDiscordBot.mOnGuildMemberAdd(member);
                         }
                     );
                     message.delete();
