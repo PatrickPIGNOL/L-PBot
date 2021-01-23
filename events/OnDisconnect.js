@@ -14,6 +14,7 @@ class OnDisconnect extends OnEvent
 	
 	async mOnDisconnect(pDiscordBot, event) 
 	{
+		pDiscordBot.mSQL().Database.mClose();
 		console.log
 		(
 			`The WebSocket has closed and will no longer attempt to reconnect`

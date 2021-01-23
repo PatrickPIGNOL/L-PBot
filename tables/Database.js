@@ -12,6 +12,7 @@ class Database
 {
 	constructor(pSQL)
 	{
+		this.aSQL = pSQL;
 		this.aAutoroles = new AutorolesTable(pSQL);
 		this.aMembers = new MembersTable(pSQL);
 		this.aRaids = new RaidsTable(pSQL);
@@ -21,6 +22,10 @@ class Database
 		this.aWarns = new WarnsTable(pSQL);
         this.aReactRoles = new ReactRolesTable(pSQL);
         this.aTracks = new TracksTable(pSQL);
+	}
+	mClose()
+	{
+		this.aSQL.close();
 	}
     get Tracks()
     {

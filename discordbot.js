@@ -21,7 +21,7 @@ class DiscordBot
 		this.aTOKEN = process.env.TOKEN;
 		this.aSQL = new SQLite("./discordbot.sqlite");
 		this.aSQL.pragma("synchronous = FULL");
-    	this.aSQL.pragma("journal_mode = WAL");
+    	this.aSQL.pragma("journal_mode = PERSIST");
 		this.aSQL.pragma("auto_vacuum = FULL");
 	}
 	async mLogin() 
@@ -42,6 +42,16 @@ class DiscordBot
 			});
 		}
 		this.mSQL().Database = new Database(this.mSQL());
+		process.on
+		(
+			'exit', () =>
+			{ 
+				this.mSQL().Database.mClose()
+			}
+		);
+		process.on('SIGHUP', () => process.exit(128 + 1));
+		process.on('SIGINT', () => process.exit(128 + 2));
+		process.on('SIGTERM', () => process.exit(128 + 15));
 	}
 	get Discord() 
 	{

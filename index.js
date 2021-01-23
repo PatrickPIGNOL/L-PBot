@@ -8,7 +8,7 @@ app.use(express.static("public"));
 
 const listener = app.listen(process.env.PORT, () => 
 {
-  console.log("Your app is listening on port " + listener.address().port);
+  	console.log("Your app is listening on port " + listener.address().port);
 });
 
 function mHTMLHeader(pTitle) 
@@ -267,7 +267,11 @@ app.get
                 (
                     vSearchMember => vSearchMember.user.id == vUserID
                 );
-                if (vMember) 
+
+				console.log(vMember.user.tag);
+				const vMember2 = vGuild.members.resolve(vUserID);
+				console.log(vMember2.user.tag)
+                if (vMember)
                 {
                     const vUser = vMember.user;
                     vHTML +=
@@ -606,7 +610,6 @@ app.get
         response.send(vHTML);
     }
 );
-
 app.get
 (
     "/backmusics",
@@ -687,7 +690,7 @@ app.get
 				(
 					vLink=>
 					{
-						vHTML+= ` vLink`;
+						vHTML+= ` ${vLink}`;
 					}
 				);                 
 				vHTML +=`<BR/>`   
@@ -698,3 +701,4 @@ app.get
         response.send(vHTML);
     }
 );
+//*/
