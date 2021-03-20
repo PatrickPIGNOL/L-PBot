@@ -30,7 +30,7 @@ class Tracks extends Command
             if(vCommand === "list")
             {
                 vTitle = "**Liste des pistes audio**"
-                const vData = pDiscordBot.mSQL().Database.Tracks.mSelectAll();
+                const vData = pDiscordBot.Database.Tracks.mSelectAll();
                 if(vData.length === 0)
                 {
                     vDescription += `Pas d'enregistrements\n`
@@ -87,7 +87,7 @@ class Tracks extends Command
                     LicenceURL: args.shift(),
                     Links: args.join(" ")
                 };
-                pDiscordBot.mSQL().Database.Tracks.mInsert(vValues);
+                pDiscordBot.Database.Tracks.mInsert(vValues);
                 vTitle = "**Nouvelle piste audio ajoutée !**"
                 vDescription = `La piste ${vValues.Title} de ${vValues.Artist} à bien été ajoutée.`;
                 message.delete();
@@ -99,7 +99,7 @@ class Tracks extends Command
                 (
                     vValue=>
                     {
-                        pDiscordBot.mSQL().Database.Tracks.mRemove(vValue);
+                        pDiscordBot.Database.Tracks.mRemove(vValue);
                         vDescription = `La piste id : ${vValue} à bien été supprimée.`;
                     }
                 );
@@ -107,7 +107,7 @@ class Tracks extends Command
             }
 			else if(vCommand == "replace")
 			{
-				const vData = pDiscordBot.mSQL().Database.Tracks.mSelectAll();
+				const vData = pDiscordBot.Database.Tracks.mSelectAll();
 				const vRegExp = new RegExp("_", "gi");				
 				vData.forEach
 				(
@@ -119,7 +119,7 @@ class Tracks extends Command
 						vArtist = vArtist.replace(vRegExp, " ");
 						vLine.Title = vTitle;
 						vLine.Artist = vArtist;
-						pDiscordBot.mSQL().Database.Tracks.mUpdate(vLine);
+						pDiscordBot.Database.Tracks.mUpdate(vLine);
 					}
 				)
 				message.delete();
@@ -129,7 +129,7 @@ class Tracks extends Command
 			{
 				const vID = args.shift();
 				const vField = args.shift().toLowerCase();
-				const vData = pDiscordBot.mSQL().Database.Tracks.mSelectID(vID);
+				const vData = pDiscordBot.Database.Tracks.mSelectID(vID);
 				if(vData)
 				{
 					if(vField == "title")
@@ -152,7 +152,7 @@ class Tracks extends Command
 					{
 						vData.Links = args.join(" ");
 					}
-					pDiscordBot.mSQL().Database.Tracks.mUpdate(vData);
+					pDiscordBot.Database.Tracks.mUpdate(vData);
 					message.delete();
 					return;
 				}

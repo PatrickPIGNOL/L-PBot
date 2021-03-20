@@ -1,9 +1,9 @@
 const Table = require("./Table.js");
 class AutorolesTable extends Table
 {
-	constructor(pSQL)
+	constructor(pDatabase)
 	{
-		super(pSQL);
+		super(pDatabase);
 		this.mCreate();
 	}
 	mCreate()
@@ -21,6 +21,7 @@ class AutorolesTable extends Table
 			"DROP TABLE IF EXISTS autoroles;"
 		)
 		.run();
+		this.Database.mSave();
 	}
 	mGetAutoroles(pGuild, pType)
 	{
@@ -35,6 +36,7 @@ class AutorolesTable extends Table
 		(
 			"INSERT OR REPLACE INTO autoroles (GuildID, GuildName, Type, RoleID, RoleName) VALUES (@GuildID, @GuildName, @Type, @RoleID, @RoleName)"
 		).run(pValues);
+		this.Database.mSave();
 	}
 	mDelAutoroles(pValues)
 	{
@@ -42,6 +44,7 @@ class AutorolesTable extends Table
 		(
 			"DELETE FROM autoroles WHERE GuildID = @GuildID AND Type = @Type AND RoleID = @RoleID"
 		).run(pValues);
+		this.Database.mSave();
 	}
 }
 

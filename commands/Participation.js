@@ -45,7 +45,6 @@ class Reconnaissance extends Command {
 				{
 					let vUser = vMember.user;
 					let vParticipation = pDiscordBot
-						.mSQL()
 						.Database.Participations.mGetParticipations(message.guild.id, vUser.id);
 					if (!vParticipation) 
 					{

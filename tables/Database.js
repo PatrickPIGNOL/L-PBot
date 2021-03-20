@@ -7,25 +7,37 @@ const ReconnaissancesTable = require("./ReconnaissancesTable.js");
 const WarnsTable = require("./WarnsTable.js");
 const ReactRolesTable = require("./ReactRolesTable.js");
 const TracksTable = require("./TracksTable.js");
+const SQLite = require("./SQLite.js");
 
 class Database
 {
-	constructor(pSQL)
+	constructor()
 	{
-		this.aSQL = pSQL;
-		this.aAutoroles = new AutorolesTable(pSQL);
-		this.aMembers = new MembersTable(pSQL);
-		this.aRaids = new RaidsTable(pSQL);
-		this.aParticipations = new ParticipationsTable(pSQL);
-		this.aEconomy = new EconomyTable(pSQL);
-		this.aReconnaissances = new ReconnaissancesTable(pSQL);
-		this.aWarns = new WarnsTable(pSQL);
-        this.aReactRoles = new ReactRolesTable(pSQL);
-        this.aTracks = new TracksTable(pSQL);
+		this.aSQL = new SQLite();
+		this.aAutoroles = new AutorolesTable(this);
+		this.aMembers = new MembersTable(this);
+		this.aRaids = new RaidsTable(this);
+		this.aParticipations = new ParticipationsTable(this);
+		this.aEconomy = new EconomyTable(this);
+		this.aReconnaissances = new ReconnaissancesTable(this);
+		this.aWarns = new WarnsTable(this);
+        this.aReactRoles = new ReactRolesTable(this);
+        this.aTracks = new TracksTable(this);
+	}
+	get SQL()
+	{
+		return this.aSQL.SQL;
+	}
+	mSave()
+	{
+		console.log("Saving Tables ...")
+		this.aSQL.mClose();
+		this.aSQL = new SQLite();
+		console.log("Tables Saved !")
 	}
 	mClose()
 	{
-		this.aSQL.close();
+		this.aSQL.mClose();
 	}
     get Tracks()
     {

@@ -35,7 +35,7 @@ class ReactRole extends Command
                     {
                         vTitle = "**Liste des ReactRoles**";
                         vDescription += "**Liste des roles attribués aux réactions :**\n";
-                        const vValues = pDiscordBot.mSQL().Database.ReactRoles.mSelectAllIDGuild(message.guild.id);
+                        const vValues = pDiscordBot.Database.ReactRoles.mSelectAllIDGuild(message.guild.id);
                         if(vValues && vValues.length > 0)
                         {
                             console.log(vValues)
@@ -158,7 +158,7 @@ class ReactRole extends Command
                                     RoleName: vRoleFound.name
                                 }
                                 vDescription += `Ajout : \n\tChannel: ${message.channel}, message : ${message.url}, emoji : ${vEmoji}, role : ${vRoleFound}\n`;
-                                pDiscordBot.mSQL().Database.ReactRoles.mInsert(vValues);
+                                pDiscordBot.Database.ReactRoles.mInsert(vValues);
 
                                 const vReactioRole = vMessage.createReactionCollector
                                 (
@@ -191,7 +191,7 @@ class ReactRole extends Command
                                         {
                                             return;
                                         }
-                                        const vReactions = pDiscordBot.mSQL().Database.ReactRoles.mSelectAllIDMessageEmoji(reaction.message.id, reaction.emoji);
+                                        const vReactions = pDiscordBot.Database.ReactRoles.mSelectAllIDMessageEmoji(reaction.message.id, reaction.emoji);
                                         vReactions.forEach
                                         (
                                             vReactionFound=>

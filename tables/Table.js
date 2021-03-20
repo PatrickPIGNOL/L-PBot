@@ -1,13 +1,17 @@
 class Table
 {
-  constructor(pSQL)
-  {
-    this.aSQL = pSQL;
-  }
-  get SQL()
-  {
-    return this.aSQL;
-  }
+	constructor(pDatabase)
+	{
+		this.aDatabase = pDatabase;
+	}
+	get Database()
+	{
+		return this.aDatabase;
+	}
+	get SQL()
+	{
+		return this.aDatabase.SQL;
+	}
 }
 
 module.exports = Table;

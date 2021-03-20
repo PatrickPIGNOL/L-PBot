@@ -1,9 +1,9 @@
 const Table = require("./Table.js");
 class MembersTable extends Table
 {
-	constructor(pSQL)
+	constructor(pDatabase)
 	{
-		super(pSQL);
+		super(pDatabase);
 		this.mCreate();
 	}
 	mCreate()
@@ -21,6 +21,7 @@ class MembersTable extends Table
 			"DROP TABLE IF EXISTS members;"
 		)
 		.run();
+		this.Database.mSave();
 	}
 	mGetMembers(pGuildID, pMemberID)
 	{
@@ -35,6 +36,7 @@ class MembersTable extends Table
 		.prepare(
 			"INSERT OR REPLACE INTO members (GuildID, GuildName, MemberID, MemberTag, JoinDate, LeftDate) VALUES (@GuildID, @GuildName, @MemberID, @MemberTag, @JoinDate, @LeftDate)"
 		).run(pValues);
+		this.Database.mSave();
 	}
 }
 

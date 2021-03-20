@@ -1,9 +1,9 @@
 const Table = require("./Table.js");
 class ReactRolesTable extends Table
 {
-	constructor(pSQL)
+	constructor(pDatabase)
 	{
-		super(pSQL);
+		super(pDatabase);
 		this.mCreate();
 	}
     
@@ -29,6 +29,7 @@ class ReactRolesTable extends Table
     mDrop() 
 	{
 		this.SQL.prepare("DROP TABLE IF EXISTS reactroles;").run();
+		this.Database.mSave();
 	}
 
     mSelectAll()
@@ -73,6 +74,7 @@ class ReactRolesTable extends Table
                 @RoleName
             )`
         ).run(pValues)
+		this.Database.mSave();
     }
 
     mDeleteReaction(pValues)
@@ -81,6 +83,7 @@ class ReactRolesTable extends Table
         (
             `DELETE FROM reactroles WHERE GuildID = @GuildID AND MessageID = @MessageID AND Emoji = @Emoji`
         ).run(pValues)
+		this.Database.mSave();
     }
 
     mDeleteMessage(pGuildID, pMessageID)
@@ -89,6 +92,7 @@ class ReactRolesTable extends Table
         (
             `DELETE FROM reactroles WHERE GuildID = ? AND MessageID = ?`
         ).run(pGuildID, pMessageID)
+		this.Database.mSave();
     }
 }
 

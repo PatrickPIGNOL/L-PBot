@@ -1,9 +1,9 @@
 const Table = require("./Table.js");
 class ReconnaissancesTable extends Table 
 {
-	constructor(pSQL) 
+	constructor(pDatabase) 
 	{
-		super(pSQL);
+		super(pDatabase);
 		this.mCreate();
 	}
 	mCreate() 
@@ -16,6 +16,7 @@ class ReconnaissancesTable extends Table
 	mDrop() 
 	{
 		this.SQL.prepare("DROP TABLE IF EXISTS reconnaissances;").run();
+		this.Database.mSave();
 	}
 	mAllReconnaissances(pGuildID)
 	{
@@ -37,6 +38,7 @@ class ReconnaissancesTable extends Table
 		(
         	"INSERT OR REPLACE INTO reconnaissances (GuildID, GuildName, MemberID, MemberTag, Points, Level) VALUES (@GuildID, @GuildName, @MemberID, @MemberTag, @Points, @Level)"
 		).run(pValues);
+		this.Database.mSave();
 	}
 }
 

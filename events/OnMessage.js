@@ -29,9 +29,10 @@ class OnMessage extends OnEvent
 			'";\n'
 		);
         
+		this.mRaids(pDiscordBot, message);
+		
 		if (message.author.bot) 
 		{
-            this.mRaids(pDiscordBot, message);
 			console.log("message is a bot message. Returning.");
 			return;
 		}
@@ -47,7 +48,7 @@ class OnMessage extends OnEvent
 				)
 				.setColor(pDiscordBot.aConfig.Good)
 				.setTitle(`Bonjour`)
-				.setDescription(`Bonjour à toi ${message.author}.\nTu ne sais pas comment m'appeler ? C'est pourtant simple...\nMon préfixe est : **${pDiscordBot.mConfig().Prefix}**\nPour avoir la liste des commandes disponibles il faut donc que tu tape "**${pDiscordBot.mConfig().Prefix}aide**".\nVoila c'est pas plus compliqué que ça...`)
+				.setDescription(`Bonjour à toi ${message.author}.\nTu ne sais pas comment m'appeler ? C'est pourtant simple...\nMon préfixe est : **${pDiscordBot.mConfig().Prefix}**\nPour avoir la liste des commandes disponibles il faut donc que tu tape "**${pDiscordBot.mConfig().Prefix}aide**".\nVoila c'est pas plus compliqué que ça...😊`)
 				.setThumbnail(message.author.displayAvatarURL());
 			message.reply(vEmbed);
 			message.delete();       
@@ -57,7 +58,6 @@ class OnMessage extends OnEvent
 
 		if (!message.content.startsWith(pDiscordBot.aConfig.Prefix)) 
 		{
-			this.mRaids(pDiscordBot, message);
 			this.mParticipation(pDiscordBot, message);
 			console.log("message is not a command. Returning.");
 			return;
@@ -84,7 +84,7 @@ class OnMessage extends OnEvent
 	{ 
 		if(message.guild)
 		{
-			let vRaid = pDiscordBot.mSQL().Database.Raids.mGetRaids(message.guild.id, message.author.id, message.content);
+			let vRaid = pDiscordBot.Database.Raids.mGetRaids(message.guild.id, message.author.id, message.content);
 			if(!vRaid)
 			{
 				vRaid = 
@@ -107,7 +107,7 @@ class OnMessage extends OnEvent
 				vRaid.Number = 1;
 			}
 			vRaid.Date = Date.now();
-			pDiscordBot.mSQL().Database.Raids.mSetRaids(vRaid);
+			pDiscordBot.Database.Raids.mSetRaids(vRaid);
 			if(vRaid.Number > 4)
 			{ 
                 if(message.author.id !== message.guild.owner.user.id)
@@ -145,14 +145,14 @@ class OnMessage extends OnEvent
                     }
 				}
 			}
-			const vRaids = pDiscordBot.mSQL().Database.Raids.mGetAllRaids(message.guild.id);
+			const vRaids = pDiscordBot.Database.Raids.mGetAllRaids(message.guild.id);
 			vRaids.forEach
             (
                 vData => 
                 {
                     if(Date.now() - vData.Date > 300000)
                     {
-                        pDiscordBot.mSQL().Database.Raids.mDelRaids(vData.rowid);
+                        pDiscordBot.Database.Raids.mDelRaids(vData.rowid);
                     }
                 }
             );
@@ -164,7 +164,7 @@ class OnMessage extends OnEvent
 		let vParticipation;
 		if (message.guild) 
 		{
-			vParticipation = pDiscordBot.mSQL().Database.Participations.mGetParticipations
+			vParticipation = pDiscordBot.Database.Participations.mGetParticipations
             (
 				message.guild.id,
 				message.author.id
@@ -183,6 +183,7 @@ class OnMessage extends OnEvent
 			}
 			vParticipation.Points++;
 			const vLevel = Math.floor(Math.log2(vParticipation.Points)+1);
+			const vChannel = message.guild.channels.resolve("815912046486880337");
 			if (vParticipation.Level < vLevel) 
 			{
 				vParticipation.Level = vLevel;
@@ -198,9 +199,9 @@ class OnMessage extends OnEvent
 					)
 					.setDescription(vMessage)
 					.setThumbnail(message.author.displayAvatarURL());
-				message.channel.send(vEmbed);
+				vChannel.send({content: message.author, embed: vEmbed });
 			}     
-      		pDiscordBot.mSQL().Database.Participations.mSetParticipations(vParticipation);
+      		pDiscordBot.Database.Participations.mSetParticipations(vParticipation);
             this.mActualizeClassment(pDiscordBot, message);
         }
 	}
@@ -234,7 +235,7 @@ class OnMessage extends OnEvent
                                 let vReconnaissance;
                                 if (message.guild) 
                                 {
-                                    vReconnaissance = pDiscordBot.mSQL().Database.Reconnaissances.mGetReconnaissances(
+                                    vReconnaissance = pDiscordBot.Database.Reconnaissances.mGetReconnaissances(
                                         message.guild.id,
                                         vUser.id
                                     );
@@ -257,8 +258,9 @@ class OnMessage extends OnEvent
                                         vReconnaissance.Level = vLevel;
                                         vMessage += `${vUser} est passé au niveau supérieur soit le niveau ${vReconnaissance.Level}.\n:tada::confetti_ball: Félicitations ! :confetti_ball::tada:\n`;
                                     }
-                                    pDiscordBot.mSQL().Database.Reconnaissances.mSetReconnaissances(vReconnaissance);
+                                    pDiscordBot.Database.Reconnaissances.mSetReconnaissances(vReconnaissance);
                                     this.mActualizeClassment(pDiscordBot, message);
+									const vChannel = message.guild.channels.resolve("815912046486880337");
                                     const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
                                         .setColor(pDiscordBot.aConfig.Good)
                                         .setTitle("**Reconnaissance**")
@@ -268,7 +270,7 @@ class OnMessage extends OnEvent
                                         )
                                         .setDescription(vMessage)
                                         .setThumbnail(vUser.displayAvatarURL());
-                                    message.channel.send(vEmbed);
+                                    vChannel.send(vEmbed);
                                 }
                             }          
                         }
@@ -280,10 +282,7 @@ class OnMessage extends OnEvent
 
     mActualizeClassment(pDiscordBot, message)
     {
-        const vChannel = message.guild.channels.cache.find
-        (
-            ChannelFound => ChannelFound.id === "692550920399093870"
-        );
+		const vChannel = message.guild.channels.resolve("692550920399093870");
         
 		vChannel.bulkDelete(50);
 		let vOnlineMembers = 0;
@@ -371,7 +370,7 @@ class OnMessage extends OnEvent
 				}
 			);
 		
-		const topreco10 = pDiscordBot.mSQL().Database.Reconnaissances.mAllReconnaissances(message.guild.id);
+		const topreco10 = pDiscordBot.Database.Reconnaissances.mAllReconnaissances(message.guild.id);
 		const vTopRecoEmbed = new pDiscordBot.aDiscord.MessageEmbed()
 			.setColor(pDiscordBot.aConfig.Good)
 			.setTitle("Top 10 des points de reconnaissances")
@@ -418,7 +417,7 @@ class OnMessage extends OnEvent
 			}
 		);
 
-		const toppart10 = pDiscordBot.mSQL().Database.Participations.mAllParticipations(message.guild.id);
+		const toppart10 = pDiscordBot.Database.Participations.mAllParticipations(message.guild.id);
 		const vTopPartEmbed = new pDiscordBot.aDiscord.MessageEmbed()
 			.setColor(pDiscordBot.aConfig.Good)
 			.setTitle("Top 10 des points de participation")

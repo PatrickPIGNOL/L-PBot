@@ -41,7 +41,7 @@ class Salaire extends Command
 					Level: 0
 				};
 			}
-			let vReconnaissance = pDiscordBot.mSQL().Database.Reconnaissances.mGetReconnaissances
+			let vReconnaissance = pDiscordBot.Database.Reconnaissances.mGetReconnaissances
 			(
 				message.guild.id,
 				message.author.id

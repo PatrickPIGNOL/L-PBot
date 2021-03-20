@@ -16,9 +16,7 @@ class OnGuildMemberAdd extends OnEvent
 	{
 		if (member.user.bot) 
 		{
-			const vBotAutoroles = pDiscordBot
-				.mSQL()
-				.Database.Autoroles.mGetAutoroles(member.guild.id, "bot");
+			const vBotAutoroles = pDiscordBot.Database.Autoroles.mGetAutoroles(member.guild.id, "bot");
 			if (vBotAutoroles) 
 			{
 				vBotAutoroles.forEach(vBotAutorole => 
@@ -35,9 +33,7 @@ class OnGuildMemberAdd extends OnEvent
 		}
 		else
 		{
-			const vUserAutoroles = pDiscordBot
-				.mSQL()
-				.Database.Autoroles.mGetAutoroles(member.guild.id, "user");
+			const vUserAutoroles = pDiscordBot.Database.Autoroles.mGetAutoroles(member.guild.id, "user");
 			if (vUserAutoroles) 
 			{
 				vUserAutoroles.forEach(vUserAutorole => 

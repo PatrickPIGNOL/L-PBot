@@ -35,8 +35,8 @@ class Autorole extends Command
                     if(vCommand === "list")
                     {
                         vTitle += "**Liste des Autorôles**"
-                        const vUserAutoroles = pDiscordBot.mSQL().Database.Autoroles.mGetAutoroles(vGuildID, "user");
-                        const vBotAutoroles = pDiscordBot.mSQL().Database.Autoroles.mGetAutoroles(vGuildID, "bot");
+                        const vUserAutoroles = pDiscordBot.Database.Autoroles.mGetAutoroles(vGuildID, "user");
+                        const vBotAutoroles = pDiscordBot.Database.Autoroles.mGetAutoroles(vGuildID, "bot");
                         vMessage += "**Roles attribués automatiquement aux nouveaux utilisateurs :**\n"
                         if(vUserAutoroles.length > 0)
                         {
@@ -93,7 +93,7 @@ class Autorole extends Command
                             (
                                 vRoleFound => 
                                 {              
-                                    const vUserAutoroles = pDiscordBot.mSQL().Database.Autoroles.mGetAutoroles(vGuildID, "user");
+                                    const vUserAutoroles = pDiscordBot.Database.Autoroles.mGetAutoroles(vGuildID, "user");
                                     let vRoleNotFound = true;
                                     if(vUserAutoroles)
                                     {
@@ -109,7 +109,7 @@ class Autorole extends Command
                                                     Type: "user",
                                                     RoleID: vRoleFound.id
                                                     };
-                                                    pDiscordBot.mSQL().Database.Autoroles.mDelAutoroles(vAutorole);
+                                                    pDiscordBot.Database.Autoroles.mDelAutoroles(vAutorole);
                                                     vMessage += `${vRoleFound} à été supprimé des rôles attribués aux nouveaux utilisateurs.\n`;
                                                 }
                                             }
@@ -126,7 +126,7 @@ class Autorole extends Command
                                             RoleID: vRoleFound.id,
                                             RoleName: vRoleFound.name
                                         };
-                                        pDiscordBot.mSQL().Database.Autoroles.mSetAutoroles(vAutorole);
+                                        pDiscordBot.Database.Autoroles.mSetAutoroles(vAutorole);
                                         vMessage += `${vRoleFound} à été ajouté aux rôles attribués aux nouveaux utilisateurs.\n`;
                                     }
                                 }
@@ -136,7 +136,7 @@ class Autorole extends Command
                         {
                             vTitle += "**Modification des autorôles des nouveaux bot**"
                             message.mentions.roles.forEach(vRoleFound => {              
-                            const vBotAutoroles = pDiscordBot.mSQL().Database.Autoroles.mGetAutoroles(vGuildID, "bot");
+                            const vBotAutoroles = pDiscordBot.Database.Autoroles.mGetAutoroles(vGuildID, "bot");
                             let vRoleNotFound = true;
                             if(vBotAutoroles)
                             {
@@ -152,7 +152,7 @@ class Autorole extends Command
                                             Type: "bot",
                                             RoleID: vRoleFound.id
                                             };
-                                            pDiscordBot.mSQL().Database.Autoroles.mDelAutoroles(vAutorole);
+                                            pDiscordBot.Database.Autoroles.mDelAutoroles(vAutorole);
                                             vMessage += `${vRoleFound} à été supprimé des rôles attribués aux nouveaux bots.\n`;
                                         }
                                     }
@@ -168,7 +168,7 @@ class Autorole extends Command
                                     RoleID: vRoleFound.id,
                                     RoleName: vRoleFound.name
                                     };
-                                    pDiscordBot.mSQL().Database.Autoroles.mSetAutoroles(vAutorole);
+                                    pDiscordBot.Database.Autoroles.mSetAutoroles(vAutorole);
                                     vMessage += `${vRoleFound} à été ajouté aux rôles attribués aux nouveaux bots.\n`;
                                 }
                             });

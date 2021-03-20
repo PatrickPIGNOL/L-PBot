@@ -49,7 +49,7 @@ class Reconnaissance extends Command
                         vMember => 
                         {
                             let vUser = vMember.user;
-                            let vReconnaissance = pDiscordBot.mSQL().Database.Reconnaissances.mGetReconnaissances(message.guild.id, vUser.id);
+                            let vReconnaissance = pDiscordBot.Database.Reconnaissances.mGetReconnaissances(message.guild.id, vUser.id);
                             if (!vReconnaissance) 
                             {
                                 vReconnaissance = 
@@ -92,7 +92,7 @@ class Reconnaissance extends Command
                                 }
                             }
                             vReconnaissance.Level = vLevel;
-                            pDiscordBot.aSQL.Database.Reconnaissances.mSetReconnaissances(vReconnaissance);
+                            pDiscordBot.Database.Reconnaissances.mSetReconnaissances(vReconnaissance);
                             const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
                                 .setColor(vColor)
                                 .setAuthor

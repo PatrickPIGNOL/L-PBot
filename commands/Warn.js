@@ -5,7 +5,7 @@ class Warn extends Command
 	{
 		super(
 			"warn",
-			[],
+			["avertissement"],
 			[
 				"ADMINISTRATOR"
 			],
@@ -37,7 +37,7 @@ class Warn extends Command
                         Date: Date.now(),
                         Reason: vReason
                     };
-                    pDiscordBot.mSQL().Database.Warns.mSetWarns(vWarns);
+                    pDiscordBot.Database.Warns.mSetWarns(vWarns);
                     var vArgs = message.content.split(" ");
                     vArgs.shift();
                     const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()

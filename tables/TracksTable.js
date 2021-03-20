@@ -1,9 +1,9 @@
 const Table = require("./Table.js");
 class TracksTable extends Table 
 {
-	constructor(pSQL) 
+	constructor(pDatabase) 
 	{
-		super(pSQL);
+		super(pDatabase);
 		this.mCreate();
 	}
 	mCreate() 
@@ -16,6 +16,7 @@ class TracksTable extends Table
 	mDrop() 
 	{
 		this.SQL.prepare("DROP TABLE IF EXISTS Tracks;").run();
+		this.Database.mSave();
 	}
     mSelectAll()
     {
@@ -52,6 +53,7 @@ class TracksTable extends Table
                 @Links           
             )`
         ).run(pValues);
+		this.Database.mSave();
     }
 	mUpdate(pValues)
     {
@@ -74,6 +76,7 @@ class TracksTable extends Table
                 @Links           
             ) WHERE rowid = @rowid`
         ).run(pValues);
+		this.Database.mSave();
     }
     mRemove(pRowID)
     {
@@ -81,6 +84,7 @@ class TracksTable extends Table
         (
             "DELETE FROM Tracks WHERE rowid = ?"
         ).run(pRowID)
+		this.Database.mSave();
     }
 }
 

@@ -1,9 +1,9 @@
 const Table = require("./Table.js");
 class WarnsTable extends Table 
 {
-	constructor(pSQL) 
+	constructor(pDatabase) 
 	{
-		super(pSQL);
+		super(pDatabase);
 		this.mCreate();
 	}
 	
@@ -21,6 +21,7 @@ class WarnsTable extends Table
 		(
 			"DROP TABLE IF EXISTS Warns;"
 		).run();
+		this.Database.mSave();
 	}
     
     mGetWarns(pGuildMember, pMemberID)
@@ -37,6 +38,7 @@ class WarnsTable extends Table
 		(
         	"INSERT OR REPLACE INTO warns (GuildID, GuildName, MemberID, MemberTag, Date, Reason) VALUES (@GuildID, @GuildName, @MemberID, @MemberTag, @Date, @Reason)"
 		).run(pValues);
+		this.Database.mSave();
 	}
 }
 

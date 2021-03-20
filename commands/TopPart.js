@@ -25,7 +25,7 @@ class TopPart extends Command
 		super.mExecute(pDiscordBot, message, args)
 			.then(() => 
             {
-				const top10 = pDiscordBot.mSQL().Database.Participations.mAllParticipations(message.guild.id);
+				const top10 = pDiscordBot.Database.Participations.mAllParticipations(message.guild.id);
 				const vEmbed = new pDiscordBot.aDiscord.MessageEmbed()
 					.setColor(pDiscordBot.aConfig.Good)
 					.setTitle("Top 10 des points de participation")

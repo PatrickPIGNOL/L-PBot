@@ -1,9 +1,9 @@
 const Table = require("./Table.js");
 class RaidsTable extends Table 
 {
-	constructor(pSQL) 
+	constructor(pDatabase) 
 	{
-		super(pSQL);
+		super(pDatabase);
 		this.mCreate();
 	}
 	mCreate() 
@@ -16,6 +16,7 @@ class RaidsTable extends Table
 	mDrop() 
 	{
 		this.SQL.prepare("DROP TABLE IF EXISTS raids;").run();
+		this.Database.mSave();
 	}
 	mGetAllRaids(pGuildID) 
 	{
@@ -34,6 +35,7 @@ class RaidsTable extends Table
 		(
 			"INSERT OR REPLACE INTO raids (GuildID, GuildName, MemberID, MemberTag, Message, Number, Date) VALUES (@GuildID, @GuildName, @MemberID, @MemberTag, @Message, @Number, @Date)"
 		).run(pValues);
+		this.Database.mSave();
 	}
 	mDelRaids(pRowID) 
 	{
@@ -41,6 +43,7 @@ class RaidsTable extends Table
 		(
 			"DELETE FROM raids WHERE rowid == ?"
 		).run(pRowID)
+		this.Database.mSave();
 	}
 }
 

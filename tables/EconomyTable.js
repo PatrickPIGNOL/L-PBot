@@ -1,9 +1,9 @@
 const Table = require("./Table.js");
 class EconomyTable extends Table
 {
-	constructor(pSQL)
+	constructor(pDatabase)
 	{
-		super(pSQL);
+		super(pDatabase);
 		this.mCreate();
 	}
 	mCreate()
@@ -20,6 +20,7 @@ class EconomyTable extends Table
 		(
 			"DROP TABLE IF EXISTS economy;"
 		).run();
+		this.Database.mSave();
 	}
 	mGetEconomy(pGuildID, pMemberID)
 	{
@@ -34,6 +35,7 @@ class EconomyTable extends Table
 		(
 			"INSERT OR REPLACE INTO economy (GuildID, GuildName, MemberID, MemberTag, Money, Date) VALUES (@GuildID, @GuildName, @MemberID, @MemberTag, @Money, @Date)"
 		).run(pValue);
+		this.Database.mSave();
 	}
 }
 

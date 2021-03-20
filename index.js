@@ -13,33 +13,33 @@ const listener = app.listen(process.env.PORT, () =>
 
 function mHTMLHeader(pTitle) 
 {
-  var vHTML =
-    "<!DOCTYPE html>" +
-    "<html lang='fr'>" +
-    "<head>" +
-    "<meta charset='utf-8'>" +
-    "<title>"+ 
-        pTitle +
-    "</title>" +
-    "<meta http-equiv='X-UA-Compatible' content='IE=edge'>" +
-    "<meta name='viewport' content='width=device-width, initial-scale=1'>" +
-    "<link id='favicon' rel='icon' href='";
-    if (LPBot.mClient().user) 
-    {
-        vHTML += LPBot.mClient().user.displayAvatarURL();
-    } 
-    else 
-    {
-        vHTML +=
-        "https://cdn.discordapp.com/avatars/699652839361872002/ffa4f7a78064cf9047c709e48357e495.webp";
-    }
-    vHTML +=
-    "' type='image/x-icon'>" +
-    "<!-- import the webpage's stylesheet -->" +
-    "<link rel='stylesheet' href='style.css'>" +
-    "</head>" +
-    "<body bgcolor='#303030'>";
-  return vHTML;
+	var vHTML =
+		"<!DOCTYPE html>" +
+		"<html lang='fr'>" +
+		"<head>" +
+		"<meta charset='utf-8'>" +
+		"<title>"+ 
+			pTitle +
+		"</title>" +
+		"<meta http-equiv='X-UA-Compatible' content='IE=edge'>" +
+		"<meta name='viewport' content='width=device-width, initial-scale=1'>" +
+		"<link id='favicon' rel='icon' href='";
+	if (LPBot.mClient().user) 
+	{
+		vHTML += LPBot.mClient().user.displayAvatarURL();
+	} 
+	else 
+	{
+		vHTML +=
+		"https://cdn.discordapp.com/avatars/699652839361872002/ffa4f7a78064cf9047c709e48357e495.webp";
+	}
+	vHTML +=
+		"' type='image/x-icon'>" +
+		"<!-- import the webpage's stylesheet -->" +
+		"<link rel='stylesheet' href='style.css'>" +
+		"</head>" +
+		"<body bgcolor='#303030'>";
+	return vHTML;
 }
 
 function mHighlight(pLanguage, pCode)
@@ -142,7 +142,7 @@ app.get("/reconnaissance", (request, response) =>
     (
         vGuildFound => vGuildFound.name === "Logique & Programmation"
     );
-    const vTop = LPBot.mSQL().Database.Reconnaissances.mAllReconnaissances(vGuild.id);
+    const vTop = LPBot.Database.Reconnaissances.mAllReconnaissances(vGuild.id);
     vTop.forEach
     (
         vData => 
@@ -241,88 +241,81 @@ app.get
                             "<img src='" +
                                 LPBot.mClient().user.displayAvatarURL() +
                             "' width='80' height='80'></td><td align='left'>" +
-                            LPBot.mClient().user.username +
-                        "</td>"+
-                        "<td width='100%'></td>"+
-                    "</tr>"+
-                "</table>"+
+                            	LPBot.mClient().user.username +
+                        "</td>"	+
+                        "<td width='100%'></td>" +
+                    "</tr>" +
+                "</table>" +
             "</H1>" +
-            "<H2>Classement des points de participations</H2>"+
-            "<table border='0' width='100%' border='0' cellpadding='0' cellspacing='0'>";
-            let vRank = 1;
-            let vGuild = LPBot.mClient().guilds.cache.find
-            (
-                vGuildFound => vGuildFound.name === "Logique & Programmation"
-            );
-            const vTop = LPBot.mSQL().prepare
-            (
-                "SELECT * FROM participations WHERE GuildID = ? ORDER BY Points DESC, MemberTag ASC;"
-            ).all(vGuild.id);
+			"<H2>Classement des points de participations</H2>" +
+			"<table border='0' width='100%' border='0' cellpadding='0' cellspacing='0'>";
+		let vRank = 1;
+		let vGuild = LPBot.mClient().guilds.cache.find
+		(
+			vGuildFound => vGuildFound.name === "Logique & Programmation"
+		);
+		const vTop = LPBot.Database.SQL.prepare
+		(
+			"SELECT * FROM participations WHERE GuildID = ? ORDER BY Points DESC, MemberTag ASC;"
+		).all(vGuild.id);
         vTop.forEach
         (
             vData => 
             {
                 const vUserID = vData.MemberID;
-                const vMember = vGuild.members.cache.find
-                (
-                    vSearchMember => vSearchMember.user.id == vUserID
-                );
-
-				console.log(vMember.user.tag);
-				const vMember2 = vGuild.members.resolve(vUserID);
-				console.log(vMember2.user.tag)
-                if (vMember)
-                {
-                    const vUser = vMember.user;
-                    vHTML +=
-                        "<tr>"+
-                            "<td>" +
-                                vRank +
-                            "</td>"+
-                            "<td>&nbsp;</td>"+
-                            "<td>" +
-                                "<img valign='middle' src='" +
-                                vUser.displayAvatarURL() +
-                                "' width='80' height='80' border='0'>" +
-                            "</td>"+
-                            "<td>&nbsp;</td>"+
-                            "<td width='100%'>" +
-                                vUser.username +
-                                " (@" +
-                                vUser.tag +
-                                ")" +
-                                "</BR>" +
-                                vData.Points +
-                                " points : Niveau " +
-                                mPointsToLevel(vData.Points) +
-                                ". </BR> Prochain niveau (" +
-                                (mPointsToLevel(vData.Points) + 1) +
-                                ") : " +
-                                mLevelToPoints(mPointsToLevel(vData.Points)) +
-                                " points." +
-                            "</td>"+
-                        "</tr>"+
-                        "<tr>"+
-                            "<td></td>"+
-                            "<td></td>"+
-                            "<td colspan='3'>" +
-                                "<table width='100%' height='4px' border='0' cellpading='0' cellspacing='0'>"+
-                                    "<tr>"+
-                                        "<td class='barleft' bgcolor='" +
-                                        LPBot.mConfig().Good +
-                                        "' width='" +
-                                        (vData.Points / (mLevelToPoints(mPointsToLevel(vData.Points)))) * 100 +
-                                        "%'></td>"+
-                                        "<td class='barright' bgcolor='#005500'></td>"+
-                                    "</tr>"+
-                                "</table>"+
-                            "</td>"+
-                        "</tr>"+
-                        "<tr>"+
-                            "<td colspan='5' height='8px'></td>"+
-                        "</tr>";
-                    vRank++;
-                }
+                let vMember = vGuild.members.resolve(vUserID);
+				if (vMember)
+				{
+					const vUser = vMember.user;
+					vHTML +=
+						"<tr>"+
+							"<td>" +
+								vRank +
+							"</td>"+
+							"<td>&nbsp;</td>"+
+							"<td>" +
+								"<img valign='middle' src='" +
+								vUser.displayAvatarURL() +
+								"' width='80' height='80' border='0'>" +
+							"</td>"+
+							"<td>&nbsp;</td>"+
+							"<td width='100%'>" +
+								vUser.username +
+								" (@" +
+								vUser.tag +
+								")" +
+								"</BR>" +
+								vData.Points +
+								" points : Niveau " +
+								mPointsToLevel(vData.Points) +
+								". </BR> Prochain niveau (" +
+								(mPointsToLevel(vData.Points) + 1) +
+								") : " +
+								mLevelToPoints(mPointsToLevel(vData.Points)) +
+								" points." +
+							"</td>"+
+						"</tr>"+
+						"<tr>"+
+							"<td></td>"+
+							"<td></td>"+
+							"<td colspan='3'>" +
+								"<table width='100%' height='4px' border='0' cellpading='0' cellspacing='0'>"+
+									"<tr>"+
+										"<td class='barleft' bgcolor='" +
+										LPBot.mConfig().Good +
+										"' width='" +
+										(vData.Points / (mLevelToPoints(mPointsToLevel(vData.Points)))) * 100 +
+										"%'></td>"+
+										"<td class='barright' bgcolor='#005500'></td>"+
+									"</tr>"+
+								"</table>"+
+							"</td>"+
+						"</tr>"+
+						"<tr>"+
+							"<td colspan='5' height='8px'></td>"+
+						"</tr>";
+					vRank++;
+				}
             }
         );
 
@@ -582,7 +575,7 @@ app.get
                 <TD><H3>Licence</H3></TD>
                 <TD><H3>Links</H3></TD>
             </TR>`;
-        const vData = LPBot.mSQL().Database.Tracks.mSelectAll()
+        const vData = LPBot.Database.Tracks.mSelectAll()
         vData.forEach
         (
             vLine =>
@@ -626,7 +619,7 @@ app.get
                 <TD><H3>Licence</H3></TD>
                 <TD><H3>Links</H3></TD>
             </TR>`;
-        const vData = LPBot.mSQL().Database.Tracks.mSelectAll()
+        const vData = LPBot.Database.Tracks.mSelectAll()
 		vData.sort
 		(
 			(a, b)=>
@@ -671,7 +664,7 @@ app.get
     {
         let vHTML = mHTMLHeader("Musics on Stream");
         vHTML += ``;
-        const vData = LPBot.mSQL().Database.Tracks.mSelectAll()
+        const vData = LPBot.Database.Tracks.mSelectAll()
 		vData.sort
 		(
 			(a, b)=>
