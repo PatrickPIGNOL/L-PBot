@@ -8,11 +8,13 @@ const WarnsTable = require("./WarnsTable.js");
 const ReactRolesTable = require("./ReactRolesTable.js");
 const TracksTable = require("./TracksTable.js");
 const SQLite = require("./SQLite.js");
+const ReplitDB = require("./ReplitDB.js");
 
 class Database
 {
 	constructor()
 	{
+		this.aDB = new ReplitDB();
 		this.aSQL = new SQLite();
 		this.aAutoroles = new AutorolesTable(this);
 		this.aMembers = new MembersTable(this);
@@ -27,6 +29,10 @@ class Database
 	get SQL()
 	{
 		return this.aSQL.SQL;
+	}
+	get DB()
+	{
+		return this.aDB.DB;
 	}
 	mSave()
 	{
