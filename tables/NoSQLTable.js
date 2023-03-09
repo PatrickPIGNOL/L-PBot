@@ -8,9 +8,9 @@ class NoSQLTable
 	{
 		return this.aDatabase;
 	}
-	get DB()
+	get NoSQL()
 	{
-		return this.aDatabase.DB;
+		return this.aDatabase.NoSQL;
 	}
 }
 

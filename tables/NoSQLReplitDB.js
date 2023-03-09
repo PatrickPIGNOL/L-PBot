@@ -1,14 +1,14 @@
 const Database = require("@replit/database")
-class ReplitDB
+class NoSQLReplitDB
 {
 	constructor()
 	{
-        this.aDB = new Database();
+        this.aNoSQL = new Database();
     }
-    get DB()
+    get NoSQL()
 	{
-		return this.aDB;
+		return this.aNoSQL;
 	}
 }
 
-module.exports = SQLite;
+module.exports = NoSQLReplitDB;
